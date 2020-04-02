@@ -16,15 +16,15 @@ extensions = [
 ]
 
 source_suffix = ['.rst', '.ipynb']
-exclude_patterns = ['.ipynb_checkpoints', 'checkpoints.ipynb']
+exclude_patterns = ['.ipynb_checkpoints', '.ipynb_checkpoints/*.ipynb']
 master_doc = 'index'
 
 author = 'Heyang Gong'
-project = 'pytorch_geometric'
+project = 'CausalAI'
 copyright = '{}, {}'.format(datetime.datetime.now().year, author)
 
-version = torch_geometric.__version__
-release = torch_geometric.__version__
+version = "Report 0.1" # torch_geometric.__version__
+release = "Report 0.1" # torch_geometric.__version__
 
 html_theme = 'sphinx_rtd_theme'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
@@ -38,7 +38,7 @@ html_theme_options = {
     'logo_only': True,
 }
 
-html_logo = '_static/img/pyg_logo_text.svg'
+html_logo = '_static/img/causalAI.png'
 html_static_path = ['_static']
 html_context = {'css_files': ['_static/css/custom.css']}
 

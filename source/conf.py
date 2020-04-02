@@ -16,15 +16,15 @@ extensions = [
 ]
 
 source_suffix = ['.rst', '.ipynb']
-exclude_patterns = ['.ipynb_checkpoints', 'checkpoints.ipynb']
+exclude_patterns = ['.ipynb_checkpoints', '.ipynb_checkpoints/*.ipynb']
 master_doc = 'index'
 
 author = 'Heyang Gong'
-project = 'Robert Ness CausalML'
+project = 'CausalAI'
 copyright = '{}, {}'.format(datetime.datetime.now().year, author)
 
-version = "0.1" # torch_geometric.__version__
-release = "0.1" # torch_geometric.__version__
+version = "Report 0.1" # torch_geometric.__version__
+release = "Report 0.1" # torch_geometric.__version__
 
 html_theme = 'sphinx_rtd_theme'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]

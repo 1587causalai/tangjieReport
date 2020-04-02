@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>统计计算基础 &mdash; CausalAI Report 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="PyG 的快速调研" href="../notebooks/01-quick_survey.html" />
+    <link rel="prev" title="README" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/causalAI.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                Report 0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">README</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">统计计算基础</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#从拒绝采样谈起">从拒绝采样谈起</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#模型参数的后验分布采样">模型参数的后验分布采样</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#更多采样方法">更多采样方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Markov-Chain">Markov Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#MCMC-采样">MCMC 采样</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Graph Networks</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/01-quick_survey.html">PyG 的快速调研</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/01-quick_survey.html#资料">资料</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#综述理解">综述理解</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#课程内容">课程内容</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/01-quick_survey.html#重点阅读">重点阅读</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#GCN,GAT,GraphSAGE框架回顾及其PyG复现">GCN,GAT,GraphSAGE框架回顾及其PyG复现</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/01-quick_survey.html#图网络综述">图网络综述</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#Introduction-to-Graph-Neural-Networks">Introduction to Graph Neural Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#为什么图网络会有用？">为什么图网络会有用？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/02-researchers.html">图网络 Researchers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/02-researchers.html#北京智源人工智能研究院">北京智源人工智能研究院</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/02-researchers.html#图网络和因果推理">图网络和因果推理</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CausalAI</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>统计计算基础</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notes/01-stat_compute.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="统计计算基础">
+<h1>统计计算基础<a class="headerlink" href="#统计计算基础" title="Permalink to this headline">¶</a></h1>
+<p>理解概率编程，理解深度概率编程语言 Pyro，我们可以看看统计计算理论基础。</p>
+<div class="section" id="从拒绝采样谈起">
+<h2>从拒绝采样谈起<a class="headerlink" href="#从拒绝采样谈起" title="Permalink to this headline">¶</a></h2>
+<p>国内有名统计教材《高等数理统计》 by 茆诗松关于拒绝采样的证明是错误。正确的证明如下：</p>
+<p><img alt="reject.png" src="https://i.loli.net/2020/04/01/WyshxgO3X5moDTA.png" /></p>
+<p>从上述的证明可以看到一个随机概率程序 <span class="math notranslate nohighlight">\(U, Y -&gt; X\)</span> 可以模拟具备形式 <span class="math notranslate nohighlight">\(c \cdot g(x) \cdot h(x)\)</span> 的分布该分布代表了一大类分布，我们可以合理的推测：</p>
+<blockquote>
+<div><p>可以用 Pyro “随机函数”可以表示任何分布。</p>
+</div></blockquote>
+<p>更有趣的事情是，对于某个密度无显示表示的分布，我们也可以用 Pyro 随机函数抽样。例如，对于某个模型，我们要对其 Bayesian 后验分布抽样，此时我们一般不知道分布的密度函数，但是我们可以得到后验分布的样本。</p>
+<blockquote>
+<div><p><strong>直觉思路</strong></p>
+</div></blockquote>
+<p>仔细思考拒绝采样以后的本质发现，本质就是从某个分布的 i.i.d 样本序列 <span class="math notranslate nohighlight">\(X^{(i)} = \{X_1^{(i)}, ..., X_t^{(i)}, ....\}\)</span> 中，按照某个随机动态策略 <span class="math notranslate nohighlight">\(T^{(i)}\sim X^{(i)}\)</span> 选择某些样本 <span class="math notranslate nohighlight">\(X_T^{(i)}\)</span>。那么我们有一个最简单的思路：</p>
+<ul class="simple">
+<li><p>Step 1. 抽取 <span class="math notranslate nohighlight">\(N\)</span> 个 i.i.d. 样本 <span class="math notranslate nohighlight">\(\{X_1, ..., X_N\}\)</span> with density <span class="math notranslate nohighlight">\(h(x)\)</span>.</p></li>
+<li><p>Step 2. 计算 weights of each sample <span class="math notranslate nohighlight">\(\{X_1, ..., X_N\}\)</span>，也就是说每个样本的概率 <span class="math notranslate nohighlight">\(C \cdot p(x)\)</span>, wherc <span class="math notranslate nohighlight">\(C\)</span> is some unknown constant.（Bayesian 后验分布采样就只直到权重，而不知道概率）</p></li>
+<li><p>Step 3. weighted sampling from <span class="math notranslate nohighlight">\(\{X_1, ..., X_N\}\)</span> 将会是一个粗略的估计。</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}P(X_W = x) = \sum_{x_1, ..., x_N} P(X_W=x|X_1=x_1, ..., X_N=x_N) P(X_1=x_1, ..., X_N=x_N) \\
+\sum_{x_1, ..., x_N}\sum_{j=1}^N \frac{w_j}{w_1 + \cdots + w_N} \delta_{x_j}(x)\cdot h(x_1) \cdots h(x_N)\end{split}\]</div>
+<p>可以看出这种直接权重的方法并不是很好算（我们可以从离散的情况出发来简化思考），这个随机动态策略生成的分布不是我们想要的。那么什么样子的随机动态策略才是我们想要的呢？</p>
+</div>
+<div class="section" id="模型参数的后验分布采样">
+<h2>模型参数的后验分布采样<a class="headerlink" href="#模型参数的后验分布采样" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>为什么 “对于某个模型，我们要对其 Bayesian 后验分布抽样，此时我们一般不知道分布的密度函数，但是我们可以得到后验分布的样本。”？</p></li>
+</ul>
+<p>这是因为即使没有显示的密度函数，我们依旧可以计算对于数据的后验概率密度 posterior <span class="math notranslate nohighlight">\(q_{}(\theta) = p(\theta|data) = {p(data | \theta) p(\theta) \over Pr(data)}\)</span> for prior <span class="math notranslate nohighlight">\(\Theta \sim p_{}(\theta)\)</span> with unknown constant <span class="math notranslate nohighlight">\(c = 1/Pr(data)\)</span>. 对应于拒绝采样 <span class="math notranslate nohighlight">\(c \cdot g(x) \cdot h(x)\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}c \leftarrow \frac{1}{p(data)} \\
+g(x) \leftarrow p(data|\theta) \\
+h(x) \leftarrow p(\theta)\end{split}\]</div>
+<p>那么后验分布采样问题就类似拒绝采样问题 (except for <span class="math notranslate nohighlight">\(0&lt; g(x) \leq 1\)</span> for continuous variables, 而如果 data 是离散变量，我们可以直接用拒绝采样)。</p>
+<blockquote>
+<div><p>连续观测变量的模型参数后验分布采样</p>
+</div></blockquote>
+<p>我们用一个简单的变化就饿可以解决连续的问题，注意到 <span class="math notranslate nohighlight">\(p(data|\theta)\)</span> 表示给定每个 <span class="math notranslate nohighlight">\(\theta\)</span> 的值下，有一个密度极大值 <span class="math notranslate nohighlight">\(m(\theta)\)</span>，再假定函数 <span class="math notranslate nohighlight">\(m(\theta)\)</span> 是有界函数 with maximum <span class="math notranslate nohighlight">\(C\)</span>。然后我们后验分布的形式：</p>
+<div class="math notranslate nohighlight">
+\[\frac{C}{p(data)} \cdot \frac{p(data|\theta)}{C} \cdot p(\theta)\]</div>
+<p>这样我们可以在不知道 <span class="math notranslate nohighlight">\(p(data)\)</span> 的时候进行拒绝采样，得到该分布的样本了。</p>
+<p>总结一下：</p>
+<ul class="simple">
+<li><p>目标是要抽取后验分布的样本。</p></li>
+<li><p>我们已知条件是 <span class="math notranslate nohighlight">\(p(data|\theta)p(\theta)\)</span> 可以直接计算， <span class="math notranslate nohighlight">\(p(\theta)\)</span> 容易抽样，但是 <span class="math notranslate nohighlight">\(p(data)\)</span> 计算困难。</p></li>
+</ul>
+</div>
+<div class="section" id="更多采样方法">
+<h2>更多采样方法<a class="headerlink" href="#更多采样方法" title="Permalink to this headline">¶</a></h2>
+<p>其他常见的采样方法包括 MCMC， MH, HMC 等等。我们先回顾一下 Markov Chain 的相关知识。</p>
+<div class="section" id="Markov-Chain">
+<h3>Markov Chain<a class="headerlink" href="#Markov-Chain" title="Permalink to this headline">¶</a></h3>
+<p>我们以问题的形式来回顾相关知识：</p>
+<p>1）什么样子的 Markov chain with transition density <span class="math notranslate nohighlight">\(P(\cdot|\cdot)\)</span> 具备某个平稳分布？</p>
+<p>平稳分布是否存在，以及如果存在是否唯一，这是由过程的特定性质决定的。一个存在 Stationary Distribution 的充分条件是 <a class="reference external" href="https://blog.csdn.net/guolindonggld/article/details/79597491">马尔科夫链细致平衡条件</a> （里面有代码和数学证明）。简单来说，马尔科夫链要能收敛，需要满足以下条件：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1.可能的状态数是有限的。
+2.状态间的转移概率需要固定不变。
+3.从任意状态能够转变到任意状态。
+4.不能是简单的循环，例如全是从x到y再从y到x。
+</pre></div>
+</div>
+<p>需要注意的是马尔科夫链是输入为随机变量 <span class="math notranslate nohighlight">\(X_0\)</span>，输出为无穷多步骤状态转移之后的分布: <span class="math notranslate nohighlight">\(p(x) \rightarrow \pi(x)\)</span>，</p>
+<p>2）Markov 模型那么多，我怎么把它分类？</p>
+<p><a class="reference external" href="https://www.wikiwand.com/en/Markov_chain#/Special_types_of_Markov_chains">Wiki 上面有一个很好的分类</a>, 而我们始终需要明白是这些都是 Pyro 中的随机函数。</p>
+<p><img alt="markov_model" src="https://i.loli.net/2020/04/02/eA9Vf2BC7bvNdOS.png" /></p>
+</div>
+<div class="section" id="MCMC-采样">
+<h3>MCMC 采样<a class="headerlink" href="#MCMC-采样" title="Permalink to this headline">¶</a></h3>
+<p>解决问题思路是类似接受-拒绝采样，那里是以一个常用分布通过一定的接受-拒绝概率得到一个非常见分布，这里是以一个常见的马尔科夫链状态转移矩阵𝑄通过一定的接受-拒绝概率得到目标转移矩阵𝑃。</p>
+<p>在博客的四篇文章介绍得非常清楚了（但是有一些错误），参见：<a class="reference external" href="https://www.cnblogs.com/pinard/p/6625739.html">https://www.cnblogs.com/pinard/p/6625739.html</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">MCMC</span><span class="p">(</span><span class="n">一</span><span class="p">)</span><span class="n">蒙特卡罗方法</span>
+<span class="n">MCMC</span><span class="p">(</span><span class="n">二</span><span class="p">)</span><span class="n">马尔科夫链</span>
+<span class="n">MCMC</span><span class="p">(</span><span class="n">三</span><span class="p">)</span><span class="n">MCMC采样和M</span><span class="o">-</span><span class="n">H采样</span>
+<span class="n">MCMC</span><span class="p">(</span><span class="n">四</span><span class="p">)</span><span class="n">Gibbs采样</span>
+</pre></div>
+</div>
+<p>这里我们主要从补充数学理解和证明。</p>
+<p><img alt="MH Sampling" src="https://i.loli.net/2020/04/02/5LD2nhvZrGsWgmq.png" /></p>
+<p>我们有了样本 <span class="math notranslate nohighlight">\(x_t\)</span> 之后，想要得到转移概率为 <span class="math notranslate nohighlight">\(C * (\pi(\cdot) Q(x_t | \cdot)) * Q(\cdot | x_t)\)</span> 的一个样本，那么我们此时可以使用拒绝采样，判定是否接受 <span class="math notranslate nohighlight">\(Q(\cdot | x_t)\)</span> 产生的样本。</p>
+<p>Gibbs 采样：</p>
+<p><img alt="Gibbs Sampling" src="https://i.loli.net/2020/04/02/scCShIzv3tPdWU7.png" /></p>
+<p>我们需要证明的细致平稳条件是</p>
+<div class="math notranslate nohighlight">
+\[p(x^*|x)  \pi(x) = P(x|x^*) \pi(x^*)\]</div>
+<p>一件非常重要的事情是这些条件概率是可以计算的，联合分布的 Markov factorization 保证了这一点。</p>
+</div>
+</div>
+<div class="section" id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Permalink to this headline">¶</a></h2>
+<p>本文从经典教程的错误核心拒绝采样定理证明出发，给出正确的证明方法。该证明的一个关键思想是把 i.i.d 样本序列引入进来，体现了通用概率编程(such as Pyro)中“everything thing is stochastic functions” 的思想。数学上来说：For samples <span class="math notranslate nohighlight">\(\bar{X} = \{X_t\}_{t\geq 1}\)</span> and some dynamic control strategy <span class="math notranslate nohighlight">\(T(\bar{X})\)</span>, we could simulate any stochastic function with <span class="math notranslate nohighlight">\(X_T\)</span>. 这样的样本我们称为 Dynamic Control Sample(DCSample)。</p>
+<p>具体来说，对于具备形式 <span class="math notranslate nohighlight">\(p(x) = c \cdot g(x) \cdot h(x)\)</span> 的分布，可以直接进行拒绝采样。如果不能写成或者难以找到这样的形式，我们就更换序列和动态控制策略。从任意的分布 <span class="math notranslate nohighlight">\(p_0(x)\)</span> 出发，构建一个满足细致平稳条件的转移概率随机函数 <span class="math notranslate nohighlight">\(Q(\cdot|X_t; p(\cdot))\)</span>，抽取该随机函数的一个 DCSample <span class="math notranslate nohighlight">\(X_{t+1}\)</span>, 于是我们得到了一个 DCSamples 组成的 Markov 序列（而不是 i.i.d 样本序列），动态控制策略 <span class="math notranslate nohighlight">\(T\)</span> 就是任何序列收敛的时刻。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../notebooks/01-quick_survey.html" class="btn btn-neutral float-right" title="PyG 的快速调研" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="README.html" class="btn btn-neutral float-left" title="README" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Heyang Gong
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
