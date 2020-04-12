@@ -1,0 +1,787 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Causal AI 综述 &mdash; CausalAI Report 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="统计计算基础" href="01-stat_compute.html" />
+    <link rel="prev" title="项目概览" href="README.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/causalAI.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                Report 0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">预备知识:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">项目概览</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Causal AI 综述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#人工智能：现状、任务、构架与统一">人工智能：现状、任务、构架与统一</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#历史和现状">历史和现状</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#构架和未来">构架和未来</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#六大领域的因果渴求">六大领域的因果渴求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#结论">结论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Judea-Pearl-的因果革命">Judea Pearl 的因果革命</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#因果理论的历史">因果理论的历史</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#三级因果思维">三级因果思维</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#结构因果模型">结构因果模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#因果和机器学习">因果和机器学习</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#总结">总结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="01-stat_compute.html">统计计算基础</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#从拒绝采样谈起">从拒绝采样谈起</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#模型参数的后验分布采样">模型参数的后验分布采样</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#更多采样方法">更多采样方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-stat_compute.html#Markov-Chain">Markov Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-stat_compute.html#MCMC-采样">MCMC 采样</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03-tools.html">因果建模工具篇</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-tools.html#Dowhy">Dowhy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#一个简单例子">一个简单例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#do-运算"><span class="math notranslate nohighlight">\(do\)</span> 运算</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-tools.html#第一种方式">第一种方式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-tools.html#第二种方式">第二种方式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-tools.html#Pyro">Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#一个简单的例子">一个简单的例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#id6"><span class="math notranslate nohighlight">\(do\)</span> 运算</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-tools.html#结论">结论</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Info Causal Models:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../InfoCausalModels.html">信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#因果建模框架概览">因果建模框架概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#从-do-运算到-\sigma-运算">从 <span class="math notranslate nohighlight">\(do\)</span> 运算到 <span class="math notranslate nohighlight">\(\sigma\)</span> 运算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Pearlian-Intervention-及其性质">Pearlian Intervention 及其性质</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#信息干预的定义和性质">信息干预的定义和性质</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#模型数学框架">模型数学框架</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#ICM模型的定义">ICM模型的定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#模型的理解">模型的理解</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../InfoCausalModels.html#变分自编码器">变分自编码器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../InfoCausalModels.html#Neuroscience-的启发">Neuroscience 的启发</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Intervention">Intervention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Conditioning">Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Bayesian-networks-的条件化">Bayesian networks 的条件化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Markov-Random-Field">Markov Random Field</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../InfoCausalModels.html#带环信息因果模型">带环信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Link-Model-to-Data">Link Model to Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Bayesian-网络">Bayesian 网络</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#一个节点的信息因果模型">一个节点的信息因果模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#能量衰减">能量衰减</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#值得思考">值得思考</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../models/01-one_node.html">ICM with One Node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../models/01-one_node.html#模型构建">模型构建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#Bayesian-模型">Bayesian 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#几何分布">几何分布</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#掷硬币案例">掷硬币案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#拒绝抽样模型">拒绝抽样模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models/01-one_node.html#Mini-Pyro">Mini-Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#Mini-pyro-例子">Mini-pyro 例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#计算对数似然">计算对数似然</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CausalAI</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Causal AI 综述</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notes/02-AI_overview.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.3rem;
+    padding-right: 0.3rem;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 0.3rem;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Causal-AI-综述">
+<h1>Causal AI 综述<a class="headerlink" href="#Causal-AI-综述" title="Permalink to this headline">¶</a></h1>
+<p>本文着眼于教会机器因果思维，围绕 Judea Pearl 的小图灵测试，对当前 Causal AI 给出一个综述.</p>
+<p><strong>(Mini-Turing Test)</strong> How can machines represent causal knowledge in a way that would enable them to access the necessary information swiftly, answer questions correctly, and do it with ease?</p>
+<div class="section" id="人工智能：现状、任务、构架与统一">
+<h2>人工智能：现状、任务、构架与统一<a class="headerlink" href="#人工智能：现状、任务、构架与统一" title="Permalink to this headline">¶</a></h2>
+<p>加州大学洛杉矶分校UCLA朱松纯教授的文章<a class="reference external" href="https://mp.weixin.qq.com/s/-wSYLu-XvOrsST8_KEUa-Q">浅谈人工智能：现状、任务、构架与统一 | 正本清源</a>给出了当前人工智能发展的一个综述，文章内容目录如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>第一节    现状：正视现实
+第二节   未来：一只乌鸦给我们的启示
+第三节    历史：从“春秋五霸”到“战国六雄”
+第四节    统一：“小数据、大任务”范式与认知构架
+第五节    学科一：计算视觉 --- 从“深”到“暗” （暂且把模式识别，图像处理等问题归入其中）、
+第六节    学科二：认知推理 --- 走进内心世界 （包含各种物理和社会常识）
+第七节    学科三：语言通讯 --- 沟通的认知基础 （暂且把语音识别、合成归入其中，包括对话）
+第八节    学科四：博弈伦理 --- 获取、共享人类的价值观 （多代理人agents的交互、对抗与合作，机器人与社会融合等议题）
+第九节    学科五：机器人学 --- 构建大任务平台 (机械、控制、设计、运动规划、任务规划等）
+第十节    学科六：机器学习 --- 学习的终极极限与“停机问题” （各种统计的建模、分析工具和计算的方法）
+第十一节  总结：  智能科学 --- 牛顿与达尔文的统一
+</pre></div>
+</div>
+<div class="section" id="历史和现状">
+<h3>历史和现状<a class="headerlink" href="#历史和现状" title="Permalink to this headline">¶</a></h3>
+<p>朱老师指出全面认识人工智能之所以困难，是有客观原因的，包括：</p>
+<ol class="arabic simple">
+<li><p>人工智能是一个非常广泛的领域。当前人工智能涵盖很多大的学科，可以粗略的分成 CV, NLP, Robotics, ML，认知推理， 博弈和伦理六大学科。</p></li>
+<li><p>由于历史发展的原因，人工智能自1980年代以来，被分化出以上几大学科，相互独立发展，他们抛弃了之前30年基于逻辑推理与启发式搜索为主的研究方法。这种领域的分化与历史的断代， 客观上造成了目前的学界和产业界思路和观点相当“混乱”的局面.</p></li>
+</ol>
+<p>文章前四节浅显探讨什么是人工智能和当前所处的历史时期，后面六节分别探讨六个学科的重点研究问题和难点，有什么样的前沿的课题等待年轻人去探索，最后一节讨论人工智能是否以及如何成为一门成熟的科学体系。 <strong>我们这里结合 Judea Pearl, Bernhard Scholkopf and Yoshua Bengio 的工作，用因果和信息的视角重新组织和理解这些内容，提出一些见解。</strong></p>
+<p>人工智能现状：</p>
+<ul class="simple">
+<li><p><strong>AI 系统信息处理效率低。</strong> 以现在的技术，要让一个机器人长时间像人一样处理问题，可能要自带两个微型的核电站，一个发电驱动机械和计算设备，另一个发电驱动冷却系统。顺便说一个，人脑的功耗大约是10-25瓦。也就是人类有能力使用很少的能量就能够接收需要的信息，容易并且正确的作出因果决策。</p></li>
+<li><p>现在的人工智能和机器人，关键问题是缺乏物理的常识和社会的常识“Common sense”，也就是对现实世界的因果知识缺乏合适的表示和使用。</p></li>
+</ul>
+<p>Judea Pearl 总结了当前人工智能遇到的三大难题就是 Robustness, Explanability, and lack of understanding cause-effect relations. 朱老师指出我们需要找对研究的思路要问题和方向，鹦鹉不能把说的话对应到物理世界和社会的物体、场景、人物，不符合因果与逻辑， 而一只乌鸦给我们的至少有三点启示</p>
+<ul class="simple">
+<li><p>其一、它是一个完全自主的智能。感知、认知、推理、学习、和执行， 它都有。我们前面说的， 世界上一批顶级的科学家都解决不了的问题，乌鸦向我们证明了，这个解存在。</p></li>
+<li><p>其二、你说它有大数据学习吗？这个乌鸦有几百万人工标注好的训练数据给它学习吗？没有，它自己把这个事通过少量数据想清楚了，没人教它。</p></li>
+<li><p>其三、乌鸦头有多大？不到人脑的1%大小。 人脑功耗大约是10-25瓦，它就只有0.1-0.2瓦，就实现功能了，根本不需要前面谈到的核动力发电。</p></li>
+</ul>
+<p>就是说我们离真正人工智能并不是遥遥无期。 Bengio 指出 AGI 正确的思路和方向就是 Moving from system 1 to system 2 deep learning. Yoshua第一个观点就是在说人的认知系统包含两个子系统（这是认知理论中大家共识的观点）：system1直觉系统，主要负责快速、无意识、非语言的认知，这是目前深度学习主要做的事情；system2是逻辑分析系统，是有意识的、带逻辑、规划、推理以及可以语言表达的系统。这是未来深度学习需要着重考虑的。关于Bengio 工作后面再详述，先回到本文。</p>
+<p>要搞清楚人工智能的发展趋势，首先得回顾历史。读不懂历史，无法预测未来。朱老师结合其自身的经历谈一下他的观点：</p>
+<ul class="simple">
+<li><p>第一阶段：前30年以数理逻辑的表达与推理为主。这里面有一些杰出的代表人物，如John McCarthy、Marvin Minsky、Herbert Simmon。他们懂很多认知科学的东西，有很强的全局观念。</p></li>
+<li><p>第二阶段：后30年以概率统计的建模、学习和计算为主。在10余年的发展之后，“春秋五霸”在1990年中期都开始找到了概率统计这个新“体制”：统计建模、机器学习、随机计算算法等。</p></li>
+</ul>
+<p><img alt="AI_history" src="https://i.loli.net/2020/04/10/7IZti1xWYoC8Huf.png" /></p>
+<p>（春秋五霸）五个大的领域包括：计算机视觉、自然语言理解、认知科学、机器学习、机器人学。后来学科之间则开始兼并了，加上原来留在人工智能里面的两个大方向：博弈决策和伦理道德。这两者其实很接近，把它们归并到一起来讲，一共六大领域，它归纳为“战国六雄”。在这个转型的过程中，有四个人起到了关键作用：</p>
+<ul class="simple">
+<li><p>Ulf Grenander。他从60年代就开始做随机过程和概率模型，是最早的先驱。</p></li>
+<li><p>Judea Pearl 原来是做启发式搜索算法的。80年代提出贝叶斯网络把概率知识表达用于认知推理，并估计推理的不确定性。到90年代末，他进一步研究因果推理，这又一次领先于时代。</p></li>
+<li><p>Leslei Valiant。他因离散数学、计算机算法、分布式体系结构方面的大量贡献，2010年拿了图灵奖。</p></li>
+<li><p>David Mumford 熟悉哲学神学心理学生物学神经科学的数学家</p></li>
+</ul>
+</div>
+<div class="section" id="构架和未来">
+<h3>构架和未来<a class="headerlink" href="#构架和未来" title="Permalink to this headline">¶</a></h3>
+<p>前面乌鸦的例子，朱老师认为智能系统的根源可以追溯到两个基本前提条件：</p>
+<ul class="simple">
+<li><p>物理环境客观的现实与因果链条(causal priors)。这是外部物理环境给乌鸦提供的、生活的边界条件。在不同的环境条件下，智能的形式会是不一样的。任何智能的机器必须理解物理世界及其因果链条，适应这个世界。</p></li>
+<li><p>智能物种与生俱来的任务与价值链条。这个任务是一个生物进化的“刚需”。如个体的生存，要解决吃饭和安全问题，而物种的传承需要交配和社会活动。这些基本任务会衍生出大量的其它的“任务”。动物的行为都是被各种任务驱动的。任务代表了价值观和决策函数，这些价值函数很多在进化过程中就已经形成了，包括人脑中发现的各种化学成分的奖惩调制，如多巴胺（快乐）、血清素（痛苦）、乙酰胆碱（焦虑、不确定性）、去甲肾上腺素（新奇、兴奋）等。</p></li>
+</ul>
+<p>有了物理环境的因果链和智能物种的任务与价值链，那么一切都是可以推导出来的。要构造一个智能系统，如机器人或者游戏环境中的虚拟的人物，我们先给他们定义好身体的基本行动的功能，再定一个模型的空间（包括价值函数）。其实，生物的基因也就给了每个智能的个体这两点。然后，它就降临在某个环境和社会群体之中，就应该自主地生存，就像乌鸦那样找到一条活路:认识世界、利用世界、改造世界。 Judea Pearl 认为拥有思考能力和真正智能，它至少包括3个组成部分(See more details on
+<a class="reference external" href="https://drive.google.com/file/d/1SpBG8UUjT7wOdwneGmUPgkh-S2DrMoqg/view?usp=sharing">colab</a>)：</p>
+<ol class="arabic simple">
+<li><p>关于世界的因果模型；</p></li>
+<li><p>关于自身和环境交互因果模型，无论这个模型有多浅显；</p></li>
+<li><p>以及一个记忆系统，用于记录其自身意图和外部事件的对应关系。</p></li>
+</ol>
+<p>有了这个先天的基本条件后，下一个重要问题：是什么驱动了学习过程？朱老师认为AI系统和人脑都可以看成一个模型，任何一个模型由数据与任务来共同塑造。他提倡的一个相反的思路：人工智能的发展，需要进入一个“小数据、大任务范式（small data for big tasks）”。把六个领域的问题综合在一起研究，目的就是寻找一个统一的构架，找到“乌鸦”这个解。我这里不再分别复述细看每个领域，但是我们可以看到表示和使用这些 causal knowledge 成为了他们的共同需求。</p>
+</div>
+<div class="section" id="六大领域的因果渴求">
+<h3>六大领域的因果渴求<a class="headerlink" href="#六大领域的因果渴求" title="Permalink to this headline">¶</a></h3>
+<p><strong>在第一个领域是计算机视觉(CV)中</strong>, 视觉是人脑最主要的信息来源，也是进入人工智能这个殿堂的大门。列举几个被主流（指大多数研究人员）忽视的、但是很关键的研究问题。</p>
+<ul class="simple">
+<li><p>几何常识推理与三维场景构建。时空因果的解译图（Spatial，Temporal and Causal Parse Graph）,简称 STC-PG， 是一个极其重要的概念。</p></li>
+<li><p>场景识别的本质是功能推理。这其实是第三级因果思维，反事实推理。</p></li>
+<li><p>物理稳定性与关系的推理。我们的生活空间除了满足人类的各种需求（功能、任务）之外， 另一个基本约束就是物理。我们对图像的解释和理解被表达成为一个解译图，这个解译图必须满足物理规律，否则就是错误的。</p></li>
+<li><p>意向、注意和预测。</p></li>
+<li><p>任务驱动的因果推理与学习</p></li>
+</ul>
+<p>这些问题的共同特点是不仅仅涉及到快速直觉的 system1, 也需要涉及到综合不同维度信息的 causal priors and reasoning. 另外一类人类需要大量处理的信息是领域是 NLP，属于 system2 逻辑分析系统.</p>
+<p>Judea Pearl 认为具备因果思维的机器一个最大的好处就是能够更好的沟通，也就是信息在 Agents 之间的传播：</p>
+<p><img alt="image.png" src="https://i.loli.net/2020/04/11/GEkJRtNfKiX19HC.png" /></p>
+<p>朱老师在介绍 NLP 的时候提到， 当前信息理论忽视了几个重大的认识论的问题，这本质上就是 Judea Pearl 的会思考的机器：</p>
+<ul class="simple">
+<li><p>甲应该要想一下：乙脑袋里面是否与甲有一个共同的世界模型？否则，解码之后，乙也不能领会里面的内容？或者会误解。那么我发这个信息的时候，措辞要尽量减少这样的误解。</p></li>
+<li><p>甲还应该要想一下：为什么要发这个信息？乙是不是已经知道了，乙关不关注这个信息呢？乙爱不爱听呢？听后有什么反应？这一句话说出去有什么后果呢？</p></li>
+<li><p>乙要想一下：我为什么要收这个信息呢？你发给我是什么意图？</p></li>
+</ul>
+<p>这对应着 Agent 甲有了世界的因果模型，它能通过反事实推理推测乙得到信息后的行为。甲根据自身和环境交互的因果模型，能够推测自身如何与乙进行交互。而记忆系统为这两个模型提供数据支持。</p>
+<p>关于<strong>博弈伦理</strong>，朱老师顺便对比了两大类学习方法归纳学习和演绎学习：</p>
+<ul class="simple">
+<li><p>归纳学习 Inductive learning。我们通过观察大量数据样本，这些样本就是对某个时期、某个地域、某个人群达成的准平衡态的观察。也是我前面谈过的千年文化的形成与传承。归纳学习的结果就是一个时空因果的概率模型。</p></li>
+<li><p>演绎学习 Deductive learning。这个东西文献中很少，也就是从价值函数（还有物理因果）出发，直接推导出准平衡态.</p></li>
+</ul>
+<p>然而其实人类同时使用 <a class="reference external" href="https://www.merriam-webster.com/words-at-play/deduction-vs-induction-vs-abduction">induction, deduction and abduction</a>，所谓 abduction 就是 Update the probability <span class="math notranslate nohighlight">\(P(u)\)</span> to obtain <span class="math notranslate nohighlight">\(P(u|e)\)</span>，他是 Pearl 计算反事实概率的三个步骤(abduction, action, prediction) 中的第一步。</p>
+<p><img alt="reasoning.png" src="https://larspsyll.files.wordpress.com/2016/01/mcgregor4_clip_image002_0000.png?w=550" /></p>
+<p>关于<strong>认知推理</strong>领域，朱老师认为其研究内涵包括：</p>
+<ul class="simple">
+<li><p>Ta看到什么了？知道什么了？什么时候知道的？这其实是对视觉的历史时间求积分。</p></li>
+<li><p>Ta现在在关注什么？这是当前的正在执行的任务。</p></li>
+<li><p>Ta的意图是什么？后面想干什么？预判未来的目的和动机。</p></li>
+<li><p>Ta喜欢什么？有什么价值函数？</p></li>
+</ul>
+<p>代表人物是Minsky：society of minds，心理学研究叫做Theory of minds。对这个人内心的状态， 可用时空因果的概率“与或图”，当前的情景situation，意向与动作规划图，当前的注意力四个成分来表示。</p>
+<p>关于<strong>机器人学</strong>, 人工智能研究的认知构架应该是小数据、大任务范式。机器人就是这么一个大任务的科研平台，它不仅要调度视觉识别、语言交流、认知推理等任务，还要执行大量的行动去改变环境。掌握因果推理能力，通过小图灵测试的机器人 Agents 需要具备合适的 causal knowlegde, 快捷的获取视觉，语言，因果知识信息, answer questions correctly and easily, 也就是容易的根据信息作出合理的决策。</p>
+<p>最后关于<strong>机器学习</strong>，朱老师指出当前机器学习是一个很狭义的定义，是纯粹的、被动的统计学习。其实真正的学习是一个交互的过程，是关于因果的，这个学习过程是建立在认知构架之上的。我把这种广义的学习称作通讯学习 Communicative Learning，这个通讯学习的构架里面，就包含了 passive statistical learning, active learning, algorithmic teaching, learning from demonstration, perceptual causality, causal learning, reinforcement learning 七种学习模式。</p>
+</div>
+<div class="section" id="结论">
+<h3>结论<a class="headerlink" href="#结论" title="Permalink to this headline">¶</a></h3>
+<p>物理世界存在着完整的因果链条，可因果是人工智能的关键元素，我们需要机器具备因果思维，能够通过小图灵测试才是真正的智能。然而迄今为止，什么是因果关系？因果关系是否存在这样基本的问题科学家尚未回答清楚，那么因果如何赋能人工智能呢？带着这些问题，我们来看看关于因果理论本身的研究。</p>
+</div>
+</div>
+<div class="section" id="Judea-Pearl-的因果革命">
+<h2>Judea Pearl 的因果革命<a class="headerlink" href="#Judea-Pearl-的因果革命" title="Permalink to this headline">¶</a></h2>
+<p>Judea Pearl 直面因果的理论难题，创造了 <span class="math notranslate nohighlight">\(do\)</span>-calculus 让我们能够借助数学语言描述因果问题，创建了因果图模型(Causal digrams, or Structural causal mdoels(SCMs))用于因果建模，提出了小图灵测试来判定AI系统的智能，在他的启发下，包括 Bernhard Scholkopf, Yoshua Bengio在内的许多顶尖科学家，投入了这场“因果革命”。 他关于因果理论的研究主要综述在如下论文或者书籍</p>
+<ul class="simple">
+<li><p>Causality(2009)</p></li>
+<li><p>Causal and Counterfactual Inference (2019)</p></li>
+<li><p>The book of why(2018)</p></li>
+<li><p>The seven tools of causal inference, with reflections to machine learning(2019)</p></li>
+</ul>
+<div class="section" id="因果理论的历史">
+<h3>因果理论的历史<a class="headerlink" href="#因果理论的历史" title="Permalink to this headline">¶</a></h3>
+<p>不懂历史，无法预测未来，我们先来看看因果研究的历史。</p>
+<p>From the philosophical point of view(参考 <a class="reference external" href="https://colab.research.google.com/drive/1aF9RsFSwQDo35shL2XOkJZCLxohX5vOa#scrollTo=j-9SJCJePsOi">Free will, Causality and Neuroscience</a> by Bernard Feltz 等人。),</p>
+<ul class="simple">
+<li><p>the study of the concept of causality started with Aristotle (384 bc–322 bc) who proposed four different types of causes(包括 material, formal, efficient and final).</p></li>
+<li><p>David Hume initiated the modern approach of causality. He recognized the importance of causal beliefs for human understanding.</p></li>
+</ul>
+<p>Causality seems indispensable to human understanding but could not be founded rationally and causal inferences are made on the basis of non-causal co-variations. 这时候，知道因果很重要，但是不知道是什么鬼。</p>
+<ul class="simple">
+<li><p>Immanuel Kant considered Hume’s conception of causality as deeply unsatisfactory. In Kant’s approach, causality is an a priori category of understanding, a logical necessity for the possibility of experience. Categories of understanding are a priori features of the mind. 伊曼纽尔·康德（Immanuel Kant）认为 Hume的因果关系概念令人非常不满意。</p></li>
+<li><p>英国哲学家贝特朗·罗素（Bertrand Russell）试图通过宣布因果关系的概念过时来结束辩论：“我认为因果关系定律就像在哲学家中广为流传的一样，是一个昔日的遗迹，像君主制一样幸存下来， 因为它被错误地认为不会造成任何伤害”（罗素1912）。 但是，我们认为仅在宏观层面放弃因果关系的概念是不能令人满意的。 更具体地说，因果关系的概念对于自由意志的概念至关重要。 事实上，如果人类享有自由意志，自由决定就可能引起行为，而这个问题在现代哲学中至关重要。</p></li>
+</ul>
+<p>现代科学家理解因果的方法。The modern concept of causality has been deeply influenced by physics and psychology during the 20th century and has a deep impact on causality in neurosciences. 现代因果关系概念在20世纪受到物理学和心理学的深刻影响，并对神经科学中的因果关系产生深远影响。</p>
+<ul class="simple">
+<li><p>物理学家 Max Born (1949) 认为: “Causality postulates that there are laws by which the occurrence of an entity <span class="math notranslate nohighlight">\(B\)</span> of a certain class depends on the occurrence of an entity <span class="math notranslate nohighlight">\(A\)</span> of another class, where the word ‘entity’ means any physical object, phenomenon, situation, or event. The concept of “lawlike” necessity is important in the contemporary approach to causation. Moreover, Max Born added that the cause should precede (or at least be simultaneous with) the effect and that there
+must be some sort of spatial contact between the cause and effect. 相对论告诉我们物理现实的时间，长度和质量都不是绝对的，然而它的因果律是绝对的。</p></li>
+<li><p>Albert Michotte (1949/1963), profoundly influenced by Immanuel Kant, considered the possibility that humans actually “perceive” causality directly through the activation of an encapsulated specific brain detector receiving a particular pattern of spatio-temporal inputs. Michotte used abstract visual stimuli, such as shapes that moved and collided in various ways, and made detailed manipulations of their spatial and temporal properties. His subjects responded with verbal descriptions of the
+resulting “scenes,” and Michotte determined whether they thought there was a causal percept (“object A caused object B to move”) or not. Michotte concluded that <strong>humans perceive causality as a Gestalt(格式塔)</strong>, similar to the way they perceive shape, motion, or other fundamental qualities in the world.</p></li>
+<li><p>因果图模型 The modern approach to causality inference that is emerging can be thought of in terms of graphs and probabilities. The fundamental idea is that a cause raises the probability of occurrence of an effect. Making causal hypotheses is very similar to elaborating a scientific theory from experimental data (Glymour 2001).</p></li>
+</ul>
+<p>总的来说：Aristotle 提出了四种原因，David Hume 开启了现代因果研究方法，识别了 Causal Beliefs 对于人类理解的作用，但是从经验上无法确定因果关系。然后 Immanuel Kant 不满 Hume 的方法，In Kant’s approach, causality is an a priori category of understanding. 罗素就干脆拒绝因果。现代因果关系概念在20世纪受到物理学和心理学的深刻影响，physicist Max Born (1949) 提出了 Cause precede effect. Albert Michotte (1949/1963), profoundly influenced by Immanuel Kant, considered the possibility that humans actually
+“perceive” causality directly through the activation of an encapsulated specific brain detector receiving a particular pattern of spatio-temporal inputs. Michotte used abstract visual stimuli, 因果就是格式塔。Throughout the ages, causality has been defined in a variety of ways, from law-based regularities (e.g. Hume) to modern production accounts (causality as transfer, e.g. Dowe, 1992), mechanistic approaches (Craver, 2007) and interventionism (Woodward, 2003). 现在因果理论就是两种比较流行
+“law-like” causality and interventionalist causality .</p>
+</div>
+<div class="section" id="三级因果思维">
+<h3>三级因果思维<a class="headerlink" href="#三级因果思维" title="Permalink to this headline">¶</a></h3>
+<p>前面这些研究途径都在尝试回答 “Causality“ 是否存在？如果存在，那么他是什么？这是还原主义（reductionism）的方法论。Judea Pearl 采取了另外一种战术。2011 年 Pearl 获得图灵奖之后接受记者采访提到：“人的自由意志是一种幻觉，但是这个幻觉特别有用。” 然后继续解释到：“在神经科学层面上，人脑不过就是化学电信号的反应，没有自由意志，但是在认知层面上人具备自由意志。”。对于因果研究，Pearl 选择把关注点放到了“三级因果思维(three-level causal hierarchy)”
+而不是因果关系是否存在这样的哲学问题上，他指出具备三级因果思维的AI系统就是能够进行因果推理的系统，是系统具备真正智能的必要条件。</p>
+<p>那么什么是三级因果思维呢？</p>
+<p><img alt="三级因果" src="http://deliveryimages.acm.org/10.1145/3250000/3241036/f1.jpg" /></p>
+<p>当前的机器学习算法，基本上是相关性分析，都没有突破第一层因果思维。Judea Pearl 特意在 ACM2019 给 AI 研究人员带来了一条信息：</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">YouTubeVideo</span>
+<span class="n">YouTubeVideo</span><span class="p">(</span><span class="s1">&#39;CsMV5o3hotY&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<iframe
+    width="600"
+    height="300"
+    src="https://www.youtube.com/embed/CsMV5o3hotY"
+    frameborder="0"
+    allowfullscreen
+></iframe></div>
+</div>
+<p>他认为当前人工智能遇到的三大难题就是 Robustness, Explanability, and lack of understanding cause-effect relations，而使用 modern causal tools 可以克服它们。关于更多 Pearl 的强人工智能见解请参见 《The book of why》 的第十章 on <a href="#id11"><span class="problematic" id="id12">`colab &lt;&gt;`__</span></a>他认为当前人工智能遇到的三大难题就是 Robustness, Explanability, and lack of understanding cause-effect relations，而使用 modern causal tools 可以克服它们。关于更多 Pearl 的强人工智能见解请参见 《The book of why》 的第十章 on
+<a class="reference external" href="https://drive.google.com/file/d/1UX4n_FtVXjWx41p7zfaMBXlTUAnfe6vN/view?usp=sharing">colab</a></p>
+</div>
+<div class="section" id="结构因果模型">
+<h3>结构因果模型<a class="headerlink" href="#结构因果模型" title="Permalink to this headline">¶</a></h3>
+<p>结构因果模型(Structural Causal Models(SCMs))</p>
+<p>虽然传统统计学对于因果的规避始于 Pearson, 他们认为除了在随机对照试验（RCT）的时候能够谈论因果效应，其他时候决绝和回避因果关系。但是流行病学领的 James, Robins，经济学领域等的 Donald , Rubin 等人坚持在自己领域谈及因果，发展出了 Pontential outcome 的工具应用来回答因果问题，该框架依然是一个非常流行的因果理论框架。</p>
+<p>Pearl’s Causal Diagrams, 因果建模的主要模型就是 Structural Causal Models, 简单说就是假定知道了变量之间的因果关系，然用用结构方程来定义赋值机制。At the center of the structural theory of causation lies a “structural model” <span class="math notranslate nohighlight">\(M\)</span>, consisting of two sets of variables,<span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>, and a set <span class="math notranslate nohighlight">\(F\)</span> of functions that determine or simulate how values are assigned to each variable <span class="math notranslate nohighlight">\(V_i\in V\)</span>. Thus for example, the equation</p>
+<div class="math notranslate nohighlight">
+\[v_i=f_i(v;u)\]</div>
+<p>describes a physical process by which variable <span class="math notranslate nohighlight">\(V_i\)</span> is assigned the value <span class="math notranslate nohighlight">\(v_i=f_i(v;u)\)</span> in response to the current values, <span class="math notranslate nohighlight">\(v\)</span> and <span class="math notranslate nohighlight">\(u\)</span>, of all variables in <span class="math notranslate nohighlight">\(V\)</span> and <span class="math notranslate nohighlight">\(U\)</span>. Formally, the triplet <span class="math notranslate nohighlight">\(&lt; U;V;F&gt;\)</span> defines a SCM, and the diagram that captures the relationships among the variables is called thecausal graph <span class="math notranslate nohighlight">\(G\)</span>(of <span class="math notranslate nohighlight">\(M\)</span>).</p>
+<p>Causal Diagrams 也就是 SCMs 的带来了如下七个方面的贡献：</p>
+<ul class="simple">
+<li><p>Encoding causal assumptions: Transparency and testability.</p></li>
+<li><p>Do-calculus and the control of confounding.</p></li>
+<li><p>The algorithmitization of counterfactuals.</p></li>
+<li><p>Mediation analysis and the assessment of direct and indirect effects.</p></li>
+<li><p>Adaptability, external validity, and sample selection bias. （清华 Cui Peng 最近工作 Stable learning 就是以此为基础）</p></li>
+<li><p>Recovering from missing data.</p></li>
+<li><p>Causal discovery.</p></li>
+</ul>
+<p>其中反事实算法是 Pearl 最引以为傲的工作。 但是 该因果建模框架并没有全面取代 Potential Outcome，它尤其自身重大弱点:</p>
+<ol class="arabic simple">
+<li><p>实际问题中 Causal graph <span class="math notranslate nohighlight">\(G\)</span> 往往非常难以获得；</p></li>
+<li><p>即使知道了因果图，SCMs 在处理 cycles 的时候有理论上的根本性困难。</p></li>
+</ol>
+<p>面对这两个困难，Bengio 寄希望于从数据中直接学习出来因表示和变量之间因果关系，最新的工作是 <a class="reference external" href="https://colab.research.google.com/drive/1QlwdrghkaVMoBLByEOj8f0CnmtvpSVao">A Meta-Transfer Objective for Learning to Disentangle Causal Mechanisms</a>. 也有最近来自于华为 Noah 实验室朱胜宇等人的 ICLR 满分论文使用强化学习学习 Causal DAG 的思路。有环因果图模型近年来的主要工作是欧洲大陆团队 Bernhard Scholkopf, Bongers 等人在做，然而从他们的工作可以看出几乎难以克服的理论的技术困难。尽管这些困难的存在，Causal
+Diagrams 和 Machine Learning 已经有了许多融合。</p>
+</div>
+<div class="section" id="因果和机器学习">
+<h3>因果和机器学习<a class="headerlink" href="#因果和机器学习" title="Permalink to this headline">¶</a></h3>
+<p>关于因果模型和 Machine Learning 的融合可以参考综述文章： Ruocheng Guo(2019), <em>A Survey of Learning Causality with Data: Problems and Methods</em>, explore two aspects of this connection:</p>
+<ul class="simple">
+<li><p>How can causal knowledge improve prediction performance?</p></li>
+<li><p>How can machine learning help answer causal questions?</p></li>
+</ul>
+<p>众多工作中 Bernhard Scholkopf 及其团队的工作是最突出的，而他们的书籍《Elements of Causal Inference》和论文《Causality for Machine Learning》是代表性工作。详情请参考 <a class="reference external" href="https://sites.google.com/view/causality4ml/home">Causality for ML 项目</a>。因果理论已经在如下方面结合机器学习：</p>
+<ul class="simple">
+<li><p>Cause-Effect Discovery</p></li>
+<li><p>Invariance, Robustness, and Semi-Supervised Learning</p></li>
+<li><p>Causal Representation Learning</p></li>
+</ul>
+<p>论文强调了信息之于当今信息革命时代，就像能量之于工业革命时代的作用。小图灵测试的核心内容就是如何存储和表示信息，轻松获取和正确使用信息。这启发了我们 <strong>causality as information transfer</strong>。</p>
+</div>
+</div>
+<div class="section" id="总结">
+<h2>总结<a class="headerlink" href="#总结" title="Permalink to this headline">¶</a></h2>
+<p><strong>Causal AI 就是着眼于通过小图灵测试的 AI 系统。</strong> 我们从综述 <a class="reference external" href="https://mp.weixin.qq.com/s/-wSYLu-XvOrsST8_KEUa-Q">浅谈人工智能：现状、任务、构架与统一 | 正本清源</a> by 朱松纯出发，指出了 AI研究对因果的渴求。然后介绍了因果研究的历史和现状，Judea Pearl 的工作带来了”因果革命“，括 Bernhard Scholkopf, Yoshua Bengio 在内的许多顶尖科学家，投入走向了教会机器因果思维的强人工之路。但是其因果理论存在两个难题:
+因果图未知和有环因果图模型，解决他们至关重要。当然即使，当前因果理论并不完美，依旧取得了一些重要成就。其他有趣而且非常重要的工作包括：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://icml.cc/Conferences/2019/ScheduleMultitrack?event=4348">Causal Inference and Stable Learning</a> by Tong Zhang · Peng Cui(ICML2019).</p></li>
+<li><p><a class="reference external" href="https://drive.google.com/drive/folders/1GGHoAfnZUrudLwyaCDp6dxSCq7c7gI7E?usp=sharing">Causal deconvolution</a> 尝试通过算法信息量来挖掘因果生成机制 by Hector Zenil, et al. 。</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="01-stat_compute.html" class="btn btn-neutral float-right" title="统计计算基础" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="README.html" class="btn btn-neutral float-left" title="项目概览" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Heyang Gong
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

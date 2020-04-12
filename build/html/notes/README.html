@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>README &mdash; CausalAI Report 0.1 documentation</title>
+  <title>项目概览 &mdash; CausalAI Report 0.1 documentation</title>
   
 
   
@@ -39,8 +39,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="统计计算基础" href="01-stat_compute.html" />
-    <link rel="prev" title="PyTorch Geometric Documentation" href="../index.html" /> 
+    <link rel="next" title="Causal AI 综述" href="02-AI_overview.html" />
+    <link rel="prev" title="Causal AI Report" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,9 +91,27 @@
               
             
             
-              <p class="caption"><span class="caption-text">Notes</span></p>
+              <p class="caption"><span class="caption-text">预备知识:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">README</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">项目概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-AI_overview.html">Causal AI 综述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-AI_overview.html#人工智能：现状、任务、构架与统一">人工智能：现状、任务、构架与统一</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#历史和现状">历史和现状</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#构架和未来">构架和未来</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#六大领域的因果渴求">六大领域的因果渴求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#结论">结论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-AI_overview.html#Judea-Pearl-的因果革命">Judea Pearl 的因果革命</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#因果理论的历史">因果理论的历史</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#三级因果思维">三级因果思维</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#结构因果模型">结构因果模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#因果和机器学习">因果和机器学习</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-AI_overview.html#总结">总结</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="01-stat_compute.html">统计计算基础</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#从拒绝采样谈起">从拒绝采样谈起</a></li>
 <li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#模型参数的后验分布采样">模型参数的后验分布采样</a></li>
@@ -102,31 +120,80 @@
 <li class="toctree-l3"><a class="reference internal" href="01-stat_compute.html#MCMC-采样">MCMC 采样</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03-tools.html">因果建模工具篇</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-tools.html#Dowhy">Dowhy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#一个简单例子">一个简单例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#do-运算"><span class="math notranslate nohighlight">\(do\)</span> 运算</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-tools.html#第一种方式">第一种方式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-tools.html#第二种方式">第二种方式</a></li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Graph Networks</span></p>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-tools.html#Pyro">Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#一个简单的例子">一个简单的例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#id6"><span class="math notranslate nohighlight">\(do\)</span> 运算</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-tools.html#结论">结论</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Info Causal Models:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/01-quick_survey.html">PyG 的快速调研</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../notebooks/01-quick_survey.html#资料">资料</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#综述理解">综述理解</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#课程内容">课程内容</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../InfoCausalModels.html">信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#因果建模框架概览">因果建模框架概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#从-do-运算到-\sigma-运算">从 <span class="math notranslate nohighlight">\(do\)</span> 运算到 <span class="math notranslate nohighlight">\(\sigma\)</span> 运算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Pearlian-Intervention-及其性质">Pearlian Intervention 及其性质</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#信息干预的定义和性质">信息干预的定义和性质</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../notebooks/01-quick_survey.html#重点阅读">重点阅读</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#GCN,GAT,GraphSAGE框架回顾及其PyG复现">GCN,GAT,GraphSAGE框架回顾及其PyG复现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#模型数学框架">模型数学框架</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#ICM模型的定义">ICM模型的定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#模型的理解">模型的理解</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../InfoCausalModels.html#变分自编码器">变分自编码器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../InfoCausalModels.html#Neuroscience-的启发">Neuroscience 的启发</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../notebooks/01-quick_survey.html#图网络综述">图网络综述</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#Introduction-to-Graph-Neural-Networks">Introduction to Graph Neural Networks</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../notebooks/01-quick_survey.html#为什么图网络会有用？">为什么图网络会有用？</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Intervention">Intervention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Conditioning">Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Bayesian-networks-的条件化">Bayesian networks 的条件化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Markov-Random-Field">Markov Random Field</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/02-researchers.html">图网络 Researchers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../notebooks/02-researchers.html#北京智源人工智能研究院">北京智源人工智能研究院</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../notebooks/02-researchers.html#图网络和因果推理">图网络和因果推理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../InfoCausalModels.html#带环信息因果模型">带环信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Link-Model-to-Data">Link Model to Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Bayesian-网络">Bayesian 网络</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#一个节点的信息因果模型">一个节点的信息因果模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#能量衰减">能量衰减</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#值得思考">值得思考</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../models/01-one_node.html">ICM with One Node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../models/01-one_node.html#模型构建">模型构建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#Bayesian-模型">Bayesian 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#几何分布">几何分布</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#掷硬币案例">掷硬币案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#拒绝抽样模型">拒绝抽样模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models/01-one_node.html#Mini-Pyro">Mini-Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#Mini-pyro-例子">Mini-pyro 例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#计算对数似然">计算对数似然</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -174,7 +241,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>README</li>
+      <li>项目概览</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -435,9 +502,35 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="README">
-<h1>README<a class="headerlink" href="#README" title="Permalink to this headline">¶</a></h1>
-<p>这是一个信息因果模型的报告准备项目。</p>
+<div class="section" id="项目概览">
+<h1>项目概览<a class="headerlink" href="#项目概览" title="Permalink to this headline">¶</a></h1>
+<p>这是一个信息因果模型(ICM)的报告准备项目。我期望在这个项目中，把信息因果模型的理论构架阐述清楚 (某种意义下 VAE， Bayesian network, RNN 等都是 ICM 的特例)。 我尽量避免直接写公式给新接触的人看，多数时候公式可能把创造的动机给掩盖掉，同时让问题是否能 tractable 变得不那么清晰。我想说清楚的是信息因果模型的动机和背后的问题。</p>
+<p>几个问题需要回答：</p>
+<ul class="simple">
+<li><p>当前因果理论研究的故事，包括</p>
+<ul>
+<li><p>为什么要研究因果？</p></li>
+<li><p>历史上有哪些人做了哪些研究？</p></li>
+<li><p>当前因果问题的进展如何？</p></li>
+<li><p>重点突出遇到了有环因果问题，为什么必须解决它？</p></li>
+</ul>
+</li>
+<li><p>提出我们解决问题的思路 — Causality as information transfer</p>
+<ul>
+<li><p>是什么启发了把信息传递当成因果？Causality for machine learning</p></li>
+<li><p>当前有哪些工作，他们是如何做的？哲学上，causality free will and neuroscience</p></li>
+<li><p>我们的具体做法(Info Causal Models)是什么样子的？为什么这么做？使用 predictive coding, pyro models with gates.</p></li>
+<li><p>有了 ICM 之后，三级因果思维对应的因果语义是什么样子？</p></li>
+</ul>
+</li>
+<li><p>使用例子来说明我们的模型 ICM</p>
+<ul>
+<li><p>简单两个节点的模型，包括单向边，一个简单闭环。</p></li>
+<li><p>对比其他的因果模型，prons and cons.</p></li>
+<li><p>因果语义</p></li>
+</ul>
+</li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -457,10 +550,10 @@ div.rendered_html tbody tr:hover {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="01-stat_compute.html" class="btn btn-neutral float-right" title="统计计算基础" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="02-AI_overview.html" class="btn btn-neutral float-right" title="Causal AI 综述" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../index.html" class="btn btn-neutral float-left" title="PyTorch Geometric Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="Causal AI Report" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

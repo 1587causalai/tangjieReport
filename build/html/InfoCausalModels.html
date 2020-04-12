@@ -1,0 +1,963 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>信息因果模型 &mdash; CausalAI Report 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ICM with One Node" href="models/01-one_node.html" />
+    <link rel="prev" title="因果建模工具篇" href="notes/03-tools.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html">
+          
+
+          
+            
+            <img src="_static/causalAI.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                Report 0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">预备知识:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notes/README.html">项目概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/02-AI_overview.html">Causal AI 综述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notes/02-AI_overview.html#人工智能：现状、任务、构架与统一">人工智能：现状、任务、构架与统一</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#历史和现状">历史和现状</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#构架和未来">构架和未来</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#六大领域的因果渴求">六大领域的因果渴求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#结论">结论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notes/02-AI_overview.html#Judea-Pearl-的因果革命">Judea Pearl 的因果革命</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#因果理论的历史">因果理论的历史</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#三级因果思维">三级因果思维</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#结构因果模型">结构因果模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#因果和机器学习">因果和机器学习</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notes/02-AI_overview.html#总结">总结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notes/01-stat_compute.html">统计计算基础</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notes/01-stat_compute.html#从拒绝采样谈起">从拒绝采样谈起</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes/01-stat_compute.html#模型参数的后验分布采样">模型参数的后验分布采样</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes/01-stat_compute.html#更多采样方法">更多采样方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notes/01-stat_compute.html#Markov-Chain">Markov Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/01-stat_compute.html#MCMC-采样">MCMC 采样</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notes/01-stat_compute.html#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notes/03-tools.html">因果建模工具篇</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notes/03-tools.html#Dowhy">Dowhy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notes/03-tools.html#一个简单例子">一个简单例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/03-tools.html#do-运算"><span class="math notranslate nohighlight">\(do\)</span> 运算</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="notes/03-tools.html#第一种方式">第一种方式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="notes/03-tools.html#第二种方式">第二种方式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notes/03-tools.html#Pyro">Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notes/03-tools.html#一个简单的例子">一个简单的例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/03-tools.html#id6"><span class="math notranslate nohighlight">\(do\)</span> 运算</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notes/03-tools.html#结论">结论</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Info Causal Models:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#因果建模框架概览">因果建模框架概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#从-do-运算到-\sigma-运算">从 <span class="math notranslate nohighlight">\(do\)</span> 运算到 <span class="math notranslate nohighlight">\(\sigma\)</span> 运算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Pearlian-Intervention-及其性质">Pearlian Intervention 及其性质</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#信息干预的定义和性质">信息干预的定义和性质</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#模型数学框架">模型数学框架</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ICM模型的定义">ICM模型的定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#模型的理解">模型的理解</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#变分自编码器">变分自编码器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Neuroscience-的启发">Neuroscience 的启发</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Intervention">Intervention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Conditioning">Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Bayesian-networks-的条件化">Bayesian networks 的条件化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Markov-Random-Field">Markov Random Field</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#结论">结论</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#带环信息因果模型">带环信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Link-Model-to-Data">Link Model to Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Bayesian-网络">Bayesian 网络</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#一个节点的信息因果模型">一个节点的信息因果模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#能量衰减">能量衰减</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#值得思考">值得思考</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="models/01-one_node.html">ICM with One Node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models/01-one_node.html#模型构建">模型构建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#Bayesian-模型">Bayesian 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#几何分布">几何分布</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#掷硬币案例">掷硬币案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#拒绝抽样模型">拒绝抽样模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models/01-one_node.html#Mini-Pyro">Mini-Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#Mini-pyro-例子">Mini-pyro 例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#计算对数似然">计算对数似然</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CausalAI</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>信息因果模型</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/InfoCausalModels.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.3rem;
+    padding-right: 0.3rem;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 0.3rem;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="信息因果模型">
+<h1>信息因果模型<a class="headerlink" href="#信息因果模型" title="Permalink to this headline">¶</a></h1>
+<p>现在流行的因果模型框架 Structural Causal Models, Causal DAGs, Potential Outcome, Indicator Regime 底层的模型都是概率图模型。他们的底层假设是给定 <span class="math notranslate nohighlight">\(n\)</span> 个全局随机变量某种形式的联合分布，变量之间有因果关系，参见 <a class="reference external" href="https://colab.research.google.com/drive/1m8bHbsToIP8M41o0IL55AuXLzKSLaTPa">Handbook of Graphical Models(2018)</a>。我们的因果模型与这些现存框架截然不同：</p>
+<ul class="simple">
+<li><p>Causality as information transfer。</p></li>
+<li><p>每个样本都可以有不同的因果图，其样本因果图由信息传播的门控决定。</p></li>
+<li><p>我们倾向使用 <span class="math notranslate nohighlight">\(\sigma\)</span>-intervention，而不是 <span class="math notranslate nohighlight">\(do\)</span>-intervention.</p></li>
+</ul>
+<div class="section" id="因果建模框架概览">
+<h2>因果建模框架概览<a class="headerlink" href="#因果建模框架概览" title="Permalink to this headline">¶</a></h2>
+<p><strong>Seeing VS Doing.</strong></p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(do\)</span>-calculus.</p></li>
+</ul>
+<p>This do-intervention is called an atomic intervention as it affects a single variable that is being set to a specific value.</p>
+<ul class="simple">
+<li><p><em>Regime indicator.</em></p>
+<ul>
+<li><p>We consider the above ‘seeing’ and ‘doing’ as two types of regimes, a natural one and a set of interventional ones. <span class="math notranslate nohighlight">\(p(x; \sigma = s) = p(x; s)\)</span>. Here, regimes refer to external circumstances under which we expect some aspects of the joint distribution of X to differ.</p></li>
+<li><p><span class="math notranslate nohighlight">\(p(x; \sigma = \tilde{p}_X)\)</span> describes the behavior of the outcome <span class="math notranslate nohighlight">\(Y\)</span> when <span class="math notranslate nohighlight">\(X\)</span> is drawn from the distribution <span class="math notranslate nohighlight">\(\tilde{p}_X\)</span>. Another important type of regimes is given by conditional or dynamic interventions. Here, we may want to force <span class="math notranslate nohighlight">\(X\)</span> to take on a value that is a specified function <span class="math notranslate nohighlight">\(g_X\)</span> of pre-exposure covariates <span class="math notranslate nohighlight">\(C\)</span>. The purpose is to reflect, for example, a treatment strategy that is adapted to the patient’s history.
+<span class="math notranslate nohighlight">\(p(x|C=c, \sigma = g_X) = I_{x = g_X(c)}\)</span></p></li>
+</ul>
+</li>
+<li><p><em>Potential outcomes.</em></p></li>
+</ul>
+<p>A third notation in the context of causal inference uses potential outcomes. If, as above, we want to consider some causal effect of <span class="math notranslate nohighlight">\(X\)</span> on an outcome <span class="math notranslate nohighlight">\(Y\)</span>, we define the potential outcome <span class="math notranslate nohighlight">\(Y(\tilde{x})\)</span> to be the value of <span class="math notranslate nohighlight">\(Y\)</span> that we would observe if <span class="math notranslate nohighlight">\(X\)</span> were set (forced) to <span class="math notranslate nohighlight">\(\tilde{x}\)</span>. Hence this approach is essentially based on atomic interventions. Similar to before, the possibility that <span class="math notranslate nohighlight">\(p(Y(x) = y)\)</span> does not equal <span class="math notranslate nohighlight">\(p(y|x)\)</span> allows us to
+express that causation is not association.</p>
+<p><em>Causal DAGs.</em></p>
+<p>Consider a DAG <span class="math notranslate nohighlight">\(G = (V, E)\)</span> and a random vector <span class="math notranslate nohighlight">\(X = (X_1, ..., X_K)\)</span> with distribution <span class="math notranslate nohighlight">\(p\)</span>. Then <span class="math notranslate nohighlight">\(G\)</span> is called a causal DAG for <span class="math notranslate nohighlight">\(X\)</span> if <span class="math notranslate nohighlight">\(p\)</span> satisfies the following:</p>
+<ol class="lowerroman simple">
+<li><p><span class="math notranslate nohighlight">\(p\)</span> factorizes, and thus is Markov, according to <span class="math notranslate nohighlight">\(G\)</span>, and</p></li>
+<li><p>for any <span class="math notranslate nohighlight">\(A \subseteq V\)</span> and any <span class="math notranslate nohighlight">\(\tilde{x}_A, x_B\)</span> in the domains of <span class="math notranslate nohighlight">\(X_A, X_B\)</span>, <span class="math notranslate nohighlight">\(B=V/A\)</span>,</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[p(x; do(\tilde{x}_A)) = \Pi_{k \in V} p(x_k|x_{Pa(k)})\Pi_{j \in A}I(x_j = \tilde{x}_j)\]</div>
+<p>Pearl’s Causal Diagrams, 因果建模的主要模型就是 Structural Causal Models, 简单说就是假定知道了变量之间的因果关系，然用用结构方程来定义赋值机制。At the center of the structural theory of causation lies a “structural model” <span class="math notranslate nohighlight">\(M\)</span>, consisting of two sets of variables,<span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>, and a set <span class="math notranslate nohighlight">\(F\)</span> of functions that determine or simulate how values are assigned to each variable <span class="math notranslate nohighlight">\(V_i\in V\)</span>. Thus for example, the equation</p>
+<div class="math notranslate nohighlight">
+\[v_i=f_i(v;u)\]</div>
+<p>describes a physical process by which variable <span class="math notranslate nohighlight">\(V_i\)</span> is assigned the value <span class="math notranslate nohighlight">\(v_i=f_i(v;u)\)</span> in response to the current values, <span class="math notranslate nohighlight">\(v\)</span> and <span class="math notranslate nohighlight">\(u\)</span>, of all variables in <span class="math notranslate nohighlight">\(V\)</span> and <span class="math notranslate nohighlight">\(U\)</span>. Formally, the triplet <span class="math notranslate nohighlight">\(&lt; U;V;F&gt;\)</span> defines a SCM, and the diagram that captures the relationships among the variables is called thecausal graph <span class="math notranslate nohighlight">\(G\)</span>(of <span class="math notranslate nohighlight">\(M\)</span>).</p>
+<p><em>The role of graphs.</em></p>
+<ul class="simple">
+<li><p>观测数据的因果推断一般 relies on assumptions that are somewhat different in their nature, and arguably stronger, that those for traditional statistical inference. Only a thorough understanding of these assumptions, and indeed of the causal target of inference itself, enables us to come up with ways of checking them either empirically or based on subject matter plausibility.</p></li>
+<li><p>Graphical approaches assist us with formalizing causal targets of inference. Moreover, they have proved especially useful for being transparent and general about the assumptions required for causal conclusions. 因此他们帮助 facilitate the detection and elimination of possible sources of bias, or suggest specific sensitivity analysis.</p></li>
+<li><p>Graphical and causal modeling can be combined in many ways resulting in differing representational power. 我们主要专注两个</p>
+<ul>
+<li><p>augmenting traditional conditional independence DAGs with a separate type of non-random nodes representing interventions;</p></li>
+<li><p>retaining the original set of nodes pertaining to the domain variables but modifying th meaning of edges, hence supplying a causal interpretation on top of the graphical Markov properties.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Graphical rules for the identification of causal effect.</strong></p>
+<ul class="simple">
+<li><p>One of the most prominent uses of DAGs in causal inference is to help decide whether and how the availabe data identifies a desired causal target of inference under the assumed causal model.</p></li>
+<li><p>Identifiability 一般要求条件 positivity. 有多个准则来判断</p>
+<ul>
+<li><p>Back-door theorem, 然后可以推广成 g-formula.</p></li>
+<li><p>The front-door theorem</p></li>
+</ul>
+</li>
+<li><p>An apparent limitation of using causal DAGs in the above way is that researchers often find it difficult to specify the whole <span class="math notranslate nohighlight">\(DAG\)</span>, including all pairwise relations between any two variables, observed as well as relevant unobserved variables.</p></li>
+</ul>
+</div>
+<div class="section" id="从-do-运算到-\sigma-运算">
+<h2>从 <span class="math notranslate nohighlight">\(do\)</span> 运算到 <span class="math notranslate nohighlight">\(\sigma\)</span> 运算<a class="headerlink" href="#从-do-运算到-\sigma-运算" title="Permalink to this headline">¶</a></h2>
+<p>这里需要详细介绍 info intervention <span class="math notranslate nohighlight">\(\sigma(X=x)\)</span> 的内容：</p>
+<ul class="simple">
+<li><p>Pearlian intervention <span class="math notranslate nohighlight">\(do(x)\)</span> 存在一些理解和技术上的困难, info intervention <span class="math notranslate nohighlight">\(\sigma(x)\)</span> 能解决一些问题。</p></li>
+<li><p>info intervention 的定义和理解</p></li>
+<li><p>三条基本公式</p></li>
+</ul>
+<p>详情见 <a class="reference external" href="https://arxiv.org/abs/1907.11090">论文 info intervention</a></p>
+<p>In pearl’s Causal diagram, if <span class="math notranslate nohighlight">\(P(Y|do(X)) \neq P(Y)\)</span> then there is a causal path <span class="math notranslate nohighlight">\(X \rightarrow Y\)</span>. 把因果理解成信息传递，那么对应的我们有 if <span class="math notranslate nohighlight">\(P(Y|\sigma(X)) \neq P(Y)\)</span> then there is a info causal path <span class="math notranslate nohighlight">\(X \rightarrow Y\)</span>，也就是说关于 <span class="math notranslate nohighlight">\(X\)</span> 的信息在给定其环境不变的时候能够影响 <span class="math notranslate nohighlight">\(Y\)</span>。</p>
+<div class="section" id="Pearlian-Intervention-及其性质">
+<h3>Pearlian Intervention 及其性质<a class="headerlink" href="#Pearlian-Intervention-及其性质" title="Permalink to this headline">¶</a></h3>
+<p><span class="math notranslate nohighlight">\(do(X=x)\)</span> 运算简单来说就是干预让事件 <span class="math notranslate nohighlight">\(X=x\)</span> 发生。</p>
+<p><em>Causal DAGs.</em></p>
+<p>Consider a DAG <span class="math notranslate nohighlight">\(G = (V, E)\)</span> and a random vector <span class="math notranslate nohighlight">\(X = (X_1, ..., X_K)\)</span> with distribution <span class="math notranslate nohighlight">\(p\)</span>. Then <span class="math notranslate nohighlight">\(G\)</span> is called a causal DAG for <span class="math notranslate nohighlight">\(X\)</span> if <span class="math notranslate nohighlight">\(p\)</span> satisfies the following:</p>
+<ol class="lowerroman simple">
+<li><p><span class="math notranslate nohighlight">\(p\)</span> factorizes, and thus is Markov, according to <span class="math notranslate nohighlight">\(G\)</span>, and</p></li>
+<li><p>for any <span class="math notranslate nohighlight">\(A \subseteq V\)</span> and any <span class="math notranslate nohighlight">\(\tilde{x}_A, x_B\)</span> in the domains of <span class="math notranslate nohighlight">\(X_A, X_B\)</span>, <span class="math notranslate nohighlight">\(B=V/A\)</span>,</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[p(x; do(\tilde{x}_A)) = \Pi_{k \in V} p(x_k|x_{Pa(k)})\Pi_{j \in A}I(x_j = \tilde{x}_j)\]</div>
+<p>关于 <span class="math notranslate nohighlight">\(do\)</span> 运算，有三条基本性质：</p>
+<ul class="simple">
+<li><p>Rule 1 (Insertion/deletion of observations)</p></li>
+<li><p>Rule 2 (Action/observation exchange)</p></li>
+<li><p>Rule 3 (Insertion/deletion of actions)</p></li>
+</ul>
+<p>这三条规则加上因果图已知假设，可以完全解决 confounding 的问题。</p>
+<p>但是 Pearlian intervention <span class="math notranslate nohighlight">\(do(x)\)</span> 存在一些理解和技术上的困难, 包括：</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(do(A)\)</span> 的意思是 make some event happen, but both what and how things happen matters, 所以存在 Causal semantics 歧义问题。</p></li>
+<li><p>Empirical Understanding of some unmanipulable variables, such as <code class="docutils literal notranslate"><span class="pre">sex</span></code>, <code class="docutils literal notranslate"><span class="pre">age</span></code>. 也就是不可操作变量的理解问题。</p></li>
+<li><p><span class="math notranslate nohighlight">\(do(X=x)\)</span> 意味着改变了因果机制，这个违背了因果律尽量不变的直觉</p></li>
+<li><p>最重要的是 Theoretical aspects of Cyclic Structural Causal Models. 有环因果问题在 <span class="math notranslate nohighlight">\(do\)</span> 运算之下会出现很多困难 (Bonger(2016)).</p></li>
+</ul>
+</div>
+<div class="section" id="信息干预的定义和性质">
+<h3>信息干预的定义和性质<a class="headerlink" href="#信息干预的定义和性质" title="Permalink to this headline">¶</a></h3>
+<p>信息干预，简单来说就是干预节点发出的信息。也就是 intervening the information on the output edges of a node.</p>
+<p>Info Causal DAG 中信息干预 <span class="math notranslate nohighlight">\(\sigma(x)\)</span> 运算的定义如下。</p>
+<p>Consider a DAG <span class="math notranslate nohighlight">\(G = (V, E)\)</span> and a random vector <span class="math notranslate nohighlight">\(X = (X_1, ..., X_K)\)</span> with distribution <span class="math notranslate nohighlight">\(p\)</span>. Then <span class="math notranslate nohighlight">\(G\)</span> is called a causal DAG for <span class="math notranslate nohighlight">\(X\)</span> if <span class="math notranslate nohighlight">\(p\)</span> satisfies the following:</p>
+<ol class="lowerroman simple">
+<li><p><span class="math notranslate nohighlight">\(p\)</span> factorizes, and thus is Markov, according to <span class="math notranslate nohighlight">\(G\)</span>, and</p></li>
+<li><p>for any <span class="math notranslate nohighlight">\(A \subseteq V\)</span> and any <span class="math notranslate nohighlight">\(\tilde{x}_A\)</span> in the domains of <span class="math notranslate nohighlight">\(X_A\)</span>,</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[p(x; \sigma({x}_A)) = \Pi_{k \in B} p(x_k|x_{Pa(k)}^*)\]</div>
+<p>where <span class="math notranslate nohighlight">\(x^*_k = x_k\)</span> if <span class="math notranslate nohighlight">\(k \notin A\)</span> else <span class="math notranslate nohighlight">\(\tilde{x}_k\)</span>, and the intervention we use is info intervention. See <span class="math">\cite{Heyang2019}</span>.</p>
+<p>关于信息干预 <span class="math notranslate nohighlight">\(\sigma\)</span> 运算的三条基本公式：</p>
+<ul class="simple">
+<li><p>Rule 1 (Insertion/deletion of observations)</p></li>
+<li><p>Rule 2 (Action/observation exchange)</p></li>
+<li><p>Rule 3 (Insertion/deletion of actions)</p></li>
+</ul>
+<p><img alt="image.png" src="https://i.loli.net/2020/04/12/qNSM7ys1ZaLGUkx.png" /></p>
+<p>相对于 <span class="math notranslate nohighlight">\(do\)</span> intervention, <span class="math notranslate nohighlight">\(\sigma\)</span> 运算既有计算上的便利，也有更加直观的干预图</p>
+<ul class="simple">
+<li><p>Front-door Criteria 的证明</p></li>
+<li><p>Independence of observations</p></li>
+</ul>
+<p>详情请参见 <a class="reference external" href="https://arxiv.org/abs/1907.11090">论文 info intervention</a>。</p>
+<p>事实上 Info intervention 得到的干预图类似于 Single World Interventional Graph (SWIG) (参见 <a class="reference external" href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/">Causal Inference: What if</a> by Hernan(2020))。</p>
+<p>用信息传递来理解因果关系解决一部分因果语义理解上的困难，更重要的事情是它有潜力解决有环因果模型的理论和技术困难。</p>
+</div>
+</div>
+<div class="section" id="模型数学框架">
+<h2>模型数学框架<a class="headerlink" href="#模型数学框架" title="Permalink to this headline">¶</a></h2>
+<p>有环因果图模型一直是因果理论最大的理论难点之一，这里提出信息因果模型(ICM)为解决这一个难题提供一个框架。</p>
+<p>把 causality 理解成为信息的传递 information transfer.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X\)</span> 与 <span class="math notranslate nohighlight">\(Z\)</span> 之间存在因果关系，意味着 <span class="math notranslate nohighlight">\(p(Z=z|\sigma(X=x)) \not\equiv p(Z=z)\)</span>。</p></li>
+<li><p><span class="math notranslate nohighlight">\(p(Z=z|\sigma(X=x)) \not\equiv p(Z=z)\)</span>, but <span class="math notranslate nohighlight">\(p(Z=z|\sigma(X=x), Y=y) \equiv p(Z=z|Y=y)\)</span>，也就是说离开了总体我们无法谈及因果关系，变量之间因果关系可以因为 selection bias 而消失。</p></li>
+<li><p>因果关系的存在与否与选择的总体分布有关，那么我们进一步认为，因果关系就是信息是否传递了。传递的信息如果恰好是 Agents 完全预期到的，也就是是 Predictive coding 不变，那么信息含量就是0， 等价没有传递信息，也就没有因果关系。</p></li>
+</ul>
+<div class="section" id="ICM模型的定义">
+<h3>ICM模型的定义<a class="headerlink" href="#ICM模型的定义" title="Permalink to this headline">¶</a></h3>
+<p>我们的因果图是有向图结构，节点负责复杂的信息综合计算(or 采样, or measurement)，而边负责简单的信息门控计算。具体来说，信息因果模型的变量集合为 <span class="math notranslate nohighlight">\(V\)</span>, 对应的因果图是 <span class="math notranslate nohighlight">\(G=(V, E)\)</span>， 每个节点 <span class="math notranslate nohighlight">\(i \in V\)</span></p>
+<ol class="arabic simple">
+<li><p>我们有一个状态信息 <span class="math notranslate nohighlight">\(x^c_i\)</span>。</p></li>
+<li><p>预测编码，Predictive coding for parents of every node <span class="math notranslate nohighlight">\(i\)</span> is <span class="math notranslate nohighlight">\(x^c_{pa(i), i}\)</span> 和分布 <span class="math notranslate nohighlight">\(p_\theta(x_i|x^c_{pa(i), i})\)</span>，其中 <span class="math notranslate nohighlight">\(\theta\)</span> 为参数。(若 <span class="math notranslate nohighlight">\(x^c_{i, k} = x^c_{j, k} \forall i, j, k \in V\)</span> 那么说明系统信息充分流动，信息没有充分流动的系统上面就有些等式不成立。)</p></li>
+</ol>
+<p>而对于每条边 <span class="math notranslate nohighlight">\(e = (i, j) \in E\)</span>, 存在两个门控</p>
+<ol class="arabic simple">
+<li><p>第一个门控 <span class="math notranslate nohighlight">\(B(0, 1; p({x_i; x^c_i, x^c_{pa(i), i}}))\)</span> 控制 <span class="math notranslate nohighlight">\(e\)</span> 是否接收来自其输入节点的新样本信息 <span class="math notranslate nohighlight">\(x_i\)</span>，然后更新节点状态信息 <span class="math notranslate nohighlight">\(x_i^c \leftarrow x_i\)</span>。</p></li>
+<li><p>第二个门控 <span class="math notranslate nohighlight">\(B(0, 1; p(x_i; x^c_j, x^c_{pa(j), j}))\)</span> 控制结构节点 <span class="math notranslate nohighlight">\(j\)</span> 是否接收来自其输入边的新信息 <span class="math notranslate nohighlight">\(x_i\)</span>，然后跟新预测编码 <span class="math notranslate nohighlight">\(x^c_{i, j} \leftarrow ~(x_i; x^c_j, x^c_{pa(j), j}))\)</span> (一种简单的方式是 <span class="math notranslate nohighlight">\(x^c_{i, j} \leftarrow \alpha x^c_{i, j} + (1-\alpha) x_i\)</span>)。</p></li>
+</ol>
+<p>其中 <span class="math notranslate nohighlight">\(ch(i), pa(i)\)</span> 分别表示 <span class="math notranslate nohighlight">\(i\)</span> 的 children 和 parents。有了每个节点的表示 <span class="math notranslate nohighlight">\((x_i^c, x^c_{pa(i), i})\)</span> 以及边的门控，存在一个隐变量 <span class="math notranslate nohighlight">\(Z_V\)</span> 控制是否对变量 <span class="math notranslate nohighlight">\(X_V\)</span> 抽样，每次抽样都会生成一个样本。</p>
+</div>
+<div class="section" id="模型的理解">
+<h3>模型的理解<a class="headerlink" href="#模型的理解" title="Permalink to this headline">¶</a></h3>
+<p>模型的构建借鉴了变分自编码器。</p>
+<div class="section" id="变分自编码器">
+<h4>变分自编码器<a class="headerlink" href="#变分自编码器" title="Permalink to this headline">¶</a></h4>
+<p>我们有模型的 <span class="math notranslate nohighlight">\(N\)</span> 个样本 <span class="math notranslate nohighlight">\(\{x^{(j)}\}_{j=1,\cdots,N}\)</span>, 我们每个样本 <span class="math notranslate nohighlight">\(x^{(j)}\)</span>都是由某个局部潜变量 <span class="math notranslate nohighlight">\(Z^{(j)}\)</span> 生成的，初始的节点状态及其预测编码 <span class="math notranslate nohighlight">\(x^c_{\cdot}, x^c_{\cdot, \cdot}\)</span>， 初始的两个门控函数，更新函数都是需要训练全局参数。</p>
+</div>
+<div class="section" id="Neuroscience-的启发">
+<h4>Neuroscience 的启发<a class="headerlink" href="#Neuroscience-的启发" title="Permalink to this headline">¶</a></h4>
+<p>神经元是人脑的基本信息处理单元，Predictive coding 是人脑的一种重要机制。</p>
+<p><img alt="image0" src="http://img3.itboth.com/72/92/MfENzy.jpeg" /></p>
+<p>大脑其实也面临同样的问题。每时每刻，大脑都被裹挟着各种感官数据的信息洪流——这可比购物记录的不确定性缭乱多了——所包围，并且需要及时地做出合理反应。那么，大脑是怎么做到的呢？大脑根据已有的预测模型，不断地对即将到来的新信息做出预测。如果实际接收到的信息不符合预测，大脑就会更新这一预测模型。</p>
+<p>Predictive coding (also known as predictive processing) is a theory of brain function in which the brain is constantly generating and updating a mental model of the environment. The model is used to generate predictions of sensory input that are compared to actual sensory input. This comparison results in prediction errors that are then used to update and revise the mental model.</p>
+<p>Feedbacks systems 在完成计算，也就是信息不在传播的时候，最后我们得到的样本是 <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>这种模型的思想和量子力学非常相似：</p>
+<ul class="simple">
+<li><p>每个节点的信息只有通过外界测量才能得到，因此 predictive coding distribution 的抽样就是一次测量。</p></li>
+<li><p>每次测量，有可能改变自身状态 <span class="math notranslate nohighlight">\(s_i\)</span> 以及其他节点的 predictive coding distribution <span class="math notranslate nohighlight">\(p_\theta(x_k|x^c_{k, pa(k)}), i \in pa(k)\)</span> if there are connected.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="Intervention">
+<h2>Intervention<a class="headerlink" href="#Intervention" title="Permalink to this headline">¶</a></h2>
+<p>在我们的模型中，两种干预语义，不仅仅可以定义 <span class="math notranslate nohighlight">\(do\)</span>-intervention, 还可以定义 info intervention, 信息干预语义是我们的模型叫做信息干预模型的原因。</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(do(X_i)\)</span> 表示的干预是 a measurement on <span class="math notranslate nohighlight">\(X_i\)</span> which results a sample <span class="math notranslate nohighlight">\(x_i\)</span>, then a influence on the systems.</p></li>
+<li><p><span class="math notranslate nohighlight">\(do(x_i; B_\phi)\)</span> 表示的干预是 a measurement of <span class="math notranslate nohighlight">\(X_i\)</span> is <span class="math notranslate nohighlight">\(x_i\)</span> which may lead to an update on <span class="math notranslate nohighlight">\(s_i\)</span> corresponding to <span class="math notranslate nohighlight">\(B_\phi\)</span>, then to the system. (有些的值是无法强制得到的，也就是说这些情况不满足当前的限制条件，当时我们可以想象这样一种情况存在，也就是 info intervention。)</p></li>
+<li><p><span class="math notranslate nohighlight">\(do(x_i; B_\phi=1)\)</span> 表示的干预是 add an element <span class="math notranslate nohighlight">\(x_i\)</span> to <span class="math notranslate nohighlight">\(s_i\)</span></p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(do\)</span> intervention 可以改变该节点自身的状态。</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\sigma(\tilde{x}^c_{i, k}; B(0, 1; p_{ik}))\)</span> 表示干预从 <span class="math notranslate nohighlight">\(k\)</span> 发送给 <span class="math notranslate nohighlight">\(i\)</span> 的信息。（相当于 <span class="math notranslate nohighlight">\(k\)</span> 到 <span class="math notranslate nohighlight">\(i\)</span> 之间的通信被劫持了，发送了假信息给 <span class="math notranslate nohighlight">\(i\)</span>）</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma(\tilde{x}^c_{i, k}; B(0, 1; p_{ik})=1)\)</span> 表示干预从 <span class="math notranslate nohighlight">\(k\)</span> 发送给 <span class="math notranslate nohighlight">\(i\)</span> 的信息，并且信息被 <span class="math notranslate nohighlight">\(i\)</span> 接收。</p></li>
+</ul>
+<p>我们来看看更加复杂的信息干预。一条信息 <span class="math notranslate nohighlight">\(X_i\leq x_i\)</span>， 我们以前的论文发现 <span class="math notranslate nohighlight">\(do(X_i \leq x_i)\)</span> 是不能合理定义的，但是我们的 <span class="math notranslate nohighlight">\(\sigma(X_i \leq x_i)\)</span> 是可以定义的，</p>
+<ul class="simple">
+<li><p>信息干预 <span class="math notranslate nohighlight">\(\sigma(X_i \leq x_i^*)\)</span> 之后，那么 predictive coding distribution <span class="math notranslate nohighlight">\(X_i \sim p(x_i|x^c_{pa(i)})\)</span> will be updated, then a measurement information <span class="math notranslate nohighlight">\(x_i\)</span> of this new distribution <span class="math notranslate nohighlight">\(X_i|X_i \leq x_i^*\)</span>. 然后再影响其子节点 <span class="math notranslate nohighlight">\(ch(i)\)</span>.</p></li>
+</ul>
+</div>
+<div class="section" id="Conditioning">
+<h2>Conditioning<a class="headerlink" href="#Conditioning" title="Permalink to this headline">¶</a></h2>
+<p>干预用于因果推断，条件化用于相关性推断。</p>
+<div class="section" id="Bayesian-networks-的条件化">
+<h3>Bayesian networks 的条件化<a class="headerlink" href="#Bayesian-networks-的条件化" title="Permalink to this headline">¶</a></h3>
+<p>从简单情况说起。就是每个门控都100%的通过，那么这种情况下，对于有向无环图而言ICM就是信息因果模型。所以条件化操作很简单。一种简单的办法是用 MCMC 直接对后验分布进行抽样。问题是这种简单的办法可以推广到信息因果模型吗？</p>
+<ul class="simple">
+<li><p>不行，因为我们并不知道中间抽样过程产生的 Latent variables?</p></li>
+<li><p>这是可以的，因为对于任何一个 <span class="math notranslate nohighlight">\(z_v\)</span> 产生样本 <span class="math notranslate nohighlight">\(x\)</span> 的概率可以计算吗？可以肯定的是我们无法计算 <span class="math notranslate nohighlight">\(p(z_v, x)\)</span> for the reason that graph structure is dynamically generated under the restriction of the causal graph <span class="math notranslate nohighlight">\(G\)</span>.</p></li>
+</ul>
+</div>
+<div class="section" id="Markov-Random-Field">
+<h3>Markov Random Field<a class="headerlink" href="#Markov-Random-Field" title="Permalink to this headline">¶</a></h3>
+<p>我们希望采用图网络的方式训练出来一个关于图结构的联合分布 <span class="math notranslate nohighlight">\(p(x_v|z_v)p(z_v)\)</span>，专门用于 statistical inference， 统计推断来推断条件化或相关性。</p>
+<p>设计 MFR 是很容易的，就是道德化之后的图，每条边都会有一个因子。</p>
+</div>
+</div>
+<div class="section" id="结论">
+<h2>结论<a class="headerlink" href="#结论" title="Permalink to this headline">¶</a></h2>
+<p>信息因果模型</p>
+<ul class="simple">
+<li><p>使用信息传递来理解因果关系，</p></li>
+<li><p>使用门控来动态的生成每个样本的因果图，</p></li>
+<li><p>使用信息干预来构建因果语义和描述三级因果问题，</p></li>
+<li><p>使用随机变分推断技术来训练模型。</p></li>
+</ul>
+<p>它解决了当前因果框架下的一些因果语义问题，开启了一种处理有环因果图模型的全新思路, 并且它是可以使用 SVI 技术训练的模型。</p>
+</div>
+</div>
+<div class="section" id="带环信息因果模型">
+<h1>带环信息因果模型<a class="headerlink" href="#带环信息因果模型" title="Permalink to this headline">¶</a></h1>
+<p>我们直接考虑一个具备两个节点的有环因果模型如下所示：</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">graphviz</span> <span class="k">import</span> <span class="n">Source</span>
+<span class="n">Source</span><span class="p">(</span><span class="s1">&#39;digraph{X-&gt;Y ; Y-&gt; X}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/InfoCausalModels_41_0.svg" src="_images/InfoCausalModels_41_0.svg" /></div>
+</div>
+<p>在ICM中任何节点包含两种信息： - predictive coding 信息 <span class="math notranslate nohighlight">\(x\)</span>, 这中信息用于决定 <span class="math notranslate nohighlight">\(Ch(X)\)</span> 的分布，并且对于定义信息干预 <span class="math notranslate nohighlight">\(\sigma(X=x^*)\)</span>. - 当前节点的分布信息 <span class="math notranslate nohighlight">\(X\)</span>, 用于通过采样 <span class="math notranslate nohighlight">\(x^*\)</span> 像其 <span class="math notranslate nohighlight">\(Ch(X)\)</span> 发送信号，确定其子节点的编码信息是否更新。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">graphviz</span> <span class="k">import</span> <span class="n">Source</span>
+<span class="n">Source</span><span class="p">(</span><span class="s1">&#39;digraph{X_x-&gt;Y_y ; Y_y-&gt; X_x}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/InfoCausalModels_43_0.svg" src="_images/InfoCausalModels_43_0.svg" /></div>
+</div>
+<p>具体来说就是</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}y \rightarrow (X \sim p(x|y)) \\
+Y  \text{ i.i.d samples when 检测到 y updated} \rightarrow \text{决定是否update } x\end{split}\]</div>
+<p>也就是信息干预 <span class="math notranslate nohighlight">\(\sigma(y^*)\)</span> 会让 <span class="math notranslate nohighlight">\(X\)</span> 更新，而 <span class="math notranslate nohighlight">\(x\)</span> 不一定更新。</p>
+<p>我们的策略是一旦检测到 preditive coding 信息变动，就立刻自动更新收到影响的节点。</p>
+<div class="section" id="Link-Model-to-Data">
+<h2>Link Model to Data<a class="headerlink" href="#Link-Model-to-Data" title="Permalink to this headline">¶</a></h2>
+<p>如何把数据和ICM联系起来是核心问题。</p>
+<p>假设所有的数据都来源于一个 ICM with predictive coding <span class="math notranslate nohighlight">\((x, y)\)</span> and <span class="math notranslate nohighlight">\(X\sim p(x|y), Y \sim p(y|x)\)</span> 的某个信息干预 <span class="math notranslate nohighlight">\(\sigma(A), A \in \mathscr{P}(\{X, Y\})\)</span> 的干预分布。</p>
+<p>在信息干预 <span class="math notranslate nohighlight">\(\sigma(A)\)</span> 之下，假如 <span class="math notranslate nohighlight">\(A = \{X\}\)</span>, 都我们会抽取样本 <span class="math notranslate nohighlight">\(x^* \sim X\)</span>，通过 DCSampling 的过程判定是否 update (<span class="math notranslate nohighlight">\(g(x^*; others) \leq U\)</span> 之类的准则判定是否更新，<span class="math notranslate nohighlight">\(r(x^*;others)\)</span> 则是如果更新，那么更新之后的样本是什么）<span class="math notranslate nohighlight">\(y\)</span>. 然后如果更新了 <span class="math notranslate nohighlight">\(y\)</span>, 就相当于一个信息干预 <span class="math notranslate nohighlight">\(\sigma(Y)\)</span>; otherwise, 随机图的构造停止。</p>
+<p>那么这里有一个关键问题：</p>
+<blockquote>
+<div><p>对一个联合分布的每个样本，对应着什么样的信息干预呢？</p>
+</div></blockquote>
+<p>For an ICM with predictive coding <span class="math notranslate nohighlight">\((x, y)\)</span> and <span class="math notranslate nohighlight">\(X\sim p(x|y), Y \sim p(y|x)\)</span>, <span class="math notranslate nohighlight">\(\sigma(A)\)</span> 完全决定了生成的随机函数。然后每个样本都对应某个 <span class="math notranslate nohighlight">\(\sigma(A)\)</span>，所以这是一个 local random variables 的问题！那么我们可以采用重参数化的技巧，定义一个合适的信息干预集合。</p>
+<p>考虑到一般的反馈系统都是相对稳定的，所以 predictive coding 与动态演化后的 predictive coding 差异不应该太大。那么最后的样本数据 <span class="math notranslate nohighlight">\((x^{(i)}, y^{(i)})|(x, y) \rightarrow A\)</span>,</p>
+<p>直接干预成为某个值更好？也就是说 <span class="math notranslate nohighlight">\(\sigma(a)\)</span>，直接更新某些节点的 Predictive coding. <span class="math notranslate nohighlight">\((x^{(i)}, y^{(i)})|(x, y) \rightarrow a^{(i)}\)</span> 在这里 (x, y) 是全局变量，而 <span class="math notranslate nohighlight">\(a^{(i)}\)</span> 是可以重参数化的局部变量，是一个开关随机变量。</p>
+<p>所以说在我们这里环的处理技巧源自于拒绝采样的思想。把有环图动态的解开成无环图。</p>
+</div>
+<div class="section" id="Bayesian-网络">
+<h2>Bayesian 网络<a class="headerlink" href="#Bayesian-网络" title="Permalink to this headline">¶</a></h2>
+<p>我考虑更加简单的情况来理解我们的信息因果模型（ICM）。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">graphviz</span> <span class="k">import</span> <span class="n">Source</span>
+<span class="n">Source</span><span class="p">(</span><span class="s1">&#39;digraph{X-&gt;Y}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/InfoCausalModels_52_0.svg" src="_images/InfoCausalModels_52_0.svg" /></div>
+</div>
+<p>在这种情况下 model <span class="math notranslate nohighlight">\((X, Y)\)</span> 的数学表达式为 init <strong>predictive coding</strong> <span class="math notranslate nohighlight">\((x_c, y_c)\)</span> and <strong>info distributions</strong> <span class="math notranslate nohighlight">\(X\sim p(x;\Theta), Y \sim p(y|x_c;\Theta)\)</span>, 以及局部化变量 <span class="math notranslate nohighlight">\((B_x, B_y)\)</span>.</p>
+<p>local r.v. <span class="math notranslate nohighlight">\((B(0, 1; X^{(i)}), B(0, 1; Y^{(i)}))\)</span> for every sample <span class="math notranslate nohighlight">\((X^{(i)}, Y^{(i)})\)</span> .</p>
+<blockquote>
+<div><p>那么请问 <span class="math notranslate nohighlight">\((X, Y)\)</span> 的联合分布是什么？</p>
+</div></blockquote>
+<p>对比 VAE：</p>
+<blockquote>
+<div><p>Variational Autoencoder</p>
+</div></blockquote>
+<p>VAE 中每个样本都来自于某一个唯一的分布。</p>
+<p>我们的思路是类似的，</p>
+<ul class="simple">
+<li><p>变分推断中的 <span class="math notranslate nohighlight">\(z\)</span> 代表我们的 <span class="math notranslate nohighlight">\((B_x, B_y)\)</span>，它具备 guide <span class="math notranslate nohighlight">\(B(0, 1, p=0.5)\)</span>，它的分布可以重参数化 with logsitic regression given their parents.</p></li>
+<li><p>变分推断中的 <span class="math notranslate nohighlight">\(\theta\)</span> 是全局参数，对应这我们ICM中的 <span class="math notranslate nohighlight">\((x_c, y_c)\)</span>，是整个系统一个初始状态信息（当然我们还会有其他的模型参数）。</p></li>
+</ul>
+<p>不同的地方是，潜变量 <span class="math notranslate nohighlight">\(B\)</span> 的含义是 info intervention，用于启动一个动态信息图的生成 with respect to the cyclic causal graph。 动态图的生成过程是一个信息传递的过程，是一个因果图的生成过程。</p>
+<p>回到 bayesian networks. <span class="math notranslate nohighlight">\((B_x, B_y) =(1, 0)\)</span> 也就是说，贝叶斯网络的 <span class="math notranslate nohighlight">\(root\)</span> 处有信息干预。干预之后，信息节点 <span class="math notranslate nohighlight">\(X\)</span> 按照其 preditive coding 进行传播，然后其子节点 100% 接受更新。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">graphviz</span> <span class="k">import</span> <span class="n">Source</span>
+<span class="n">Source</span><span class="p">(</span><span class="s1">&#39;digraph{rankdir=LR; X-&gt;Y -&gt;Z ; X-&gt; Z}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/InfoCausalModels_57_0.svg" src="_images/InfoCausalModels_57_0.svg" /></div>
+</div>
+<p>从上图可以看出，虽然 <span class="math notranslate nohighlight">\(Z\)</span> 的输入信号并不是同步到达，但是和同步到达的分布没有区别。 这就确认了我们一个原则，那就是</p>
+<blockquote>
+<div><p>信息干预立刻影响其子节点，而不是等到信息收集之后才处理信息。</p>
+</div></blockquote>
+<p>这个处理信息原则和贝叶斯网络完全不同。</p>
+</div>
+<div class="section" id="一个节点的信息因果模型">
+<h2>一个节点的信息因果模型<a class="headerlink" href="#一个节点的信息因果模型" title="Permalink to this headline">¶</a></h2>
+<p>我们再来看看一个更加简单的模型。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">graphviz</span> <span class="k">import</span> <span class="n">Source</span>
+<span class="n">Source</span><span class="p">(</span><span class="s1">&#39;digraph{X-&gt;X}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="_images/InfoCausalModels_60_0.svg" src="_images/InfoCausalModels_60_0.svg" /></div>
+</div>
+<p>我们此时的模型是 <span class="math notranslate nohighlight">\((X, x_c, Z), X \sim p(x|x_c)\)</span> 此模型很 VAE 非常相似，此 <span class="math notranslate nohighlight">\(Z^{(i)}\)</span> 服从某个 0，1分布，是一个局部变量。决定了某个具体的样本的动态信息传播图。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">step</span> <span class="mf">1.</span> <span class="n">采样</span> <span class="n">z</span> <span class="o">~</span> <span class="n">Z</span>
+<span class="n">step</span> <span class="mf">2.</span> <span class="k">if</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">则返回</span> <span class="n">x_c</span><span class="p">;</span> <span class="k">else</span> <span class="n">z</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">则抽样</span> <span class="n">x</span> <span class="o">~</span> <span class="n">X</span>
+<span class="n">step</span> <span class="mf">3.</span> <span class="n">sample</span> <span class="n">u</span> <span class="o">~</span> <span class="n">U</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="k">if</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">u</span><span class="p">,</span> <span class="n">accept</span> <span class="ow">and</span> <span class="n">update</span> <span class="n">x_c</span> <span class="k">with</span> <span class="n">x</span><span class="p">;</span> <span class="n">esle</span> <span class="n">reject</span> <span class="ow">and</span> <span class="k">return</span>
+<span class="n">step</span> <span class="mf">4.</span> <span class="n">Check</span> <span class="k">if</span> <span class="n">x_c</span> <span class="ow">is</span> <span class="n">updated</span><span class="p">,</span> <span class="n">then</span> <span class="n">sample</span> <span class="n">z</span> <span class="o">~</span> <span class="n">Z</span><span class="p">;</span> <span class="n">goto</span> <span class="n">step</span> <span class="mi">2</span>
+<span class="n">step</span> <span class="mf">5.</span> <span class="n">Sample</span> <span class="n">x</span> <span class="o">~</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="o">|</span><span class="n">x_c</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这个步骤中一个关节步骤是设计拒绝采样函数。</p>
+<p>我的算法非常像大脑，大脑并不仅仅在预测世界，它也在接收信息并抽象出规律，再用规律来处理新接收的信息而已，同时顺便修正一下自己。</p>
+<p>当样本数据是 i.i.d 当时候，one node with feedbacks, 一个足够复杂的刷选函数能让它模拟任何分布吗？</p>
+<p>采样 <span class="math notranslate nohighlight">\(z\)</span>~<span class="math notranslate nohighlight">\(Z\)</span> 其实相当于一次反思与不反思的随机变量，其不同的反思比例会导致不同的样本分布。</p>
+<div class="section" id="能量衰减">
+<h3>能量衰减<a class="headerlink" href="#能量衰减" title="Permalink to this headline">¶</a></h3>
+<p>信号的传递需要能量，信号不能一直在某个 loop 中传递，我们需要一个能量正则因子来控制传递的次数。</p>
+<ul class="simple">
+<li><p>直接的处理办法是，设定每个 preditive coding <span class="math notranslate nohighlight">\(x_c\)</span> 的最大更新次数 <span class="math notranslate nohighlight">\(N\)</span>, 每次更新减少一格能量。</p></li>
+<li><p>间接的办法是构建一个适应的能量控制器，来控制发出的信息。</p></li>
+</ul>
+<p>具体来说就是就是把下面步骤</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">step</span> <span class="mf">4.</span> <span class="n">Check</span> <span class="k">if</span> <span class="n">x_c</span> <span class="ow">is</span> <span class="n">updated</span><span class="p">,</span> <span class="n">then</span> <span class="n">sample</span> <span class="n">z</span> <span class="o">~</span> <span class="n">Z</span><span class="p">;</span> <span class="n">goto</span> <span class="n">step</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>变成</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>step 4‘. Check if x_c is updated, 来一些动态控制程序V决定是否 sample z ~ Z; if yes, goto step 2; else return.
+</pre></div>
+</div>
+<p>那么 <span class="math notranslate nohighlight">\(V\)</span> 是一个与能量相关的量，能量越高，抽样的可能性越大。初始能量是多少，能量如何更新这是另外的问题了。</p>
+</div>
+</div>
+<div class="section" id="值得思考">
+<h2>值得思考<a class="headerlink" href="#值得思考" title="Permalink to this headline">¶</a></h2>
+<p>我们的模型的每个节点都是 <span class="math notranslate nohighlight">\(n\)</span> 维，那么我们在每个维度上都有一个因果图。对于任何一个节点 <span class="math notranslate nohighlight">\(X_v = (X_{v[1]}, \cdots, X_{v[n]})\)</span>, 该节点信息 <span class="math notranslate nohighlight">\(x_v\)</span> 传播与否被某个策略 <span class="math notranslate nohighlight">\(Z_{v[i]}\)</span> 可以被其他维度信息 <span class="math notranslate nohighlight">\(x_{v[/i]}\)</span> 影响，但是不改变维度 <span class="math notranslate nohighlight">\(i\)</span> 之间的因果关系。这就是非因果的相关性。</p>
+<p>我们现在要解释一个观点：</p>
+<blockquote>
+<div><p>常见模型都是 ICM 的特例。</p>
+</div></blockquote>
+<p>包括 VAE，Bayesian Networks, Reinforcement Learning (with feedbacks), PID 控制系统，图网络，Markov models, MRF, 高斯混合模型等概率图模型， RNN，注意力机制， transformers, 脉冲神经网络。</p>
+<p>News: <em>望月新一最近终于发表了他的ABC参想的证明，2012 年就发布的证明，现在才发表，依旧没有几个人看懂，内心有点冲动，好想放下所有的事情，专心研究它几个月！</em></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="models/01-one_node.html" class="btn btn-neutral float-right" title="ICM with One Node" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="notes/03-tools.html" class="btn btn-neutral float-left" title="因果建模工具篇" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Heyang Gong
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
