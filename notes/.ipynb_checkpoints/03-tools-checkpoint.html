@@ -1,0 +1,1275 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>因果建模工具篇 &mdash; CausalAI Report 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/causalAI.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                Report 0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">预备知识:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">项目概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-AI_overview.html">Causal AI 综述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-AI_overview.html#人工智能：现状、任务、构架与统一">人工智能：现状、任务、构架与统一</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../02-AI_overview.html#历史和现状">历史和现状</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-AI_overview.html#构架和未来">构架和未来</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-AI_overview.html#六大领域的因果渴求">六大领域的因果渴求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-AI_overview.html#结论">结论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../02-AI_overview.html#Judea-Pearl-的因果革命">Judea Pearl 的因果革命</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../02-AI_overview.html#因果理论的历史">因果理论的历史</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-AI_overview.html#三级因果思维">三级因果思维</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-AI_overview.html#结构因果模型">结构因果模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-AI_overview.html#因果和机器学习">因果和机器学习</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../02-AI_overview.html#总结">总结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../01-stat_compute.html">统计计算基础</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-stat_compute.html#从拒绝采样谈起">从拒绝采样谈起</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-stat_compute.html#模型参数的后验分布采样">模型参数的后验分布采样</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-stat_compute.html#更多采样方法">更多采样方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../01-stat_compute.html#Markov-Chain">Markov Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../01-stat_compute.html#MCMC-采样">MCMC 采样</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../01-stat_compute.html#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../03-tools.html">因果建模工具篇</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../03-tools.html#Dowhy">Dowhy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../03-tools.html#一个简单例子">一个简单例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-tools.html#do-运算"><span class="math notranslate nohighlight">\(do\)</span> 运算</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../03-tools.html#第一种方式">第一种方式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../03-tools.html#第二种方式">第二种方式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../03-tools.html#Pyro">Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../03-tools.html#一个简单的例子">一个简单的例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-tools.html#id6"><span class="math notranslate nohighlight">\(do\)</span> 运算</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../03-tools.html#结论">结论</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Info Causal Models:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../InfoCausalModels.html">信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#因果建模框架概览">因果建模框架概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#从-do-运算到-\sigma-运算">从 <span class="math notranslate nohighlight">\(do\)</span> 运算到 <span class="math notranslate nohighlight">\(\sigma\)</span> 运算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../InfoCausalModels.html#Pearlian-Intervention-及其性质">Pearlian Intervention 及其性质</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../InfoCausalModels.html#信息干预的定义和性质">信息干预的定义和性质</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#模型数学框架">模型数学框架</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../InfoCausalModels.html#ICM模型的定义">ICM模型的定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../InfoCausalModels.html#模型的理解">模型的理解</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../InfoCausalModels.html#变分自编码器">变分自编码器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../InfoCausalModels.html#Neuroscience-的启发">Neuroscience 的启发</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#Intervention">Intervention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#Conditioning">Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../InfoCausalModels.html#Bayesian-networks-的条件化">Bayesian networks 的条件化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../InfoCausalModels.html#Markov-Random-Field">Markov Random Field</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../InfoCausalModels.html#带环信息因果模型">带环信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#Link-Model-to-Data">Link Model to Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#Bayesian-网络">Bayesian 网络</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#一个节点的信息因果模型">一个节点的信息因果模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../InfoCausalModels.html#能量衰减">能量衰减</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#值得思考">值得思考</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../models/01-one_node.html">ICM with One Node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../models/01-one_node.html#模型构建">模型构建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../models/01-one_node.html#Bayesian-模型">Bayesian 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../models/01-one_node.html#几何分布">几何分布</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../models/01-one_node.html#掷硬币案例">掷硬币案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../models/01-one_node.html#拒绝抽样模型">拒绝抽样模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/01-one_node.html#Mini-Pyro">Mini-Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../models/01-one_node.html#Mini-pyro-例子">Mini-pyro 例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../models/01-one_node.html#计算对数似然">计算对数似然</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CausalAI</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>因果建模工具篇</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notes/.ipynb_checkpoints/03-tools-checkpoint.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container,
+div.nbinput.container div.prompt,
+div.nbinput.container div.input_area,
+div.nbinput.container div[class*=highlight],
+div.nbinput.container div[class*=highlight] pre,
+div.nboutput.container,
+div.nboutput.container div.prompt,
+div.nboutput.container div.output_area,
+div.nboutput.container div[class*=highlight],
+div.nboutput.container div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    min-width: 5ex;
+    padding-top: 0.3rem;
+    padding-right: 0.3rem;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 0.3rem;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt a.copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="因果建模工具篇">
+<h1>因果建模工具篇<a class="headerlink" href="#因果建模工具篇" title="Permalink to this headline">¶</a></h1>
+<p>因果建模有两个重要的工具：<code class="docutils literal notranslate"><span class="pre">Dowhy</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Pyro</span></code>。 第一个工具专注让因果推断变得容易，让新手都可以使用。第二个工具有潜力搭建具备因果思维的AI系统。我们 Causal AI 对其官方教程翻译项目见:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/Causal-Inference-ZeroToAll/dowhy_zh">https://github.com/Causal-Inference-ZeroToAll/dowhy_zh</a></p></li>
+<li><p><a class="reference external" href="https://github.com/CausalAI/pyro_zh_tutorial">https://github.com/CausalAI/pyro_zh_tutorial</a></p></li>
+</ul>
+<div class="section" id="Dowhy">
+<h2>Dowhy<a class="headerlink" href="#Dowhy" title="Permalink to this headline">¶</a></h2>
+<p>“DoWhy” is a Python library that aims to spark causal thinking and analysis. 强调了小图灵测试的 answer questions correctly 部分，内置了 identification methods 来判断因果效应是否可估计。有了这个软件，常见的因果效应估计可以快速简单的实现。</p>
+<div class="section" id="一个简单例子">
+<h3>一个简单例子<a class="headerlink" href="#一个简单例子" title="Permalink to this headline">¶</a></h3>
+<p>回答一个因果问题一般分为四个步骤</p>
+<ul class="simple">
+<li><p>model</p></li>
+<li><p>identify</p></li>
+<li><p>estimate</p></li>
+<li><p>refute</p></li>
+</ul>
+<p>我们用一个简单例子查看 Dowhy 如何按照这四个步骤进行因果效应的估计。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">dowhy</span>
+<span class="kn">from</span> <span class="nn">dowhy</span> <span class="k">import</span> <span class="n">CausalModel</span>
+<span class="kn">import</span> <span class="nn">dowhy.datasets</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">dowhy</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">linear_dataset</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">num_common_causes</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">num_instruments</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">num_effect_modifiers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+        <span class="n">treatment_is_binary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;df&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="kn">from</span> <span class="nn">graphviz</span> <span class="k">import</span> <span class="n">Source</span>
+<span class="n">Source</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;dot_graph&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+         X0   Z0        Z1        W0        W1        W2        W3        W4  \
+0 -0.080988  0.0  0.710624 -1.395975 -0.523405 -0.063829 -0.372831 -0.127850
+1  0.586735  0.0  0.741597 -1.383450 -0.873442  0.593386 -0.541042 -0.568472
+2 -2.094231  0.0  0.797503 -1.805279  0.786231  0.335273 -0.741417 -0.171904
+3  1.653794  0.0  0.538730 -2.503238 -1.222765  0.200874  0.326488  2.860590
+4  2.067459  0.0  0.594579  0.309990  0.475509 -0.013819 -0.401472 -0.094589
+
+     v0          y
+0  True   6.076045
+1  True   6.134939
+2  True   6.094959
+3  True  10.693302
+4  True  11.893258
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notes_.ipynb_checkpoints_03-tools-checkpoint_3_1.svg" src="../../_images/notes_.ipynb_checkpoints_03-tools-checkpoint_3_1.svg" /></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 建立模型</span>
+<span class="n">model</span><span class="o">=</span><span class="n">CausalModel</span><span class="p">(</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">,</span>
+        <span class="n">treatment</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;treatment_name&quot;</span><span class="p">],</span>
+        <span class="n">outcome</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;outcome_name&quot;</span><span class="p">],</span>
+        <span class="n">graph</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;dot_graph&quot;</span><span class="p">],</span>
+        <span class="n">proceed_when_unidentifiable</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:dowhy.causal_model:Model to find the causal effect of treatment [&#39;v0&#39;] on outcome [&#39;y&#39;]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 识别因果效应</span>
+<span class="n">identified_estimand</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">identify_effect</span><span class="p">(</span><span class="n">proceed_when_unidentifiable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">identified_estimand</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:dowhy.causal_identifier:Common causes of treatment and outcome:[&#39;W3&#39;, &#39;W1&#39;, &#39;W0&#39;, &#39;W4&#39;, &#39;W2&#39;, &#39;U&#39;]
+WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized experiment), there might always be missing confounders. Causal effect cannot be identified perfectly.
+INFO:dowhy.causal_identifier:Continuing by ignoring these unobserved confounders because proceed_when_unidentifiable flag is True.
+INFO:dowhy.causal_identifier:Instrumental variables for treatment and outcome:[&#39;Z1&#39;, &#39;Z0&#39;]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Estimand type: nonparametric-ate
+### Estimand : 1
+Estimand name: backdoor
+Estimand expression:
+  d
+─────(Expectation(y|W3,W1,W0,W4,W2))
+d[v₀]
+Estimand assumption 1, Unconfoundedness: If U→{v0} and U→y then P(y|v0,W3,W1,W0,W4,W2,U) = P(y|v0,W3,W1,W0,W4,W2)
+### Estimand : 2
+Estimand name: iv
+Estimand expression:
+Expectation(Derivative(y, [Z1, Z0])*Derivative([v0], [Z1, Z0])**(-1))
+Estimand assumption 1, As-if-random: If U→→y then ¬(U →→{Z1,Z0})
+Estimand assumption 2, Exclusion: If we remove {Z1,Z0}→{v0}, then ¬({Z1,Z0}→y)
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 估计因果效应</span>
+<span class="n">causal_estimate</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">estimate_effect</span><span class="p">(</span><span class="n">identified_estimand</span><span class="p">,</span>
+        <span class="n">method_name</span><span class="o">=</span><span class="s2">&quot;backdoor.propensity_score_stratification&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">causal_estimate</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Causal Estimate is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">causal_estimate</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:dowhy.causal_estimator:INFO: Using Propensity Score Stratification Estimator
+INFO:dowhy.causal_estimator:b: y~v0+W3+W1+W0+W4+W2
+/Users/gong/opt/anaconda3/lib/python3.7/site-packages/sklearn/linear_model/logistic.py:432: FutureWarning: Default solver will be changed to &#39;lbfgs&#39; in 0.22. Specify a solver to silence this warning.
+  FutureWarning)
+/Users/gong/opt/anaconda3/lib/python3.7/site-packages/sklearn/utils/validation.py:724: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+  y = column_or_1d(y, warn=True)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+*** Causal Estimate ***
+
+## Target estimand
+Estimand type: nonparametric-ate
+### Estimand : 1
+Estimand name: backdoor
+Estimand expression:
+  d
+─────(Expectation(y|W3,W1,W0,W4,W2))
+d[v₀]
+Estimand assumption 1, Unconfoundedness: If U→{v0} and U→y then P(y|v0,W3,W1,W0,W4,W2,U) = P(y|v0,W3,W1,W0,W4,W2)
+### Estimand : 2
+Estimand name: iv
+Estimand expression:
+Expectation(Derivative(y, [Z1, Z0])*Derivative([v0], [Z1, Z0])**(-1))
+Estimand assumption 1, As-if-random: If U→→y then ¬(U →→{Z1,Z0})
+Estimand assumption 2, Exclusion: If we remove {Z1,Z0}→{v0}, then ¬({Z1,Z0}→y)
+
+## Realized estimand
+b: y~v0+W3+W1+W0+W4+W2
+## Estimate
+Value: 10.471796210183427
+
+Causal Estimate is 10.471796210183427
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 敏感性分析</span>
+<span class="n">res_random</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">refute_estimate</span><span class="p">(</span><span class="n">identified_estimand</span><span class="p">,</span> <span class="n">causal_estimate</span><span class="p">,</span> <span class="n">method_name</span><span class="o">=</span><span class="s2">&quot;random_common_cause&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">res_random</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+INFO:dowhy.causal_estimator:INFO: Using Propensity Score Stratification Estimator
+INFO:dowhy.causal_estimator:b: y~v0+W3+W1+W0+W4+W2+w_random
+/Users/gong/opt/anaconda3/lib/python3.7/site-packages/sklearn/linear_model/logistic.py:432: FutureWarning: Default solver will be changed to &#39;lbfgs&#39; in 0.22. Specify a solver to silence this warning.
+  FutureWarning)
+/Users/gong/opt/anaconda3/lib/python3.7/site-packages/sklearn/utils/validation.py:724: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples, ), for example using ravel().
+  y = column_or_1d(y, warn=True)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Refute: Add a Random Common Cause
+Estimated effect:(10.471796210183427,)
+New effect:(10.46377410889594,)
+
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="do-运算">
+<h3><span class="math notranslate nohighlight">\(do\)</span> 运算<a class="headerlink" href="#do-运算" title="Permalink to this headline">¶</a></h3>
+<p>这里看看 DoWhy 如何实现 <span class="math notranslate nohighlight">\(do\)</span> 运算。See details on <a class="reference external" href="https://microsoft.github.io/dowhy/dowhy.api.html?highlight=do#dowhy.api.causal_data_frame.CausalAccessor.do">doc</a></p>
+<p><code class="docutils literal notranslate"><span class="pre">dowhy.api.causal_data_frame.CausalAccessor</span></code> 的 <code class="docutils literal notranslate"><span class="pre">do</span></code> method. The do-operation implemented with sampling. This will return a pandas.DataFrame with the outcome variable(s) replaced with samples from <span class="math notranslate nohighlight">\(P(Y|do(X=x))\)</span>. Following the notion of an intervention in a Pearlian causal model, our do-samplers implement a sequence of steps:</p>
+<ul class="simple">
+<li><p>Disrupt causes</p></li>
+<li><p>Make Effective</p></li>
+<li><p>Propagate and sample</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">Dowhy</span></code> 中有两种实现方式，他们尝试实现 <span class="math notranslate nohighlight">\(do\)</span> 运算的功能（但是他们都没有实现通用的 do 元算，Pyro 才能实现）</p>
+<div class="section" id="第一种方式">
+<h4>第一种方式<a class="headerlink" href="#第一种方式" title="Permalink to this headline">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">dowhy.api</span>
+
+<span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">binomial</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">5.</span> <span class="o">*</span> <span class="n">z</span><span class="p">)))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="n">z</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">y</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Z</th>
+      <th>D</th>
+      <th>Y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.882108</td>
+      <td>1</td>
+      <td>2.685821</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.838964</td>
+      <td>1</td>
+      <td>2.689787</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.955714</td>
+      <td>1</td>
+      <td>2.787542</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.702490</td>
+      <td>1</td>
+      <td>2.350819</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.795621</td>
+      <td>1</td>
+      <td>2.707194</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">do_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">causal</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">,</span>
+                    <span class="n">outcome</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span>
+                    <span class="n">common_causes</span><span class="o">=</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span>
+                     <span class="n">variable_types</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">},</span>
+                    <span class="n">proceed_when_unidentifiable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="n">do_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+WARNING:dowhy.causal_model:Causal Graph not provided. DoWhy will construct a graph based on data inputs.
+INFO:dowhy.causal_graph:If this is observed data (not from a randomized experiment), there might always be missing confounders. Adding a node named &#34;Unobserved Confounders&#34; to reflect this.
+INFO:dowhy.causal_model:Model to find the causal effect of treatment [&#39;D&#39;] on outcome [&#39;Y&#39;]
+INFO:dowhy.causal_identifier:Common causes of treatment and outcome:[&#39;U&#39;, &#39;Z&#39;]
+WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized experiment), there might always be missing confounders. Causal effect cannot be identified perfectly.
+INFO:dowhy.causal_identifier:Continuing by ignoring these unobserved confounders because proceed_when_unidentifiable flag is True.
+INFO:dowhy.causal_identifier:Instrumental variables for treatment and outcome:[]
+INFO:dowhy.do_sampler:Using WeightingSampler for do sampling.
+INFO:dowhy.do_sampler:Caution: do samplers assume iid data.
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+          Z  D         Y
+0  0.882108  1  2.685821
+1  0.838964  1  2.689787
+2  0.955714  1  2.787542
+3  0.702490  1  2.350819
+4  0.795621  1  2.707194
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Z</th>
+      <th>D</th>
+      <th>Y</th>
+      <th>propensity_score</th>
+      <th>weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.078626</td>
+      <td>1</td>
+      <td>1.084015</td>
+      <td>0.600768</td>
+      <td>1.664536</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.941911</td>
+      <td>1</td>
+      <td>2.910297</td>
+      <td>0.988989</td>
+      <td>1.011134</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.029782</td>
+      <td>0</td>
+      <td>0.172871</td>
+      <td>0.455789</td>
+      <td>2.193997</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.602050</td>
+      <td>1</td>
+      <td>2.322691</td>
+      <td>0.947249</td>
+      <td>1.055689</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.888179</td>
+      <td>1</td>
+      <td>2.819012</td>
+      <td>0.985843</td>
+      <td>1.014360</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">effect</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;不考虑因果计算的效应是</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">effect</span><span class="p">))</span>
+<span class="n">true_effect</span> <span class="o">=</span> <span class="p">(</span><span class="n">do_df</span><span class="p">[</span><span class="n">do_df</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">do_df</span><span class="p">[</span><span class="n">do_df</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;真实因果效应是</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">true_effect</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+不考虑因果计算的效应是1.632886084106672
+真实因果效应是1.066663225463142
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="第二种方式">
+<h4>第二种方式<a class="headerlink" href="#第二种方式" title="Permalink to this headline">¶</a></h4>
+<p>我们再看看如何实现 do-samplers with <code class="docutils literal notranslate"><span class="pre">do_samplers.weighting_sample</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">D</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">D</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle 1.6507488304452553$</div></div>
+</div>
+<p>结果比真实的因果效应高 60%. 那么，让我们为这些数据建立因果模型。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">dowhy</span> <span class="k">import</span> <span class="n">CausalModel</span>
+
+<span class="n">causes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span>
+<span class="n">outcomes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+<span class="n">common_causes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">CausalModel</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                    <span class="n">causes</span><span class="p">,</span>
+                    <span class="n">outcomes</span><span class="p">,</span>
+                    <span class="n">common_causes</span><span class="o">=</span><span class="n">common_causes</span><span class="p">,</span>
+                    <span class="n">proceed_when_unidentifiable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">identification</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">identify_effect</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">dowhy.do_samplers.weighting_sampler</span> <span class="k">import</span> <span class="n">WeightingSampler</span>
+
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">WeightingSampler</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                           <span class="n">causal_model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+                           <span class="n">keep_original_treatment</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                           <span class="n">variable_types</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">})</span>
+
+<span class="n">interventional_df</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">do_sample</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="p">(</span><span class="n">interventional_df</span><span class="p">[</span><span class="n">interventional_df</span><span class="o">.</span><span class="n">D</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">interventional_df</span><span class="p">[</span><span class="n">interventional_df</span><span class="o">.</span><span class="n">D</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())[</span><span class="s1">&#39;Y&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+WARNING:dowhy.causal_model:Causal Graph not provided. DoWhy will construct a graph based on data inputs.
+INFO:dowhy.causal_graph:If this is observed data (not from a randomized experiment), there might always be missing confounders. Adding a node named &#34;Unobserved Confounders&#34; to reflect this.
+INFO:dowhy.causal_model:Model to find the causal effect of treatment [&#39;D&#39;] on outcome [&#39;Y&#39;]
+INFO:dowhy.causal_identifier:Common causes of treatment and outcome:[&#39;U&#39;, &#39;Z&#39;]
+WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized experiment), there might always be missing confounders. Causal effect cannot be identified perfectly.
+INFO:dowhy.causal_identifier:Continuing by ignoring these unobserved confounders because proceed_when_unidentifiable flag is True.
+INFO:dowhy.causal_identifier:Instrumental variables for treatment and outcome:[]
+INFO:dowhy.causal_identifier:Common causes of treatment and outcome:[&#39;U&#39;, &#39;Z&#39;]
+WARNING:dowhy.causal_identifier:If this is observed data (not from a randomized experiment), there might always be missing confounders. Causal effect cannot be identified perfectly.
+INFO:dowhy.causal_identifier:Continuing by ignoring these unobserved confounders because proceed_when_unidentifiable flag is True.
+INFO:dowhy.causal_identifier:Instrumental variables for treatment and outcome:[]
+INFO:dowhy.do_sampler:Using WeightingSampler for do sampling.
+INFO:dowhy.do_sampler:Caution: do samplers assume iid data.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$\displaystyle 1.0734203890414866$</div></div>
+</div>
+<p>现在我们的结果更接近真实效应 1.0！</p>
+</div>
+</div>
+</div>
+<div class="section" id="Pyro">
+<h2>Pyro<a class="headerlink" href="#Pyro" title="Permalink to this headline">¶</a></h2>
+<p>“Pyro” 是一门通用概率编程语言(PPL) written in Python and supported by PyTorch on the backend. Pyro enables flexible and expressive deep probabilistic modeling, unifying the best of modern deep learning and Bayesian modeling. It was designed with these key principles: Universal, Scalable, Flexible, Minimal. 我们需要使用这个软件，搭建复杂的因果模型。</p>
+<p><code class="docutils literal notranslate"><span class="pre">dowhy</span></code> 数学本质上就无法实现完全的 <code class="docutils literal notranslate"><span class="pre">do</span></code> 运算，而作为通用概率编程语言的 Pyro 才有可能真正完全实现。</p>
+<div class="section" id="一个简单的例子">
+<h3>一个简单的例子<a class="headerlink" href="#一个简单的例子" title="Permalink to this headline">¶</a></h3>
+<p>详情参见： <a class="reference external" href="https://causalai.github.io/pyro_zh_tutorial/index.html">https://causalai.github.io/pyro_zh_tutorial/index.html</a></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">torch</span><span class="o">,</span> <span class="nn">pyro</span>
+<span class="kn">import</span> <span class="nn">torch.distributions.constraints</span> <span class="k">as</span> <span class="nn">constraints</span>
+<span class="kn">import</span> <span class="nn">pyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
+<span class="kn">from</span> <span class="nn">pyro.optim</span> <span class="k">import</span> <span class="n">Adam</span>
+<span class="kn">from</span> <span class="nn">pyro.infer</span> <span class="k">import</span> <span class="n">SVI</span><span class="p">,</span> <span class="n">Trace_ELBO</span>
+
+<span class="k">assert</span> <span class="n">pyro</span><span class="o">.</span><span class="n">__version__</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;1.3.0&#39;</span><span class="p">)</span>
+<span class="n">pyro</span><span class="o">.</span><span class="n">enable_validation</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">pyro</span><span class="o">.</span><span class="n">clear_param_store</span><span class="p">()</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)])</span>
+<span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)])</span>
+
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">alpha0</span><span class="p">,</span> <span class="n">beta0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">10.0</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;latent_fairness&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">alpha0</span><span class="p">,</span> <span class="n">beta0</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;obs_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">guide</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">alpha_q</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;alpha_q&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">15.0</span><span class="p">),</span> <span class="n">constraint</span><span class="o">=</span><span class="n">constraints</span><span class="o">.</span><span class="n">positive</span><span class="p">)</span>
+    <span class="n">beta_q</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;beta_q&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">15.0</span><span class="p">),</span> <span class="n">constraint</span><span class="o">=</span><span class="n">constraints</span><span class="o">.</span><span class="n">positive</span><span class="p">)</span>
+    <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;latent_fairness&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">alpha_q</span><span class="p">,</span> <span class="n">beta_q</span><span class="p">))</span>
+
+<span class="n">adam_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">0.0005</span><span class="p">,</span> <span class="s2">&quot;betas&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.90</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">)}</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">adam_params</span><span class="p">)</span>
+
+<span class="n">svi</span> <span class="o">=</span> <span class="n">SVI</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">guide</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="n">Trace_ELBO</span><span class="p">())</span>
+
+<span class="n">n_steps</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+    <span class="n">svi</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">alpha_q</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;alpha_q&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="n">beta_q</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;beta_q&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="n">inferred_mean</span> <span class="o">=</span> <span class="n">alpha_q</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha_q</span> <span class="o">+</span> <span class="n">beta_q</span><span class="p">)</span>
+<span class="n">factor</span> <span class="o">=</span> <span class="n">beta_q</span> <span class="o">/</span> <span class="p">(</span><span class="n">alpha_q</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">alpha_q</span> <span class="o">+</span> <span class="n">beta_q</span><span class="p">))</span>
+<span class="n">inferred_std</span> <span class="o">=</span> <span class="n">inferred_mean</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">based on the data and our prior belief, the fairness &quot;</span> <span class="o">+</span>
+      <span class="s2">&quot;of the coin is </span><span class="si">%.3f</span><span class="s2"> +- </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">inferred_mean</span><span class="p">,</span> <span class="n">inferred_std</span><span class="p">))</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+..................................................
+based on the data and our prior belief, the fairness of the coin is 0.535 +- 0.090
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3><span class="math notranslate nohighlight">\(do\)</span> 运算<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>除了合并观察数据的 <code class="docutils literal notranslate"><span class="pre">pyro.condition</span></code> 之外，Pyro还包含 <code class="docutils literal notranslate"><span class="pre">pyro.do</span></code>，这是 Pearl 的 do-operator 的实现，用于因果推断，其接口与 <code class="docutils literal notranslate"><span class="pre">pyro.condition</span></code> 相同。<code class="docutils literal notranslate"><span class="pre">condition</span></code> and <code class="docutils literal notranslate"><span class="pre">do</span></code> 可以自由混合和组合，使Pyro成为基于模型的因果推断的强大工具。</p>
+<p>— 官方教程尚未给出例子</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[219]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">alpha0</span><span class="p">,</span> <span class="n">beta0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">10.0</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;latent_fairness&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Beta</span><span class="p">(</span><span class="n">alpha0</span><span class="p">,</span> <span class="n">beta0</span><span class="p">))</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s1">&#39;test_node&#39;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;obs_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">dist</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">obs</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[219]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[tensor(0.5573),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(0.),
+ tensor(0.),
+ tensor(0.),
+ tensor(0.)]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[264]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">intervened_model</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">poutine</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;latent_fairness&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)})</span>
+<span class="n">intervened_model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[264]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(1.),
+ tensor(0.),
+ tensor(0.),
+ tensor(0.),
+ tensor(0.)]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[273]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="n">z</span><span class="o">-</span><span class="n">s</span><span class="o">/</span><span class="mi">100</span><span class="p">,</span> <span class="n">z</span><span class="o">+</span><span class="n">s</span><span class="o">/</span><span class="mi">100</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">z</span><span class="p">,</span> <span class="n">y</span>
+
+<span class="n">intervened_model</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">poutine</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.</span><span class="p">)})</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>
+<span class="n">intervened_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[273]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(tensor(1.), tensor(1.0022, grad_fn=&lt;AddBackward0&gt;))
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="结论">
+<h2>结论<a class="headerlink" href="#结论" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Dowhy</span></code> 可以用于快速回答简单的因果效应估计问题，它强调了因果分析的四个步骤。但是如果要建立灵活复杂的因果模型，实现 <span class="math notranslate nohighlight">\(do\)</span> 运算的完整功能，我们需要通用深度概率图编程语言。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Heyang Gong
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
