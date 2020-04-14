@@ -33,8 +33,9 @@ Causal AI Report
    :glob:
    :maxdepth: 1
    :caption: 信息因果模型示例:
-
-   models/01-one_node
+    
+   models/01-ICM_using_Pyro 
+   models/02-one_node
    
    
 

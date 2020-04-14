@@ -6,6 +6,19 @@
     "Collapsed": "false"
    },
    "source": [
+    "- 动态控制随机函数\n",
+    "\n",
+    "这样随机函数有一个特点，那就是任何一个样本，它的维度是不确定的，你无法计算部分观测的概率。也是由于其样本是动态生成的，定义指导分布的时候，无法定义一个抽样语句与模型分布中每个隐变量对应。所以也无法用那些推断算法，需要想其他办法。\n",
+    "\n",
+    "此时好像除了 Amortization 就没有好办法可以想了。 root variable 后验分布抽样生成的随机函数，得到样本的概率很高！这是唯一的训练方法了。也就是每个样本都具备不同的分布，它由某个局部变量生成。"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "Collapsed": "false"
+   },
+   "source": [
     "# 信息因果模型\n",
     "\n",
     "现在流行的因果模型框架 Structural Causal Models, Causal DAGs, Potential Outcome, Indicator Regime 底层的模型都是概率图模型。他们的底层假设是给定 $n$ 个全局随机变量某种形式的联合分布，变量之间有因果关系，参见 [Handbook of Graphical Models(2018)](https://colab.research.google.com/drive/1m8bHbsToIP8M41o0IL55AuXLzKSLaTPa)。我们的因果模型与这些现存框架截然不同：\n",
@@ -275,7 +288,7 @@
    "cell_type": "markdown",
    "metadata": {
     "Collapsed": "false",
-    "toc-hr-collapsed": true
+    "toc-hr-collapsed": false
    },
    "source": [
     "## 模型数学框架"
@@ -342,7 +355,7 @@
    "cell_type": "markdown",
    "metadata": {
     "Collapsed": "false",
-    "toc-hr-collapsed": true
+    "toc-hr-collapsed": false
    },
    "source": [
     "### 模型的理解\n",
@@ -399,12 +412,14 @@
     "Collapsed": "true"
    },
    "source": [
-    "神经元是人脑的基本信息处理单元，Predictive coding 是人脑的一种重要机制。\n",
+    "\n",
+    "\n",
+    "神经元是人脑的基本信息处理单元，許旺細胞（schwann cell）又稱血旺细胞、施旺細胞或神经膜细胞，是构成周围神经系統的主要细胞，并参与多种重要的周围神经生物学功能：传导神经冲动，参与神经的生长和再生，营养神经元，生产神经细胞外介质，调节运动神经活性以及介导抗原\n",
     "\n",
     "![](http://img3.itboth.com/72/92/MfENzy.jpeg)\n",
     "\n",
     "\n",
-    "大脑其实也面临同样的问题。每时每刻，大脑都被裹挟着各种感官数据的信息洪流——这可比购物记录的不确定性缭乱多了——所包围，并且需要及时地做出合理反应。那么，大脑是怎么做到的呢？大脑根据已有的预测模型，不断地对即将到来的新信息做出预测。如果实际接收到的信息不符合预测，大脑就会更新这一预测模型。\n",
+    "Predictive coding 是人脑的一种重要机制。每时每刻，大脑都被裹挟着各种感官数据的信息洪流——这可比购物记录的不确定性缭乱多了——所包围，并且需要及时地做出合理反应。那么，大脑是怎么做到的呢？大脑根据已有的预测模型，不断地对即将到来的新信息做出预测。如果实际接收到的信息不符合预测，大脑就会更新这一预测模型。\n",
     "\n",
     "Predictive coding (also known as predictive processing) is a theory of brain function in which the brain is constantly generating and updating a mental model of the environment. The model is used to generate predictions of sensory input that are compared to actual sensory input. This comparison results in prediction errors that are then used to update and revise the mental model."
    ]
@@ -437,6 +452,19 @@
    },
    "source": [
     "## Intervention"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "Collapsed": "false"
+   },
+   "source": [
+    "干预的本质就是一次测量，只要被测量物体无 self-loops, or feedbacks. 测量并不改变物质本身。\n",
+    "\n",
+    "- $\\sigma(X)$ 表示对 $X$ 进行一次测量，该干预可能会影响系统\n",
+    "- $\\sigma(X=x)$ 表示对 $X$ 进行一次测量，并且该测量值 $x$ 被它的 output edges 接收了.\n",
+    "- $\\sigma(x_{i,j})$ 表示 $X_j$ 关于 $X_i$ 的预测编码 $x^c_{i, j}$ 被干预成 $x_{i, j}$ 了."
    ]
   },
   {
@@ -977,7 +1005,7 @@
   {
    "cell_type": "markdown",
    "metadata": {
-    "Collapsed": "false",
+    "Collapsed": "true",
     "toc-hr-collapsed": true
    },
    "source": [
@@ -1083,7 +1111,7 @@
   {
    "cell_type": "markdown",
    "metadata": {
-    "Collapsed": "false"
+    "Collapsed": "true"
    },
    "source": [
     "### 能量衰减"
