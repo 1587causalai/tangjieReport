@@ -39,7 +39,7 @@
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ICM with One Node" href="models/02-one_node.html" />
+    <link rel="next" title="使用 Pyro 搭建因果模型" href="models/01-ICM_using_Pyro.html" />
     <link rel="prev" title="因果建模工具篇" href="notes/03-tools.html" /> 
 </head>
 
@@ -93,7 +93,10 @@
             
               <p class="caption"><span class="caption-text">预备知识:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/README.html">项目概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/README.html">项目概览</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notes/README.html#About-Causal-AI">About Causal AI</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="notes/02-AI_overview.html">Causal AI 综述</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="notes/02-AI_overview.html#人工智能：现状、任务、构架与统一">人工智能：现状、任务、构架与统一</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#历史和现状">历史和现状</a></li>
@@ -168,6 +171,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#结论">结论</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#参考文献">参考文献</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#带环信息因果模型">带环信息因果模型</a><ul>
@@ -183,6 +187,11 @@
 </ul>
 <p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="models/01-ICM_using_Pyro.html">使用 Pyro 搭建因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models/01-ICM_using_Pyro.html#称重例子">称重例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models/01-ICM_using_Pyro.html#掷硬币例子">掷硬币例子</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="models/02-one_node.html">ICM with One Node</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="models/02-one_node.html#model">model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="models/02-one_node.html#尝试一:门控独立于样本">尝试一:门控独立于样本</a></li>
@@ -740,6 +749,22 @@ express that causation is not association.</p>
 </ul>
 <p>它是以小图灵测试为指导的因果建模方式，强调了因果模型的信息传递属性。它解决了当前因果框架下的一些因果语义问题，开启了一种处理有环因果图模型的全新思路, 并且它是可以使用 SVI 技术训练的模型。</p>
 </div>
+<div class="section" id="参考文献">
+<h2>参考文献<a class="headerlink" href="#参考文献" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Quantum Causal Models</p></li>
+</ul>
+<p>It is known that the classical framework of causal models is not general enough to allow for causal reasoning about quantum systems. Efforts have been devoted towards generalization of the classical framework to the quantum case, with the aim of providing a framework in which cause-effect relations between quantum systems, and their connection with empirically observed data, can be rigorously analyzed. Building on the results of Allen et al., Phys. Rev. X 7, 031021 (2017), we present a
+fully-fledged framework of quantum causal models. The approach situates causal relations in unitary transformations, in analogy with an approach to classical causal models that assumes underlying determinism and situates causal relations in functional dependences between variables. We show that for any quantum causal model, there exists a corresponding unitary circuit, with appropriate causal structure, such that the quantum causal model is returned when marginalising over latent systems, and
+vice versa. We introduce an intrinsically quantum notion that plays a role analogous to the conditional independence of classical variables, and (generalizing a central theorem of the classical framework) show that d-separation is sound and complete in the quantum case. We present generalizations of the three rules of the classical <code class="docutils literal notranslate"><span class="pre">do-calculus</span></code>, in each case relating a property of the causal structure to a formal property of the quantum process, and to an operational statement concerning the
+outcomes of interventions. In addition to the results concerning quantum causal models, we introduce and derive similar results for <code class="docutils literal notranslate"><span class="pre">classical</span> <span class="pre">split-node</span> <span class="pre">causal</span> <span class="pre">models</span></code>, which are more closely analogous to quantum causal models than the classical causal models that are usually studied.</p>
+<ul class="simple">
+<li><p>Cyclic Quantum Causal Models (Jonathan Barrett, Robin Lorenz, Ognyan Oreshkov, 2020)</p></li>
+</ul>
+<p>We present an extension of the framework of quantum causal models to cyclic causal structures. This offers a novel causal perspective on processes beyond those corresponding to standard circuits, such as processes with dynamical causal order and causally nonseparable processes, including processes that violate causal inequalities. We illustrate the concept with examples of well known causally nonseparable processes. We show that for any directed graph, if a process arises from a unitary process
+with corresponding causal structure by marginalizing over latent local disturbances, then the process is Markov for that graph. As an application of the approach, we present more fine-grained compositional structures of processes such as the quantum SWITCH, which make the paths of causal influence and information flow graphically evident. Employing this compositional structure, we show that all unitarily extendible bipartite processes are causally separable, with their unitary extensions
+realizable via coherent control of the order of operations. Finally, we show that for unitary processes, causal nonseparability is equivalent to the cyclicity of their causal structure.</p>
+</div>
 </div>
 <div class="section" id="带环信息因果模型">
 <h1>带环信息因果模型<a class="headerlink" href="#带环信息因果模型" title="Permalink to this headline">¶</a></h1>
@@ -759,7 +784,7 @@ express that causation is not association.</p>
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_45_0.svg" src="_images/InfoCausalModels_45_0.svg" /></div>
+<img alt="_images/InfoCausalModels_47_0.svg" src="_images/InfoCausalModels_47_0.svg" /></div>
 </div>
 <p>在ICM中任何节点包含两种信息： - predictive coding 信息 <span class="math notranslate nohighlight">\(x\)</span>, 这中信息用于决定 <span class="math notranslate nohighlight">\(Ch(X)\)</span> 的分布，并且对于定义信息干预 <span class="math notranslate nohighlight">\(\sigma(X=x^*)\)</span>. - 当前节点的分布信息 <span class="math notranslate nohighlight">\(X\)</span>, 用于通过采样 <span class="math notranslate nohighlight">\(x^*\)</span> 像其 <span class="math notranslate nohighlight">\(Ch(X)\)</span> 发送信号，确定其子节点的编码信息是否更新。</p>
 <div class="nbinput docutils container">
@@ -777,7 +802,7 @@ express that causation is not association.</p>
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_47_0.svg" src="_images/InfoCausalModels_47_0.svg" /></div>
+<img alt="_images/InfoCausalModels_49_0.svg" src="_images/InfoCausalModels_49_0.svg" /></div>
 </div>
 <p>具体来说就是</p>
 <div class="math notranslate nohighlight">
@@ -817,7 +842,7 @@ Y  \text{ i.i.d samples when 检测到 y updated} \rightarrow \text{决定是否
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_56_0.svg" src="_images/InfoCausalModels_56_0.svg" /></div>
+<img alt="_images/InfoCausalModels_58_0.svg" src="_images/InfoCausalModels_58_0.svg" /></div>
 </div>
 <p>在这种情况下 model <span class="math notranslate nohighlight">\((X, Y)\)</span> 的数学表达式为 init <strong>predictive coding</strong> <span class="math notranslate nohighlight">\((x_c, y_c)\)</span> and <strong>info distributions</strong> <span class="math notranslate nohighlight">\(X\sim p(x;\Theta), Y \sim p(y|x_c;\Theta)\)</span>, 以及局部化变量 <span class="math notranslate nohighlight">\((B_x, B_y)\)</span>.</p>
 <p>local r.v. <span class="math notranslate nohighlight">\((B(0, 1; X^{(i)}), B(0, 1; Y^{(i)}))\)</span> for every sample <span class="math notranslate nohighlight">\((X^{(i)}, Y^{(i)})\)</span> .</p>
@@ -851,7 +876,7 @@ Y  \text{ i.i.d samples when 检测到 y updated} \rightarrow \text{决定是否
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_61_0.svg" src="_images/InfoCausalModels_61_0.svg" /></div>
+<img alt="_images/InfoCausalModels_63_0.svg" src="_images/InfoCausalModels_63_0.svg" /></div>
 </div>
 <p>从上图可以看出，虽然 <span class="math notranslate nohighlight">\(Z\)</span> 的输入信号并不是同步到达，但是和同步到达的分布没有区别。 这就确认了我们一个原则，那就是</p>
 <blockquote>
@@ -877,7 +902,7 @@ Y  \text{ i.i.d samples when 检测到 y updated} \rightarrow \text{决定是否
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_64_0.svg" src="_images/InfoCausalModels_64_0.svg" /></div>
+<img alt="_images/InfoCausalModels_66_0.svg" src="_images/InfoCausalModels_66_0.svg" /></div>
 </div>
 <p>我们此时的模型是 <span class="math notranslate nohighlight">\((X, x_c, Z), X \sim p(x|x_c)\)</span> 此模型很 VAE 非常相似，此 <span class="math notranslate nohighlight">\(Z^{(i)}\)</span> 服从某个 0，1分布，是一个局部变量。决定了某个具体的样本的动态信息传播图。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">step</span> <span class="mf">1.</span> <span class="n">采样</span> <span class="n">z</span> <span class="o">~</span> <span class="n">Z</span>
@@ -938,7 +963,7 @@ Y  \text{ i.i.d samples when 检测到 y updated} \rightarrow \text{决定是否
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="models/02-one_node.html" class="btn btn-neutral float-right" title="ICM with One Node" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="models/01-ICM_using_Pyro.html" class="btn btn-neutral float-right" title="使用 Pyro 搭建因果模型" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="notes/03-tools.html" class="btn btn-neutral float-left" title="因果建模工具篇" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
