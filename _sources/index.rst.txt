@@ -9,7 +9,7 @@ Causal AI Report
 1. 把信息因果模型的理论构架阐述清楚，
 2. 并且指出 VAE， Bayesian network, RNN 等都是 ICM 的特例。
 
-我们把旨在通过 Judea Pearl 提出的小图灵测试的AI系统及其研究称为 Causal AI。 更多信息参见 `CausalAI 主页 <https://sites.google.com/view/minituring/>`_。
+我们把旨在通过 Judea Pearl 提出的小图灵测试的AI系统及其研究称为 Causal AI。 更多信息参见 `About Causal AI <https://github.com/CausalAI/AboutCausalAI>`_。
 
 
 .. toctree:: 
