@@ -1,4 +1,4 @@
-:github_url: https://causalai.github.io/pytorch_geometric/
+:github_url: https://github.com/HeyangGong/tangjieReport
 
 Causal AI Report
 ===============================
@@ -6,8 +6,9 @@ Causal AI Report
 
 本 `项目 <https://heyanggong.github.io/tangjieReport/>`_ 是关于 Report invited by Tang Jie 的准备文档。 我们期望在这个项目中，
 
-1. 把信息因果模型的理论构架阐述清楚，
-2. 并且指出 VAE， Bayesian network, RNN 等都是 ICM 的特例。
+1. 梳理当前因果理论的，尤其是 Causal AI 的故事。
+2. 尽量阐述清楚 Causality as Information Transfer 的数学化。
+
 
 我们把旨在通过 Judea Pearl 提出的小图灵测试的AI系统及其研究称为 Causal AI。 更多信息参见 `About Causal AI <https://github.com/CausalAI/AboutCausalAI>`_。
 
