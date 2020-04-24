@@ -40,7 +40,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="使用 Pyro 搭建因果模型" href="models/01-ICM_using_Pyro.html" />
-    <link rel="prev" title="因果建模工具篇" href="notes/03-tools.html" /> 
+    <link rel="prev" title="文献梳理" href="notes/04-Important_papers.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -143,6 +143,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="notes/03-tools.html#结论">结论</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notes/04-Important_papers.html">文献梳理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notes/04-Important_papers.html#CausalAI-三核心人物">CausalAI 三核心人物</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes/04-Important_papers.html#两个工具">两个工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes/04-Important_papers.html#Survey-Paper">Survey Paper</a></li>
 </ul>
 </li>
 </ul>
@@ -675,6 +681,12 @@ express that causation is not association.</p>
 <div class="section" id="模型的理解">
 <h3>模型的理解<a class="headerlink" href="#模型的理解" title="Permalink to this headline">¶</a></h3>
 <p>A “model,” in the common use of the word, is an idealized representation of reality that highlights some aspects and ignores others. 我们的信息因果模型以小图灵测试为目标，强调了因果用于模拟现实的信息传递属性。</p>
+<p>相关性质</p>
+<p>For two interventions <span class="math notranslate nohighlight">\(I_1, I_2\)</span>(whether <span class="math notranslate nohighlight">\(\sigma(\cdot)\)</span> or <span class="math notranslate nohighlight">\(do(\cdot)\)</span>) on the ICM <span class="math notranslate nohighlight">\(G\)</span>, we have</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(I_1 \circ I_2 (G) \neq I_2 \circ I_1(G)\)</span></p></li>
+<li><p>$</p></li>
+</ul>
 <div class="section" id="Independent-Causal-Mechanisms">
 <h4>Independent Causal Mechanisms<a class="headerlink" href="#Independent-Causal-Mechanisms" title="Permalink to this headline">¶</a></h4>
 <p><strong>Independent Causal Mechanisms (ICM) Principle.</strong> The causal generative process of a system’s variables iscomposed of autonomous modules that do not inform or influence each other. In the probabilistic case, this means that the conditional distribution of each variable given its causes (i.e., itsmechanism) does not inform or influence the other mechanisms. (Schölkopf et al., 2012; Peters et al., 2017)</p>
@@ -784,7 +796,7 @@ realizable via coherent control of the order of operations. Finally, we show tha
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_47_0.svg" src="_images/InfoCausalModels_47_0.svg" /></div>
+<img alt="_images/InfoCausalModels_48_0.svg" src="_images/InfoCausalModels_48_0.svg" /></div>
 </div>
 <p>在ICM中任何节点包含两种信息： - predictive coding 信息 <span class="math notranslate nohighlight">\(x\)</span>, 这中信息用于决定 <span class="math notranslate nohighlight">\(Ch(X)\)</span> 的分布，并且对于定义信息干预 <span class="math notranslate nohighlight">\(\sigma(X=x^*)\)</span>. - 当前节点的分布信息 <span class="math notranslate nohighlight">\(X\)</span>, 用于通过采样 <span class="math notranslate nohighlight">\(x^*\)</span> 像其 <span class="math notranslate nohighlight">\(Ch(X)\)</span> 发送信号，确定其子节点的编码信息是否更新。</p>
 <div class="nbinput docutils container">
@@ -802,7 +814,7 @@ realizable via coherent control of the order of operations. Finally, we show tha
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_49_0.svg" src="_images/InfoCausalModels_49_0.svg" /></div>
+<img alt="_images/InfoCausalModels_50_0.svg" src="_images/InfoCausalModels_50_0.svg" /></div>
 </div>
 <p>具体来说就是</p>
 <div class="math notranslate nohighlight">
@@ -842,7 +854,7 @@ Y  \text{ i.i.d samples when 检测到 y updated} \rightarrow \text{决定是否
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_58_0.svg" src="_images/InfoCausalModels_58_0.svg" /></div>
+<img alt="_images/InfoCausalModels_59_0.svg" src="_images/InfoCausalModels_59_0.svg" /></div>
 </div>
 <p>在这种情况下 model <span class="math notranslate nohighlight">\((X, Y)\)</span> 的数学表达式为 init <strong>predictive coding</strong> <span class="math notranslate nohighlight">\((x_c, y_c)\)</span> and <strong>info distributions</strong> <span class="math notranslate nohighlight">\(X\sim p(x;\Theta), Y \sim p(y|x_c;\Theta)\)</span>, 以及局部化变量 <span class="math notranslate nohighlight">\((B_x, B_y)\)</span>.</p>
 <p>local r.v. <span class="math notranslate nohighlight">\((B(0, 1; X^{(i)}), B(0, 1; Y^{(i)}))\)</span> for every sample <span class="math notranslate nohighlight">\((X^{(i)}, Y^{(i)})\)</span> .</p>
@@ -876,7 +888,7 @@ Y  \text{ i.i.d samples when 检测到 y updated} \rightarrow \text{决定是否
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_63_0.svg" src="_images/InfoCausalModels_63_0.svg" /></div>
+<img alt="_images/InfoCausalModels_64_0.svg" src="_images/InfoCausalModels_64_0.svg" /></div>
 </div>
 <p>从上图可以看出，虽然 <span class="math notranslate nohighlight">\(Z\)</span> 的输入信号并不是同步到达，但是和同步到达的分布没有区别。 这就确认了我们一个原则，那就是</p>
 <blockquote>
@@ -902,7 +914,7 @@ Y  \text{ i.i.d samples when 检测到 y updated} \rightarrow \text{决定是否
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="_images/InfoCausalModels_66_0.svg" src="_images/InfoCausalModels_66_0.svg" /></div>
+<img alt="_images/InfoCausalModels_67_0.svg" src="_images/InfoCausalModels_67_0.svg" /></div>
 </div>
 <p>我们此时的模型是 <span class="math notranslate nohighlight">\((X, x_c, Z), X \sim p(x|x_c)\)</span> 此模型很 VAE 非常相似，此 <span class="math notranslate nohighlight">\(Z^{(i)}\)</span> 服从某个 0，1分布，是一个局部变量。决定了某个具体的样本的动态信息传播图。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">step</span> <span class="mf">1.</span> <span class="n">采样</span> <span class="n">z</span> <span class="o">~</span> <span class="n">Z</span>
@@ -966,7 +978,7 @@ Y  \text{ i.i.d samples when 检测到 y updated} \rightarrow \text{决定是否
         <a href="models/01-ICM_using_Pyro.html" class="btn btn-neutral float-right" title="使用 Pyro 搭建因果模型" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="notes/03-tools.html" class="btn btn-neutral float-left" title="因果建模工具篇" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="notes/04-Important_papers.html" class="btn btn-neutral float-left" title="文献梳理" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

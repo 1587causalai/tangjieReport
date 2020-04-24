@@ -21,6 +21,7 @@ Causal AI Report
    notes/02-AI_overview
    notes/01-stat_compute
    notes/03-tools
+   notes/04-Important_papers
    
 .. toctree:: 
    :glob:

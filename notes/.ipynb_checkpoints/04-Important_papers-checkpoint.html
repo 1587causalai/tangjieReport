@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>项目概览 &mdash; CausalAI Report 0.1 documentation</title>
+  <title>文献梳理 &mdash; CausalAI Report 0.1 documentation</title>
   
 
   
@@ -260,13 +260,13 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-      <li>项目概览</li>
+      <li>文献梳理</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/notes/.ipynb_checkpoints/README-checkpoint.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/notes/.ipynb_checkpoints/04-Important_papers-checkpoint.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -281,224 +281,6 @@
             
   
 <style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container,
-div.nbinput.container div.prompt,
-div.nbinput.container div.input_area,
-div.nbinput.container div[class*=highlight],
-div.nbinput.container div[class*=highlight] pre,
-div.nboutput.container,
-div.nboutput.container div.prompt,
-div.nboutput.container div.output_area,
-div.nboutput.container div[class*=highlight],
-div.nboutput.container div[class*=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    min-width: 5ex;
-    padding-top: 0.3rem;
-    padding-right: 0.3rem;
-    text-align: right;
-    flex: 0;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-}
-
-/* disable scrollbars on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    background: #f5f5f5;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-
-div.nbinput.container div.input_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight].math,
-div.nboutput.container div.output_area.rendered_html,
-div.nboutput.container div.output_area > div.output_javascript,
-div.nboutput.container div.output_area:not(.rendered_html) > img{
-    padding: 0.3rem;
-}
-
-/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
-div.nbinput.container div.input_area > div[class^='highlight'],
-div.nboutput.container div.output_area > div[class^='highlight']{
-    overflow-y: hidden;
-}
-
-/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
-    display: none;
-}
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-div.rendered_html th {
-  font-weight: bold;
-}
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
@@ -521,54 +303,40 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="项目概览">
-<h1>项目概览<a class="headerlink" href="#项目概览" title="Permalink to this headline">¶</a></h1>
-<p>这是一个信息因果模型(ICM)的报告准备项目。我期望在这个项目中，把信息因果模型的理论构架阐述清楚 (某种意义下 VAE， Bayesian network, RNN 等都是 ICM 的特例)。 我尽量避免直接写公式给新接触的人看，多数时候公式可能把创造的动机给掩盖掉，同时让问题是否能 tractable 变得不那么清晰。我想说清楚的是信息因果模型的动机和背后的问题。</p>
-<p>项目地址以及 PPT 见：<a class="reference external" href="https://github.com/HeyangGong/tangjieReport">https://github.com/HeyangGong/tangjieReport</a></p>
-<p>几个问题需要回答：</p>
+<div class="section" id="文献梳理">
+<h1>文献梳理<a class="headerlink" href="#文献梳理" title="Permalink to this headline">¶</a></h1>
+<p>我们以人物为中心，整理因果推理领域相关重要文献。</p>
+<div class="section" id="CausalAI-三核心人物">
+<h2>CausalAI 三核心人物<a class="headerlink" href="#CausalAI-三核心人物" title="Permalink to this headline">¶</a></h2>
+<p>首先我们总结 CausalAI 最重要的三个人物是：</p>
 <ul class="simple">
-<li><p>当前因果理论研究的故事，包括</p>
-<ul>
-<li><p>为什么要研究因果？</p></li>
-<li><p>历史上有哪些人做了哪些研究？</p></li>
-<li><p>当前因果问题的进展如何？</p></li>
-<li><p>重点突出遇到了有环因果问题，为什么必须解决它？</p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1s4d-FaNFmPQNCDJ187DK09liZoMO1PQP#scrollTo=PfJad3fny7hI">Judea Pearl</a> 总和来说就是两本教材，三篇论文，两个报告。核心贡献是因果数学化。 -<a class="reference external" href="https://colab.research.google.com/drive/1TRATVYkJIt7rvOs-G9wHejCz1i70pQz-">Bernhard Scholkopf</a>，一本教材，一片论文，一个视频是最核心内容。核心贡献是因果表示学习。</p></li>
+<li><p><a class="reference external" href="https://drive.google.com/file/d/1uYqbeZpSMrSHhVIC1sbI5w4s8TlGGCze/view?usp=sharing">Yoshua Bengio</a> system 2 deep learning，结合了 neuroscience，认知科学等，大局观上把握！核心贡献是告诉我们什么是因果变量。</p></li>
 </ul>
-</li>
-<li><p>提出我们解决问题的思路 — Causality as information transfer</p>
-<ul>
-<li><p>是什么启发了把信息传递当成因果？Causality for machine learning</p></li>
-<li><p>当前有哪些工作，他们是如何做的？哲学上，causality free will and neuroscience</p></li>
-<li><p>我们的具体做法(Info Causal Models)是什么样子的？为什么这么做？使用 predictive coding, pyro models with gates.</p></li>
-<li><p>有了 ICM 之后，三级因果思维对应的因果语义是什么样子？</p></li>
-</ul>
-</li>
-<li><p>使用例子来说明我们的模型 ICM</p>
-<ul>
-<li><p>简单两个节点的模型，包括单向边，一个简单闭环。</p></li>
-<li><p>对比其他的因果模型，prons and cons.</p></li>
-<li><p>因果语义</p></li>
-</ul>
-</li>
-</ul>
-<div class="section" id="About-Causal-AI">
-<h2>About Causal AI<a class="headerlink" href="#About-Causal-AI" title="Permalink to this headline">¶</a></h2>
-<p>Causal AI 是具备因果推理能力，旨在通过小图灵测试的 AI 系统。</p>
-<p>Judea Pearl 是 Causal AI 的奠基人，Bernhard Scholkopf 推进了 Causality for Machine Learning，Yoshua Bengio 提出了 System 2 deep learning 作为 Causal AI 的一个范式。沉醉于 life and Intelligence 之美，尤其是人类社会系统的群体智能。众多工具中（包括数学，计算机，物理，复杂系统等等），偏好用信息论视角研究如何教会机器因果思维，希望创造具备 free will 的 AI，使之成为我们的良师益友，一起探索解密生命和智能的终极奥秘。</p>
-<p><a class="reference external" href="https://github.com/CausalAI/AboutCausalAI">https://github.com/CausalAI/AboutCausalAI</a></p>
-<p>+++++++++++++ Mini Turing Test +++++++++++++++</p>
-<blockquote>
-<div><p>How can machines represent causal knowledge in a way that would enable them to access the necessary information swiftly, answer questions correctly, and do it with ease, as a human can?</p>
-</div></blockquote>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
+<div class="section" id="两个工具">
+<h2>两个工具<a class="headerlink" href="#两个工具" title="Permalink to this headline">¶</a></h2>
+<p>理论方面他们是最重要的贡献者，我们再来看看代码方面的贡献者，包括 DoWhy 和 Pyro。</p>
+<p>See More on <a class="reference external" href="https://github.com/CausalAI/pyro_zh_tutorial">https://github.com/CausalAI/pyro_zh_tutorial</a></p>
 </div>
-</div>
+<div class="section" id="Survey-Paper">
+<h2>Survey Paper<a class="headerlink" href="#Survey-Paper" title="Permalink to this headline">¶</a></h2>
+<p>看看综述文章总是一个非常好的开始：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/2002.02770">A Survey on Causal Inference</a> AAAI 2020 tutorial</p></li>
+</ul>
+<p>因果推理是数十年来跨许多领域的重要研究主题，例如统计，计算机科学，教育，公共政策和经济学。如今，与随机对照试验相比，由于可用数据量大且预算要求低，因此根据观测数据估算因果关系已成为有吸引力的研究方向。伴随着快速发展的机器学习领域，各种用于观测数据的因果效应估计方法如雨后春笋般涌现。在这项调查中，我们对潜在结果框架（一种众所周知的因果推断框架）下的因果推断方法进行了全面回顾。 The methods are divided into two categories depending on <strong>whether they require all three assumptions of the potential
+outcome framework or not</strong>. For each category, both the traditional statistical methods and the recent machine learning enhanced methods are discussed and compared. The plausible applications of these methods are also presented, including the applications in advertising, recommendation, medicine and so on. 此外，还总结了常用的基准数据集以及开源代码，这些代码有助于研究人员和从业人员探索，评估和应用因果推理方法。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1809.09337">A Survey of Learning Causality with Data: Problems and Methods</a> 2019 arxiv</p></li>
+</ul>
+<p>The era of big data provides researchers with convenient access to copious data. However, people often have little knowledge about it. The increasing prevalence of big data is challenging the traditional methods of learning causality because they are developed for the cases with limited amount of data and solid prior causal knowledge. This survey aims to <strong>close the gap between big data and learning causality</strong> with a comprehensive and structured review of traditional and frontier methods and a
+discussion about some open problems of learning causality. We begin with preliminaries of learning causality. Then we categorize and revisit methods of learning causality for the typical problems and data types. After that, we discuss the connections between learning causality and machine learning. At the end, some open problems are presented to show the great potential of learning causality with data.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S2095809919305235">Causal Inference</a>, 2019 Kun Zhuang etc.</p></li>
+</ul>
+<p>因果推理是用于解释分析的强大建模工具，它可以使当前的机器学习变得可解释。如何将因果推理与机器学习结合起来以开发可解释的人工智能（XAI）算法，是迈向人工智能2.0的关键步骤之一。为了将因果推理的知识带给机器学习和人工智能的学者，我们邀请因果推理的研究人员从因果推理的不同方面撰写此调查。这项调查包括以下部分：匡匡博士的“估计平均治疗效果：简要回顾及以后”，李连教授的“反事实推论的归因问题”，尤里-辛普森悖论和代孕悖论。耿志教授，徐磊教授的“因果潜力理论”，张Kun教授的“从观测数据中发现因果信息”，教授的“因果推理和解释中的形式论证”。廖北水和黄华新，丁鹏教授的“复杂实验的因果推理”，王M教授的“用于观察研究的仪器变量和阴性对照”，江志超博士的“因果推理与干扰”。</p>
+<p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S2095809919305235">https://www.sciencedirect.com/science/article/pii/S2095809919305235</a></p>
 </div>
 </div>
 
