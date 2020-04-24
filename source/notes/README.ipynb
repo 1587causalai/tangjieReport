@@ -9,7 +9,9 @@
     "# 项目概览\n",
     "\n",
     "这是一个信息因果模型(ICM)的报告准备项目。我期望在这个项目中，把信息因果模型的理论构架阐述清楚 (某种意义下 VAE， Bayesian network, RNN 等都是 ICM 的特例)。\n",
-    "我尽量避免直接写公式给新接触的人看，多数时候公式可能把创造的动机给掩盖掉，同时让问题是否能 tractable 变得不那么清晰。我想说清楚的是信息因果模型的动机和背后的问题。"
+    "我尽量避免直接写公式给新接触的人看，多数时候公式可能把创造的动机给掩盖掉，同时让问题是否能 tractable 变得不那么清晰。我想说清楚的是信息因果模型的动机和背后的问题。\n",
+    "\n",
+    "项目地址以及 PPT 见：https://github.com/HeyangGong/tangjieReport"
    ]
   },
   {
@@ -43,14 +45,27 @@
    "metadata": {
     "Collapsed": "false"
    },
-   "source": []
+   "source": [
+    "## About Causal AI"
+   ]
   },
   {
    "cell_type": "markdown",
    "metadata": {
     "Collapsed": "false"
    },
-   "source": []
+   "source": [
+    "Causal AI 是具备因果推理能力，旨在通过小图灵测试的 AI 系统。\n",
+    "\n",
+    "Judea Pearl 是 Causal AI 的奠基人，Bernhard Scholkopf 推进了 Causality for Machine Learning，Yoshua Bengio 提出了 System 2 deep learning 作为 Causal AI 的一个范式。沉醉于 life and Intelligence 之美，尤其是人类社会系统的群体智能。众多工具中（包括数学，计算机，物理，复杂系统等等），偏好用信息论视角研究如何教会机器因果思维，希望创造具备 free will 的 AI，使之成为我们的良师益友，一起探索解密生命和智能的终极奥秘。\n",
+    "\n",
+    "https://github.com/CausalAI/AboutCausalAI\n",
+    "\n",
+    "\n",
+    "+++++++++++++ Mini Turing Test +++++++++++++++\n",
+    "\n",
+    "> How can machines represent causal knowledge in a way that would enable them to access the necessary information swiftly, answer questions correctly, and do it with ease, as a human can? "
+   ]
   },
   {
    "cell_type": "markdown",

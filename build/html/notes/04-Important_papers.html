@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>文献梳理 &mdash; CausalAI Report 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="信息因果模型" href="../InfoCausalModels.html" />
+    <link rel="prev" title="因果建模工具篇" href="03-tools.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/causalAI.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                Report 0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">预备知识:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">项目概览</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="README.html#About-Causal-AI">About Causal AI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="02-AI_overview.html">Causal AI 综述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="02-AI_overview.html#人工智能：现状、任务、构架与统一">人工智能：现状、任务、构架与统一</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#历史和现状">历史和现状</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#构架和未来">构架和未来</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#六大领域的因果渴求">六大领域的因果渴求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#结论">结论</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-AI_overview.html#Judea-Pearl-的因果革命">Judea Pearl 的因果革命</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#因果理论的历史">因果理论的历史</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#三级因果思维">三级因果思维</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#结构因果模型">结构因果模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02-AI_overview.html#因果和机器学习">因果和机器学习</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02-AI_overview.html#总结">总结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="01-stat_compute.html">统计计算基础</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#从拒绝采样谈起">从拒绝采样谈起</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#模型参数的后验分布采样">模型参数的后验分布采样</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#更多采样方法">更多采样方法</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01-stat_compute.html#Markov-Chain">Markov Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01-stat_compute.html#MCMC-采样">MCMC 采样</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01-stat_compute.html#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03-tools.html">因果建模工具篇</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="03-tools.html#Dowhy">Dowhy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#一个简单例子">一个简单例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#do-运算"><span class="math notranslate nohighlight">\(do\)</span> 运算</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="03-tools.html#第一种方式">第一种方式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="03-tools.html#第二种方式">第二种方式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-tools.html#Pyro">Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#一个简单的例子">一个简单的例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#梯度下降法-with-Pyro-Low-level">梯度下降法 with Pyro Low-level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03-tools.html#id6"><span class="math notranslate nohighlight">\(do\)</span> 运算</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03-tools.html#结论">结论</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">文献梳理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#CausalAI-三核心人物">CausalAI 三核心人物</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#两个工具">两个工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Survey-Paper">Survey Paper</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Info Causal Models:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../InfoCausalModels.html">信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#因果建模框架概览">因果建模框架概览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#从-do-运算到-\sigma-运算">从 <span class="math notranslate nohighlight">\(do\)</span> 运算到 <span class="math notranslate nohighlight">\(\sigma\)</span> 运算</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Pearlian-Intervention-及其性质">Pearlian Intervention 及其性质</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#信息干预的定义和性质">信息干预的定义和性质</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#模型数学框架">模型数学框架</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#ICM模型的定义">ICM模型的定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#模型的理解">模型的理解</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../InfoCausalModels.html#Independent-Causal-Mechanisms">Independent Causal Mechanisms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../InfoCausalModels.html#Neuroscience-的启发">Neuroscience 的启发</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Intervention">Intervention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Conditioning">Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Bayesian-networks-的条件化">Bayesian networks 的条件化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Markov-Random-Field">Markov Random Field</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#结论">结论</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#参考文献">参考文献</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../InfoCausalModels.html#带环信息因果模型">带环信息因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Link-Model-to-Data">Link Model to Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#Bayesian-网络">Bayesian 网络</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#一个节点的信息因果模型">一个节点的信息因果模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#能量衰减">能量衰减</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#值得思考">值得思考</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../models/01-ICM_using_Pyro.html">使用 Pyro 搭建因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../models/01-ICM_using_Pyro.html#称重例子">称重例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/01-ICM_using_Pyro.html#掷硬币例子">掷硬币例子</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../models/02-one_node.html">ICM with One Node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../models/02-one_node.html#model">model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#尝试一:门控独立于样本">尝试一:门控独立于样本</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models/02-one_node.html#模型构建">模型构建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#Bayesian-模型">Bayesian 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#几何分布">几何分布</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#掷硬币案例">掷硬币案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#拒绝抽样模型">拒绝抽样模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models/02-one_node.html#Mini-Pyro">Mini-Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#Mini-pyro-例子">Mini-pyro 例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#计算对数似然">计算对数似然</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">CausalAI</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>文献梳理</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notes/04-Important_papers.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="文献梳理">
+<h1>文献梳理<a class="headerlink" href="#文献梳理" title="Permalink to this headline">¶</a></h1>
+<p>我们以人物为中心，整理因果推理领域相关重要文献。</p>
+<div class="section" id="CausalAI-三核心人物">
+<h2>CausalAI 三核心人物<a class="headerlink" href="#CausalAI-三核心人物" title="Permalink to this headline">¶</a></h2>
+<p>首先我们总结 CausalAI 最重要的三个人物是：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1s4d-FaNFmPQNCDJ187DK09liZoMO1PQP#scrollTo=PfJad3fny7hI">Judea Pearl</a> 总和来说就是两本教材，三篇论文，两个报告。核心贡献是因果数学化。 -<a class="reference external" href="https://colab.research.google.com/drive/1TRATVYkJIt7rvOs-G9wHejCz1i70pQz-">Bernhard Scholkopf</a>，一本教材，一片论文，一个视频是最核心内容。核心贡献是因果表示学习。</p></li>
+<li><p><a class="reference external" href="https://drive.google.com/file/d/1uYqbeZpSMrSHhVIC1sbI5w4s8TlGGCze/view?usp=sharing">Yoshua Bengio</a> system 2 deep learning，结合了 neuroscience，认知科学等，大局观上把握！核心贡献是告诉我们什么是因果变量。</p></li>
+</ul>
+</div>
+<div class="section" id="两个工具">
+<h2>两个工具<a class="headerlink" href="#两个工具" title="Permalink to this headline">¶</a></h2>
+<p>理论方面他们是最重要的贡献者，我们再来看看代码方面的贡献者，包括 DoWhy 和 Pyro。</p>
+<p>See More on <a class="reference external" href="https://github.com/CausalAI/pyro_zh_tutorial">https://github.com/CausalAI/pyro_zh_tutorial</a></p>
+</div>
+<div class="section" id="Survey-Paper">
+<h2>Survey Paper<a class="headerlink" href="#Survey-Paper" title="Permalink to this headline">¶</a></h2>
+<p>看看综述文章总是一个非常好的开始：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/2002.02770">A Survey on Causal Inference</a> AAAI 2020 tutorial</p></li>
+</ul>
+<p>因果推理是数十年来跨许多领域的重要研究主题，例如统计，计算机科学，教育，公共政策和经济学。如今，与随机对照试验相比，由于可用数据量大且预算要求低，因此根据观测数据估算因果关系已成为有吸引力的研究方向。伴随着快速发展的机器学习领域，各种用于观测数据的因果效应估计方法如雨后春笋般涌现。在这项调查中，我们对潜在结果框架（一种众所周知的因果推断框架）下的因果推断方法进行了全面回顾。 The methods are divided into two categories depending on <strong>whether they require all three assumptions of the potential
+outcome framework or not</strong>. For each category, both the traditional statistical methods and the recent machine learning enhanced methods are discussed and compared. The plausible applications of these methods are also presented, including the applications in advertising, recommendation, medicine and so on. 此外，还总结了常用的基准数据集以及开源代码，这些代码有助于研究人员和从业人员探索，评估和应用因果推理方法。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1809.09337">A Survey of Learning Causality with Data: Problems and Methods</a> 2019 arxiv</p></li>
+</ul>
+<p>The era of big data provides researchers with convenient access to copious data. However, people often have little knowledge about it. The increasing prevalence of big data is challenging the traditional methods of learning causality because they are developed for the cases with limited amount of data and solid prior causal knowledge. This survey aims to <strong>close the gap between big data and learning causality</strong> with a comprehensive and structured review of traditional and frontier methods and a
+discussion about some open problems of learning causality. We begin with preliminaries of learning causality. Then we categorize and revisit methods of learning causality for the typical problems and data types. After that, we discuss the connections between learning causality and machine learning. At the end, some open problems are presented to show the great potential of learning causality with data.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S2095809919305235">Causal Inference</a>, 2019 Kun Zhuang etc.</p></li>
+</ul>
+<p>因果推理是用于解释分析的强大建模工具，它可以使当前的机器学习变得可解释。如何将因果推理与机器学习结合起来以开发可解释的人工智能（XAI）算法，是迈向人工智能2.0的关键步骤之一。为了将因果推理的知识带给机器学习和人工智能的学者，我们邀请因果推理的研究人员从因果推理的不同方面撰写此调查。这项调查包括以下部分：匡匡博士的“估计平均治疗效果：简要回顾及以后”，李连教授的“反事实推论的归因问题”，尤里-辛普森悖论和代孕悖论。耿志教授，徐磊教授的“因果潜力理论”，张Kun教授的“从观测数据中发现因果信息”，教授的“因果推理和解释中的形式论证”。廖北水和黄华新，丁鹏教授的“复杂实验的因果推理”，王M教授的“用于观察研究的仪器变量和阴性对照”，江志超博士的“因果推理与干扰”。</p>
+<p><a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S2095809919305235">https://www.sciencedirect.com/science/article/pii/S2095809919305235</a></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../InfoCausalModels.html" class="btn btn-neutral float-right" title="信息因果模型" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="03-tools.html" class="btn btn-neutral float-left" title="因果建模工具篇" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Heyang Gong
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

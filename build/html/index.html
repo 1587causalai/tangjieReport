@@ -92,7 +92,10 @@
             
               <p class="caption"><span class="caption-text">预备知识:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notes/README.html">项目概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/README.html">项目概览</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notes/README.html#About-Causal-AI">About Causal AI</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="notes/02-AI_overview.html">Causal AI 综述</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="notes/02-AI_overview.html#人工智能：现状、任务、构架与统一">人工智能：现状、任务、构架与统一</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="notes/02-AI_overview.html#历史和现状">历史和现状</a></li>
@@ -134,10 +137,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="notes/03-tools.html#Pyro">Pyro</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="notes/03-tools.html#一个简单的例子">一个简单的例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notes/03-tools.html#梯度下降法-with-Pyro-Low-level">梯度下降法 with Pyro Low-level</a></li>
 <li class="toctree-l3"><a class="reference internal" href="notes/03-tools.html#id6"><span class="math notranslate nohighlight">\(do\)</span> 运算</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="notes/03-tools.html#结论">结论</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notes/04-Important_papers.html">文献梳理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notes/04-Important_papers.html#CausalAI-三核心人物">CausalAI 三核心人物</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes/04-Important_papers.html#两个工具">两个工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notes/04-Important_papers.html#Survey-Paper">Survey Paper</a></li>
 </ul>
 </li>
 </ul>
@@ -153,7 +163,7 @@
 <li class="toctree-l2"><a class="reference internal" href="InfoCausalModels.html#模型数学框架">模型数学框架</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="InfoCausalModels.html#ICM模型的定义">ICM模型的定义</a></li>
 <li class="toctree-l3"><a class="reference internal" href="InfoCausalModels.html#模型的理解">模型的理解</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="InfoCausalModels.html#变分自编码器">变分自编码器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="InfoCausalModels.html#Independent-Causal-Mechanisms">Independent Causal Mechanisms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="InfoCausalModels.html#Neuroscience-的启发">Neuroscience 的启发</a></li>
 </ul>
 </li>
@@ -166,6 +176,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="InfoCausalModels.html#结论">结论</a></li>
+<li class="toctree-l2"><a class="reference internal" href="InfoCausalModels.html#参考文献">参考文献</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="InfoCausalModels.html#带环信息因果模型">带环信息因果模型</a><ul>
@@ -181,17 +192,26 @@
 </ul>
 <p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="models/01-one_node.html">ICM with One Node</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="models/01-one_node.html#模型构建">模型构建</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#Bayesian-模型">Bayesian 模型</a></li>
-<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#几何分布">几何分布</a></li>
-<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#掷硬币案例">掷硬币案例</a></li>
-<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#拒绝抽样模型">拒绝抽样模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/01-ICM_using_Pyro.html">使用 Pyro 搭建因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models/01-ICM_using_Pyro.html#称重例子">称重例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models/01-ICM_using_Pyro.html#掷硬币例子">掷硬币例子</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="models/01-one_node.html#Mini-Pyro">Mini-Pyro</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#Mini-pyro-例子">Mini-pyro 例子</a></li>
-<li class="toctree-l3"><a class="reference internal" href="models/01-one_node.html#计算对数似然">计算对数似然</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/02-one_node.html">ICM with One Node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models/02-one_node.html#model">model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models/02-one_node.html#尝试一:门控独立于样本">尝试一:门控独立于样本</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models/02-one_node.html#模型构建">模型构建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models/02-one_node.html#Bayesian-模型">Bayesian 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/02-one_node.html#几何分布">几何分布</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/02-one_node.html#掷硬币案例">掷硬币案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/02-one_node.html#拒绝抽样模型">拒绝抽样模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models/02-one_node.html#Mini-Pyro">Mini-Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models/02-one_node.html#Mini-pyro-例子">Mini-pyro 例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models/02-one_node.html#计算对数似然">计算对数似然</a></li>
 </ul>
 </li>
 </ul>
@@ -296,7 +316,7 @@
 <li><p>把信息因果模型的理论构架阐述清楚，</p></li>
 <li><p>并且指出 VAE， Bayesian network, RNN 等都是 ICM 的特例。</p></li>
 </ol>
-<p>我们把旨在通过 Judea Pearl 提出的小图灵测试的AI系统及其研究称为 Causal AI。 更多信息参见 <a class="reference external" href="https://sites.google.com/view/minituring/">CausalAI 主页</a>。</p>
+<p>我们把旨在通过 Judea Pearl 提出的小图灵测试的AI系统及其研究称为 Causal AI。 更多信息参见 <a class="reference external" href="https://github.com/CausalAI/AboutCausalAI">About Causal AI</a>。</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">预备知识:</span></p>
 <ul>
@@ -304,6 +324,7 @@
 <li class="toctree-l1"><a class="reference internal" href="notes/02-AI_overview.html">Causal AI 综述</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/01-stat_compute.html">统计计算基础</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notes/03-tools.html">因果建模工具篇</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notes/04-Important_papers.html">文献梳理</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -316,7 +337,8 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="models/01-one_node.html">ICM with One Node</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/01-ICM_using_Pyro.html">使用 Pyro 搭建因果模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/02-one_node.html">ICM with One Node</a></li>
 </ul>
 </div>
 </div>

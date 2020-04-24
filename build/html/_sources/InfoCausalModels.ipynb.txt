@@ -6,6 +6,19 @@
     "Collapsed": "false"
    },
    "source": [
+    "- 动态控制随机函数\n",
+    "\n",
+    "这样随机函数有一个特点，那就是任何一个样本，它的维度是不确定的，你无法计算部分观测的概率。也是由于其样本是动态生成的，定义指导分布的时候，无法定义一个抽样语句与模型分布中每个隐变量对应。所以也无法用那些推断算法，需要想其他办法。\n",
+    "\n",
+    "此时好像除了 Amortization 就没有好办法可以想了。 root variable 后验分布抽样生成的随机函数，得到样本的概率很高！这是唯一的训练方法了。也就是每个样本都具备不同的分布，它由某个局部变量生成。"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "Collapsed": "false"
+   },
+   "source": [
     "# 信息因果模型\n",
     "\n",
     "现在流行的因果模型框架 Structural Causal Models, Causal DAGs, Potential Outcome, Indicator Regime 底层的模型都是概率图模型。他们的底层假设是给定 $n$ 个全局随机变量某种形式的联合分布，变量之间有因果关系，参见 [Handbook of Graphical Models(2018)](https://colab.research.google.com/drive/1m8bHbsToIP8M41o0IL55AuXLzKSLaTPa)。我们的因果模型与这些现存框架截然不同：\n",
@@ -275,7 +288,7 @@
    "cell_type": "markdown",
    "metadata": {
     "Collapsed": "false",
-    "toc-hr-collapsed": true
+    "toc-hr-collapsed": false
    },
    "source": [
     "## 模型数学框架"
@@ -332,8 +345,8 @@
    "source": [
     "而对于每条边 $e = (i, j) \\in E$, 存在两个门控 \n",
     "\n",
-    "1. 第一个门控 $B(0, 1; p({x_i; x^c_i, x^c_{pa(i), i}}))$ 控制 $e$ 是否接收来自其输入节点的新样本信息 $x_i$，然后更新节点状态信息 $x_i^c \\leftarrow x_i$。\n",
-    "2. 第二个门控 $B(0, 1; p(x_i; x^c_j, x^c_{pa(j), j}))$ 控制结构节点 $j$ 是否接收来自其输入边的新信息 $x_i$，然后跟新预测编码 $x^c_{i, j} \\leftarrow ~(x_i; x^c_j, x^c_{pa(j), j}))$ (一种简单的方式是 $x^c_{i, j} \\leftarrow \\alpha x^c_{i, j} + (1-\\alpha) x_i$)。\n",
+    "1. 第一个门控 $B(0, 1; p({x_i; x^c_i, x^c_{pa(i), i}}))$ 控制 $e$ 是否接收来自其输入节点的新样本信息 $x_i$，并且更新节点状态信息 $x_i^c \\leftarrow x_i$。\n",
+    "2. 第二个门控 $B(0, 1; p(x_i; x^c_j, x^c_{pa(j), j}))$ 控制结构节点 $j$ 是否接收来自其输入边的新信息 $x_i$，然后更新预测编码 $x^c_{i, j} \\leftarrow ~(x_i; x^c_j, x^c_{pa(j), j}))$ (一种简单的方式是 $x^c_{i, j} \\leftarrow \\alpha x^c_{i, j} + (1-\\alpha) x_i$)。\n",
     "\n",
     "其中 $ch(i), pa(i)$ 分别表示 $i$ 的 children 和 parents。有了每个节点的表示 $(x_i^c, x^c_{pa(i), i})$ 以及边的门控，存在一个隐变量 $Z_V$ 控制是否对变量 $X_V$ 抽样，每次抽样都会生成一个样本。"
    ]
@@ -342,12 +355,13 @@
    "cell_type": "markdown",
    "metadata": {
     "Collapsed": "false",
-    "toc-hr-collapsed": true
+    "toc-hr-collapsed": false
    },
    "source": [
     "### 模型的理解\n",
     "\n",
-    "模型的构建借鉴了变分自编码器。"
+    "\n",
+    "A “model,” in the common use of the word, is an idealized representation of reality that highlights some aspects and ignores others. 我们的信息因果模型以小图灵测试为目标，强调了因果用于模拟现实的信息传递属性。\n"
    ]
   },
   {
@@ -356,10 +370,46 @@
     "Collapsed": "false"
    },
    "source": [
-    "#### 变分自编码器\n",
+    "相关性质\n",
+    "\n",
+    "For two interventions $I_1, I_2$(whether $\\sigma(\\cdot)$ or $do(\\cdot)$) on the ICM $G$, we have \n",
+    "\n",
+    "- $I_1 \\circ I_2 (G) \\neq I_2 \\circ I_1(G)$\n",
+    "- $\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "Collapsed": "false"
+   },
+   "source": [
+    "#### Independent Causal Mechanisms\n",
     "\n",
     "\n",
-    "我们有模型的 $N$ 个样本 $\\{x^{(j)}\\}_{j=1,\\cdots,N}$, 我们每个样本 $x^{(j)}$都是由某个局部潜变量 $Z^{(j)}$ 生成的，初始的节点状态及其预测编码 $x^c_{\\cdot}, x^c_{\\cdot, \\cdot}$， 初始的两个门控函数，更新函数都是需要训练全局参数。"
+    "\n",
+    "**Independent Causal Mechanisms (ICM) Principle.** The causal generative process of a system’s variables iscomposed of autonomous modules that do not inform or influence each other. In  the  probabilistic  case,  this  means  that  the  conditional  distribution  of  each  variable  given  its  causes  (i.e.,  itsmechanism) does not inform or influence the other mechanisms. (Schölkopf et al., 2012; Peters et al., 2017)\n",
+    "\n",
+    "This principle subsumes several notions important to causality, including separate intervenability of causal variables,modularity and autonomy of subsystems, and invariance (Pearl, 2009a; Peters et al., 2017). If we have only two variables,it reduces to an independence between the cause distribution and the mechanism producing the effect distribution.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "Collapsed": "false"
+   },
+   "source": [
+    "我们的ICM中，每个随机变量 $X_i \\sim p(\\cdot|x^c_{pa(i), i})$ 表示一个 autonomous modules that do not inform or influence each other，满足独立因果机制原则。但是预测编码是局部变量，也就是说对于每个样本，他拥有一个动态生成的因果图，其预测编码是不同的，他们编码了随机变量之间的相关性。"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "Collapsed": "false"
+   },
+   "source": [
+    "局部变量的想法借鉴了变分自编码器。 我们有模型的 $N$ 个样本 $\\{x^{(j)}\\}_{j=1,\\cdots,N}$, 我们每个样本 $x^{(j)}$都是由某个局部潜变量 $Z^{(j)}$ 生成的，初始的节点状态及其预测编码 $x^c_{\\cdot}, x^c_{\\cdot, \\cdot}$， 初始的两个门控函数，更新函数都是需要训练全局参数。"
    ]
   },
   {
@@ -377,12 +427,14 @@
     "Collapsed": "true"
    },
    "source": [
-    "神经元是人脑的基本信息处理单元，Predictive coding 是人脑的一种重要机制。\n",
+    "\n",
+    "\n",
+    "神经元是人脑的基本信息处理单元，許旺細胞（schwann cell）又稱血旺细胞、施旺細胞或神经膜细胞，是构成周围神经系統的主要细胞，并参与多种重要的周围神经生物学功能：传导神经冲动，参与神经的生长和再生，营养神经元，生产神经细胞外介质，调节运动神经活性以及介导抗原\n",
     "\n",
     "![](http://img3.itboth.com/72/92/MfENzy.jpeg)\n",
     "\n",
     "\n",
-    "大脑其实也面临同样的问题。每时每刻，大脑都被裹挟着各种感官数据的信息洪流——这可比购物记录的不确定性缭乱多了——所包围，并且需要及时地做出合理反应。那么，大脑是怎么做到的呢？大脑根据已有的预测模型，不断地对即将到来的新信息做出预测。如果实际接收到的信息不符合预测，大脑就会更新这一预测模型。\n",
+    "Predictive coding 是人脑的一种重要机制。每时每刻，大脑都被裹挟着各种感官数据的信息洪流——这可比购物记录的不确定性缭乱多了——所包围，并且需要及时地做出合理反应。那么，大脑是怎么做到的呢？大脑根据已有的预测模型，不断地对即将到来的新信息做出预测。如果实际接收到的信息不符合预测，大脑就会更新这一预测模型。\n",
     "\n",
     "Predictive coding (also known as predictive processing) is a theory of brain function in which the brain is constantly generating and updating a mental model of the environment. The model is used to generate predictions of sensory input that are compared to actual sensory input. This comparison results in prediction errors that are then used to update and revise the mental model."
    ]
@@ -415,6 +467,19 @@
    },
    "source": [
     "## Intervention"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "Collapsed": "false"
+   },
+   "source": [
+    "干预的本质就是一次测量，只要被测量物体无 self-loops, or feedbacks. 测量并不改变物质本身。\n",
+    "\n",
+    "- $\\sigma(X)$ 表示对 $X$ 进行一次测量，该干预可能会影响系统\n",
+    "- $\\sigma(X=x)$ 表示对 $X$ 进行一次测量，并且该测量值 $x$ 被它的 output edges 接收了.\n",
+    "- $\\sigma(x_{i,j})$ 表示 $X_j$ 关于 $X_i$ 的预测编码 $x^c_{i, j}$ 被干预成 $x_{i, j}$ 了."
    ]
   },
   {
@@ -503,14 +568,40 @@
    "source": [
     "## 结论\n",
     "\n",
-    "信息因果模型\n",
+    "信息因果模\n",
     "\n",
     "- 使用信息传递来理解因果关系，\n",
     "- 使用门控来动态的生成每个样本的因果图，\n",
     "- 使用信息干预来构建因果语义和描述三级因果问题，\n",
     "- 使用随机变分推断技术来训练模型。\n",
     "\n",
-    "它解决了当前因果框架下的一些因果语义问题，开启了一种处理有环因果图模型的全新思路, 并且它是可以使用 SVI 技术训练的模型。 "
+    "它是以小图灵测试为指导的因果建模方式，强调了因果模型的信息传递属性。它解决了当前因果框架下的一些因果语义问题，开启了一种处理有环因果图模型的全新思路, 并且它是可以使用 SVI 技术训练的模型。 "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "Collapsed": "false"
+   },
+   "source": [
+    "## 参考文献\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "Collapsed": "false"
+   },
+   "source": [
+    "- Quantum Causal Models\n",
+    "\n",
+    "It is known that the classical framework of causal models is not general enough to allow for causal reasoning about quantum systems. Efforts have been devoted towards generalization of the classical framework to the quantum case, with the aim of providing a framework in which cause-effect relations between quantum systems, and their connection with empirically observed data, can be rigorously analyzed. Building on the results of Allen et al., Phys. Rev. X 7, 031021 (2017), we present a fully-fledged framework of quantum causal models. The approach situates causal relations in unitary transformations, in analogy with an approach to classical causal models that assumes underlying determinism and situates causal relations in functional dependences between variables. We show that for any quantum causal model, there exists a corresponding unitary circuit, with appropriate causal structure, such that the quantum causal model is returned when marginalising over latent systems, and vice versa. We introduce an intrinsically quantum notion that plays a role analogous to the conditional independence of classical variables, and (generalizing a central theorem of the classical framework) show that d-separation is sound and complete in the quantum case. We present generalizations of the three rules of the classical `do-calculus`, in each case relating a property of the causal structure to a formal property of the quantum process, and to an operational statement concerning the outcomes of interventions. In addition to the results concerning quantum causal models, we introduce and derive similar results for `classical split-node causal models`, which are more closely analogous to quantum causal models than the classical causal models that are usually studied.\n",
+    "\n",
+    "- Cyclic Quantum Causal Models (Jonathan Barrett, Robin Lorenz, Ognyan Oreshkov, 2020)\n",
+    "\n",
+    "We present an extension of the framework of quantum causal models to cyclic causal structures. This offers a novel causal perspective on processes beyond those corresponding to standard circuits, such as processes with dynamical causal order and causally nonseparable processes, including processes that violate causal inequalities. We illustrate the concept with examples of well known causally nonseparable processes. We show that for any directed graph, if a process arises from a unitary process with corresponding causal structure by marginalizing over latent local disturbances, then the process is Markov for that graph. As an application of the approach, we present more fine-grained compositional structures of processes such as the quantum SWITCH, which make the paths of causal influence and information flow graphically evident. Employing this compositional structure, we show that all unitarily extendible bipartite processes are causally separable, with their unitary extensions realizable via coherent control of the order of operations. Finally, we show that for unitary processes, causal nonseparability is equivalent to the cyclicity of their causal structure."
    ]
   },
   {
@@ -955,7 +1046,7 @@
   {
    "cell_type": "markdown",
    "metadata": {
-    "Collapsed": "false",
+    "Collapsed": "true",
     "toc-hr-collapsed": true
    },
    "source": [
@@ -1061,7 +1152,7 @@
   {
    "cell_type": "markdown",
    "metadata": {
-    "Collapsed": "false"
+    "Collapsed": "true"
    },
    "source": [
     "### 能量衰减"

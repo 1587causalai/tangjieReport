@@ -135,6 +135,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Pyro">Pyro</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#一个简单的例子">一个简单的例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#梯度下降法-with-Pyro-Low-level">梯度下降法 with Pyro Low-level</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id6"><span class="math notranslate nohighlight">\(do\)</span> 运算</a></li>
 </ul>
 </li>
@@ -154,7 +155,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#模型数学框架">模型数学框架</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#ICM模型的定义">ICM模型的定义</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#模型的理解">模型的理解</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../InfoCausalModels.html#变分自编码器">变分自编码器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../InfoCausalModels.html#Independent-Causal-Mechanisms">Independent Causal Mechanisms</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../InfoCausalModels.html#Neuroscience-的启发">Neuroscience 的启发</a></li>
 </ul>
 </li>
@@ -166,6 +167,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../InfoCausalModels.html#Markov-Random-Field">Markov Random Field</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../InfoCausalModels.html#结论">结论</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../InfoCausalModels.html#带环信息因果模型">带环信息因果模型</a><ul>
@@ -181,17 +183,21 @@
 </ul>
 <p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../models/01-one_node.html">ICM with One Node</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../models/01-one_node.html#模型构建">模型构建</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#Bayesian-模型">Bayesian 模型</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#几何分布">几何分布</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#掷硬币案例">掷硬币案例</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#拒绝抽样模型">拒绝抽样模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models/02-one_node.html">ICM with One Node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../models/02-one_node.html#model">model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#尝试一:门控独立于样本">尝试一:门控独立于样本</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../models/01-one_node.html#Mini-Pyro">Mini-Pyro</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#Mini-pyro-例子">Mini-pyro 例子</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../models/01-one_node.html#计算对数似然">计算对数似然</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/02-one_node.html#模型构建">模型构建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#Bayesian-模型">Bayesian 模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#几何分布">几何分布</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#掷硬币案例">掷硬币案例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#拒绝抽样模型">拒绝抽样模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../models/02-one_node.html#Mini-Pyro">Mini-Pyro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#Mini-pyro-例子">Mini-pyro 例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../models/02-one_node.html#计算对数似然">计算对数似然</a></li>
 </ul>
 </li>
 </ul>
@@ -502,6 +508,15 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="因果建模工具篇">
 <h1>因果建模工具篇<a class="headerlink" href="#因果建模工具篇" title="Permalink to this headline">¶</a></h1>
 <p>因果建模有两个重要的工具：<code class="docutils literal notranslate"><span class="pre">Dowhy</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Pyro</span></code>。 第一个工具专注让因果推断变得容易，让新手都可以使用。第二个工具有潜力搭建具备因果思维的AI系统。我们 Causal AI 对其官方教程翻译项目见:</p>
@@ -572,7 +587,7 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notes_03-tools_3_1.svg" src="../_images/notes_03-tools_3_1.svg" /></div>
+<img alt="../_images/notes_03-tools_4_1.svg" src="../_images/notes_03-tools_4_1.svg" /></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
@@ -1061,11 +1076,24 @@ $\displaystyle 1.0734203890414866$</div></div>
 <h2>Pyro<a class="headerlink" href="#Pyro" title="Permalink to this headline">¶</a></h2>
 <p>“Pyro” 是一门通用概率编程语言(PPL) written in Python and supported by PyTorch on the backend. Pyro enables flexible and expressive deep probabilistic modeling, unifying the best of modern deep learning and Bayesian modeling. It was designed with these key principles: Universal, Scalable, Flexible, Minimal. 我们需要使用这个软件，搭建复杂的因果模型。</p>
 <p><code class="docutils literal notranslate"><span class="pre">dowhy</span></code> 数学本质上就无法实现完全的 <code class="docutils literal notranslate"><span class="pre">do</span></code> 运算，而作为通用概率编程语言的 Pyro 才有可能真正完全实现。</p>
+<p>Pyro is a deep probabilistic programming language(PPL) released by Uber AI Labs. Pyro is built on top of PyTorch and is based on four fundamental principles:</p>
+<ul class="simple">
+<li><p><strong>Universal</strong>: Pyro is a universal PPL — it can represent any computable probability distribution. How? By starting from a universal language with iteration and recursion (arbitrary Python code), and then adding random sampling, observation, and inference.</p></li>
+<li><p><strong>Scalable:</strong> Pyro scales to large data sets with little overhead above hand-written code. How? By building modern black box optimization techniques, which use mini-batches of data, to approximate inference.</p></li>
+<li><p><strong>Minimal:</strong> Pyro is agile and maintainable. How? Pyro is implemented with a small core of powerful, composable abstractions. Wherever possible, the heavy lifting is delegated to PyTorch and other libraries.</p></li>
+<li><p><strong>Flexible:</strong> Pyro aims for automation when you want it and control when you need it. How? Pyro uses high-level abstractions to express generative and inference models, while allowing experts to easily customize inference.</p></li>
+</ul>
+<p>相关资料包括：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pyro.ai">Pyro 官网</a></p></li>
+<li><p><a class="reference external" href="https://sites.google.com/view/causal-inference-zerotoall/codes/tools/pyro">Pyro 全面介绍</a></p></li>
+<li><p><a class="reference external" href="https://causalai.github.io/pyro_zh_tutorial/">Pyro 官方教程汉化版</a></p></li>
+</ul>
 <div class="section" id="一个简单的例子">
 <h3>一个简单的例子<a class="headerlink" href="#一个简单的例子" title="Permalink to this headline">¶</a></h3>
 <p>详情参见： <a class="reference external" href="https://causalai.github.io/pyro_zh_tutorial/index.html">https://causalai.github.io/pyro_zh_tutorial/index.html</a></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1120,9 +1148,122 @@ $\displaystyle 1.0734203890414866$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-..................................................
-based on the data and our prior belief, the fairness of the coin is 0.535 +- 0.090
+....................
+based on the data and our prior belief, the fairness of the coin is 0.530 +- 0.090
 </pre></div></div>
+</div>
+</div>
+<div class="section" id="梯度下降法-with-Pyro-Low-level">
+<h3>梯度下降法 with Pyro Low-level<a class="headerlink" href="#梯度下降法-with-Pyro-Low-level" title="Permalink to this headline">¶</a></h3>
+<p>我们用上面的 Pyro 程序，通过查看源代码，把里面的参数取出来进行梯度下降法</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">import</span> <span class="nn">pyro</span>
+<span class="kn">import</span> <span class="nn">pyro.infer</span>
+<span class="kn">import</span> <span class="nn">pyro.optim</span>
+<span class="kn">import</span> <span class="nn">pyro.distributions</span> <span class="k">as</span> <span class="nn">dist</span>
+<span class="n">pyro</span><span class="o">.</span><span class="n">set_rng_seed</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">8.5</span>
+
+<span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;measurement&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">))</span>
+<span class="n">conditioned_scale</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;measurement&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">9.5</span><span class="p">)})</span>
+
+<span class="k">def</span> <span class="nf">scale_parametrized_guide</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">mu</span><span class="p">))</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pyro</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">b</span><span class="p">)))</span>
+
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">pyro</span><span class="o">.</span><span class="n">infer</span><span class="o">.</span><span class="n">Trace_ELBO</span><span class="p">()</span><span class="o">.</span><span class="n">differentiable_loss</span>
+
+<span class="n">pyro</span><span class="o">.</span><span class="n">clear_param_store</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">pyro</span><span class="o">.</span><span class="n">poutine</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">param_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">param_capture</span><span class="p">:</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">conditioned_scale</span><span class="p">,</span> <span class="n">scale_parametrized_guide</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">site</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unconstrained</span><span class="p">()</span> <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">param_capture</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+
+<span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">grad</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Before updated:&quot;</span><span class="p">,</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">))</span>
+<span class="n">losses</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span>  <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">pyro</span><span class="o">.</span><span class="n">poutine</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">param_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">param_capture</span><span class="p">:</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">conditioned_scale</span><span class="p">,</span> <span class="n">scale_parametrized_guide</span><span class="p">,</span> <span class="n">mu</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">site</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unconstrained</span><span class="p">()</span> <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">param_capture</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+
+    <span class="n">a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">step</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;After updated:&quot;</span><span class="p">,</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">))</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;ELBO&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;step&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a = &#39;</span><span class="p">,</span><span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;b = &#39;</span><span class="p">,</span> <span class="n">pyro</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Before updated: tensor(8.5000, requires_grad=True) tensor(1., requires_grad=True)
+After updated: tensor(9.0979, requires_grad=True) tensor(0.6203, requires_grad=True)
+a =  9.097911834716797
+b =  0.6202840209007263
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notes_03-tools_24_1.png" src="../_images/notes_03-tools_24_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">num_steps</span><span class="p">],[</span><span class="mf">9.14</span><span class="p">,</span><span class="mf">9.14</span><span class="p">],</span> <span class="s1">&#39;k:&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">num_steps</span><span class="p">],[</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.6</span><span class="p">],</span> <span class="s1">&#39;k:&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notes_03-tools_25_0.png" src="../_images/notes_03-tools_25_0.png" />
+</div>
 </div>
 </div>
 <div class="section" id="id6">
@@ -1231,6 +1372,10 @@ based on the data and our prior belief, the fairness of the coin is 0.535 +- 0.0
 <div class="section" id="结论">
 <h2>结论<a class="headerlink" href="#结论" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">Dowhy</span></code> 可以用于快速回答简单的因果效应估计问题，它强调了因果分析的四个步骤。但是如果要建立灵活复杂的因果模型，实现 <span class="math notranslate nohighlight">\(do\)</span> 运算的完整功能，我们需要通用深度概率图编程语言。</p>
+<ul class="simple">
+<li><p>动态控制随机函数</p></li>
+</ul>
+<p>这样随机函数有一个特点，那就是任何一个样本，它的维度是不确定的，你无法计算部分观测的概率。也是由于其样本是动态生成的，定义指导分布的时候，无法定义一个抽样语句与模型分布中每个隐变量对应。所以也无法用那些推断算法，需要想其他办法。</p>
 </div>
 </div>
 
