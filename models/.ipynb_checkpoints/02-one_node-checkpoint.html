@@ -91,7 +91,10 @@
             
               <p class="caption"><span class="caption-text">预备知识:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../notes/README.html">项目概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/README.html">项目概览</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../notes/README.html#About-Causal-AI">About Causal AI</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../notes/02-AI_overview.html">Causal AI 综述</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../notes/02-AI_overview.html#人工智能：现状、任务、构架与统一">人工智能：现状、任务、构架与统一</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../notes/02-AI_overview.html#历史和现状">历史和现状</a></li>
@@ -140,6 +143,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../../notes/03-tools.html#结论">结论</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/04-Important_papers.html">文献梳理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../notes/04-Important_papers.html#CausalAI-三核心人物">CausalAI 三核心人物</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../notes/04-Important_papers.html#两个工具">两个工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../notes/04-Important_papers.html#Survey-Paper">Survey Paper</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Info Causal Models:</span></p>
 <ul>
@@ -166,6 +175,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#结论">结论</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../InfoCausalModels.html#参考文献">参考文献</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../InfoCausalModels.html#带环信息因果模型">带环信息因果模型</a><ul>
@@ -181,8 +191,13 @@
 </ul>
 <p class="caption"><span class="caption-text">信息因果模型示例:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../01-ICM_using_Pyro.html">使用 Pyro 搭建因果模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../01-ICM_using_Pyro.html#称重例子">称重例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../01-ICM_using_Pyro.html#掷硬币例子">掷硬币例子</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../02-one_node.html">ICM with One Node</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../02-one_node.html#model">model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../02-one_node.html#Model">Model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../02-one_node.html#尝试一:门控独立于样本">尝试一:门控独立于样本</a></li>
 </ul>
 </li>
@@ -648,9 +663,12 @@ div.rendered_html tbody tr:hover {
 </table>
 </div></div>
 </div>
-<div class="section" id="model">
-<h2>model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="Model">
+<h2>Model<a class="headerlink" href="#Model" title="Permalink to this headline">¶</a></h2>
 <p>先把一个节点的模型搭建起来。</p>
+<ul class="simple">
+<li><p>思路一，对比RNN。序列信息输入，得到一个结果。</p></li>
+</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
