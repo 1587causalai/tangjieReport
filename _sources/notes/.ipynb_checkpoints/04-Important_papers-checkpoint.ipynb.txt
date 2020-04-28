@@ -8,7 +8,7 @@
    "source": [
     "# 文献梳理\n",
     "\n",
-    "我们以人物为中心，整理因果推理领域相关重要文献。You can comment and contribute [here](https://drive.google.com/file/d/1vIayk17YSeMN_h9bwXP1l5Wgv-iVGS14/view?usp=sharing)"
+    "我们以人物为中心，整理因果推理领域相关重要文献。You can comment, **edit** and contribute [here](https://drive.google.com/file/d/1vIayk17YSeMN_h9bwXP1l5Wgv-iVGS14/view?usp=sharing)! 你在这里修改之后，我们将会选择性的更新到对应的网址。"
    ]
   },
   {
